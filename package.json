@@ -1,0 +1,77 @@
+{
+  "name": "cookbook",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "story": "start-storybook -p 6006",
+    "t": "meteor test --driver-package practicalmeteor:mocha",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "material-ui": "^0.15.4",
+    "meteor-node-stubs": "~0.2.0",
+    "react": "^15.3.1",
+    "react-addons-pure-render-mixin": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-router": "^2.6.1",
+    "react-tap-event-plugin": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kadira/storybook": "^2.0.0",
+    "babel-eslint": "^6.1.2",
+    "css-loader": "^0.24.0",
+    "enzyme": "^2.4.1",
+    "eslint": "^3.4.0",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-import-resolver-meteor": "^0.3.3",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.1",
+    "eslint-plugin-meteor": "^4.0.0",
+    "eslint-plugin-react": "^6.2.0",
+    "node-sass": "^3.8.0",
+    "raw-loader": "^0.5.1",
+    "react-addons-test-utils": "^15.3.1",
+    "sass-loader": "^4.0.0",
+    "style-loader": "^0.13.1"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [
+      "meteor"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:meteor/recommended"
+    ],
+    "settings": {
+      "import/resolver": "meteor"
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": "off",
+      "import/no-unresolved": "off",
+      "prefer-arrow-callback": "off",
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            "stories.js",
+            "test.js",
+            ".jsx"
+          ]
+        }
+      ],
+      "func-names": "off",
+      "no-unused-expressions": "off",
+      "no-underscore-dangle": "off",
+      "react/require-extension": "off",
+      "linebreak-style": "off"
+    },
+    "globals": {
+      "Meteor": false,
+      "Factory": false
+    }
+  }
+}
