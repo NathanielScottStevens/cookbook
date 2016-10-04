@@ -29,7 +29,7 @@ class Navigation extends Component {
         docked={this.props.docked}
       >
         <div style={styles.header}>
-          Game Master
+          Cook Book
         </div>
         <MenuItem>
           <IndexLink to="/">
