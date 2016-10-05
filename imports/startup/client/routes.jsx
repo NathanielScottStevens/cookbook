@@ -2,16 +2,21 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
-import App from '../../ui/layouts/App.jsx';
+import App from '../../ui/layouts/App';
 
-import Index from '../../ui/pages/Index.jsx';
-import NotFound from '../../ui/pages/NotFound.jsx';
+import RecipeSelection from '../../ui/pages/RecipeSelection';
+import RecipeCategories from '../../ui/pages/RecipeCategories';
+import RecipeListContainer from '../../ui/containers/RecipeList';
+import NotFound from '../../ui/pages/NotFound';
 
 Meteor.startup(() => {
   render((
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRoute component={Index} />
+        <Route path="recipes" component={RecipeSelection}>
+          <IndexRoute component={RecipeCategories} />
+          <Route path="category/:id" component={RecipeListContainer} />
+        </Route>
       </Route>
       <Route path="*" component={NotFound} />
     </Router>
