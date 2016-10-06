@@ -10,9 +10,11 @@ class RecipeList extends Component {
 
   renderItems(style) {
     return this.props.recipes.map(recipe =>
-      <GridTile title={recipe.name} key={recipe._id} style={style}>
-        <img src={`../../images/${recipe.img}`} />
-      </GridTile>
+      <Link to={`/recipes/recipe/${recipe._id}`}>
+        <GridTile title={recipe.name} key={recipe._id} style={style}>
+          <img src={`../../images/${recipe.img}`} />
+        </GridTile>
+      </Link>
     );
   }
 

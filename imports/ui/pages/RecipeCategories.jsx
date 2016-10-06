@@ -30,22 +30,22 @@ class RecipeCategories extends Component {
           cols={this.props.width === SMALL ? 1 : 2}
           padding={50}
         >
-          <Link to="recipes/category/salad">
+          <Link to="/recipes/category/salad">
             <GridTile title="Salad" style={styles.gridTile}>
               <img src="../images/salad.jpg" />
             </GridTile>
           </Link>
-          <Link to="recipes/category/entree">
+          <Link to="/recipes/category/entree">
             <GridTile title="Entree" style={styles.gridTile}>
               <img src="../images/entree.jpg" />
             </GridTile>
           </Link>
-          <Link to="recipes/category/side">
+          <Link to="/recipes/category/side">
             <GridTile title="Side Dish" style={styles.gridTile}>
               <img src="../images/side-dish.jpg" />
             </GridTile>
           </Link>
-          <Link to="recipes/category/dessert">
+          <Link to="/recipes/category/dessert">
             <GridTile title="Dessert" style={styles.gridTile}>
               <img src="../images/dessert.jpg" />
             </GridTile>

@@ -32,6 +32,7 @@ class RecipeSelection extends Component {
       },
       root: {
         paddingLeft: isMenuDocked ? 256 : 0,
+        paddingTop: 30,
         margin: 50,
         display: 'flex',
         flexWrap: 'wrap',
