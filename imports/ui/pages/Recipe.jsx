@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { List, ListItem } from 'material-ui/List';
 
 
 class Recipe extends Component {
@@ -9,11 +8,20 @@ class Recipe extends Component {
     super(props);
   }
 
+  formatUom(uom, amt) {
+    if (uom) {
+      return amt > 1 ? `${uom}s` : uom;
+    }
+    return '';
+  }
+
   renderTableRows() {
     return this.props.recipe.ingredients.map(ingredient =>
       <TableRow>
         <TableRowColumn>{ingredient.name}</TableRowColumn>
-        <TableRowColumn>{ingredient.amt} {ingredient.uom ? ingredient.uom : ''}</TableRowColumn>
+        <TableRowColumn>
+          {ingredient.amt} {this.formatUom(ingredient.uom, ingredient.amt)}
+        </TableRowColumn>
       </TableRow>
     );
   }
@@ -40,11 +48,11 @@ class Recipe extends Component {
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
-              <TableHeaderColumn>Ingredient</TableHeaderColumn>
+              <TableHeaderColumn>Ingredients</TableHeaderColumn>
               <TableHeaderColumn>Amount</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody displayRowCheckbox={false} stripedRows={true}>
+          <TableBody displayRowCheckbox={false} stripedRows>
             {this.renderTableRows()}
           </TableBody>
         </Table>

@@ -5,10 +5,11 @@ import recipeSample from '../../api/recipes/fixture';
 
 
 function setRecipes() {
-  Recipes.remove({});
-  recipeSample.forEach(recipe => {
-    Recipes.insert(recipe);
-  });
+  if (Recipes.find().count() === 0) {
+    recipeSample.forEach(recipe => {
+      Recipes.insert(recipe);
+    });
+  }
 }
 
 Meteor.startup(() => {
