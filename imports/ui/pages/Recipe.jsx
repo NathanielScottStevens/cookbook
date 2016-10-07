@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { List, ListItem } from 'material-ui/List';
+import TextField from 'material-ui/TextField';
 
 
 class Recipe extends Component {
@@ -38,13 +39,34 @@ class Recipe extends Component {
     }
 
     const styles = {
-
+      header: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+      },
+      h1: {
+        fontFamily: this.context.muiTheme.fontFamily,
+        textTransform: 'capitalize',
+      },
+      leftHeader: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
     };
 
     return (
-      <div style={styles.root}>
-        <h1>{ this.props.recipe.name }</h1>
-        <img src={`/../../images/${this.props.recipe.img}`} />
+      <div>
+        <div style={styles.header}>
+          <div style={styles.leftHeader}>
+            <h1 style={styles.h1}>{ this.props.recipe.name }</h1>
+            <TextField
+              id="text-field-default"
+              floatingLabelText="Serves"
+              defaultValue={this.props.recipe.serves}
+            />
+          </div>
+          <img style={styles.img} src={`/../../images/${this.props.recipe.img}`} />
+        </div>
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
@@ -70,6 +92,10 @@ class Recipe extends Component {
 Recipe.propTypes = {
   isLoading: PropTypes.bool,
   recipe: PropTypes.object,
+};
+
+Recipe.contextTypes = {
+  muiTheme: PropTypes.object.isRequired,
 };
 
 export default Recipe;
