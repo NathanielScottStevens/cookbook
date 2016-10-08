@@ -12,16 +12,7 @@ import NotFound from '../../ui/pages/NotFound';
 
 Meteor.startup(() => {
   render((
-    <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
-      <Route path="/" component={App}>
-        <Route path="recipes" component={RecipeSelection}>
-          <IndexRoute component={RecipeCategories} />
-          <Route path="category/:id" component={RecipeListContainer} />
-          <Route path="recipe/:id" component={RecipeContainer} />
-        </Route>
-      </Route>
-      <Route path="*" component={NotFound} />
-    </Router>
+    <App />
   ), document.getElementById('react-root')
   );
 });

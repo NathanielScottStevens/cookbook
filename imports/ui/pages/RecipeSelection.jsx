@@ -1,8 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import withWidth, { LARGE } from 'material-ui/utils/withWidth';
+import Match from 'react-router/Match';
+import Miss from 'react-router/Miss';
 
 import AppBar from 'material-ui/AppBar';
 import Navigation from '../components/Navigation';
+import RecipeCategories from '../../ui/pages/RecipeCategories';
+import RecipeListContainer from '../../ui/containers/RecipeList';
+import RecipeContainer from '../../ui/containers/Recipe';
+import NotFound from '../../ui/pages/NotFound';
 
 
 class RecipeSelection extends Component {
@@ -54,7 +60,10 @@ class RecipeSelection extends Component {
           onChange={() => { this.toggleMenu(); }}
         />
         <main style={styles.root}>
-          { this.props.children }
+          <Match pattern="/recipes" component={RecipeCategories} />
+          <Match pattern="/category/:id" component={RecipeListContainer} />
+          <Match pattern="/recipe/:id" component={RecipeContainer} />
+          <Miss component={NotFound} />
         </main>
       </div>
     );
@@ -62,7 +71,6 @@ class RecipeSelection extends Component {
 }
 
 RecipeSelection.propTypes = {
-  children: PropTypes.object,
   width: PropTypes.number,
 };
 

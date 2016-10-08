@@ -1,27 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import { spacing, typography } from 'material-ui/styles';
 import { cyan500 } from 'material-ui/styles/colors';
 
 
-const styles = {
-  header: {
-    cursor: 'pointer',
-    fontSize: 24,
-    color: typography.textFullWhite,
-    lineHeight: `${spacing.desktopKeylineIncrement}px`,
-    fontWeight: typography.fontWeightLight,
-    backgroundColor: cyan500,
-    paddingLeft: spacing.desktopGutter,
-    marginBottom: 8,
-  },
-};
-
 class Navigation extends Component {
 
   render() {
+    const styles = {
+      header: {
+        cursor: 'pointer',
+        fontSize: 24,
+        color: typography.textFullWhite,
+        lineHeight: `${spacing.desktopKeylineIncrement}px`,
+        fontWeight: typography.fontWeightLight,
+        backgroundColor: cyan500,
+        paddingLeft: spacing.desktopGutter,
+        marginBottom: 8,
+      },
+    };
     return (
       <Drawer
         open={this.props.open}
@@ -31,14 +30,53 @@ class Navigation extends Component {
         <div style={styles.header}>
           Cook Book
         </div>
-        <MenuItem>
-          <IndexLink to="/">
-            Index
-          </IndexLink>
-        </MenuItem>
-        <MenuItem>
-          Item 1
-        </MenuItem>
+        <Link to="/recipes">
+          {
+            ({ isActive, onClick }) =>
+              <MenuItem
+                primaryText="Recipes"
+                onClick={onClick}
+                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
+              />
+          }
+        </Link>
+        <Link to="/category/salad">
+          {
+            ({ isActive, onClick }) =>
+              <MenuItem
+                primaryText="Salads"
+                onClick={onClick}
+                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
+              />
+          }
+        </Link>
+        <Link to="/category/entree">
+          {
+            ({ isActive }) =>
+              <MenuItem
+                primaryText="Entrees"
+                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
+              />
+          }
+        </Link>
+        <Link to="/category/side">
+          {
+            ({ isActive }) =>
+              <MenuItem
+                primaryText="Sides"
+                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
+              />
+          }
+        </Link>
+        <Link to="/category/dessert">
+          {
+            ({ isActive }) =>
+              <MenuItem
+                primaryText="Desserts"
+                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
+              />
+          }
+        </Link>
       </Drawer>
     );
   }

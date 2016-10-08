@@ -1,14 +1,17 @@
 import React, { PropTypes } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Router from 'react-router/BrowserRouter';
+import Match from 'react-router/Match';
 
-const App = ({ children }) => (
+import RecipeSelection from '../../ui/pages/RecipeSelection';
+
+
+const App = () => (
   <MuiThemeProvider>
-    { children }
+    <Router>
+      <Match pattern="/" component={RecipeSelection} />
+    </Router>
   </MuiThemeProvider>
 );
-
-App.propTypes = {
-  children: PropTypes.object,
-};
 
 export default App;
