@@ -8,11 +8,11 @@ class RecipeList extends Component {
     super(props);
   }
 
-  renderItems(style) {
+  renderItems(styles) {
     return this.props.recipes.map(recipe =>
       <Link to={`/recipes/recipe/${recipe._id}`}>
-        <GridTile title={recipe.name} key={recipe._id} style={style}>
-          <img src={`../../images/${recipe.img}`} />
+        <GridTile title={recipe.name} key={recipe._id} style={styles.gridTile} titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
+          <img style={styles.img} src={`../../images/${recipe.img}`} />
         </GridTile>
       </Link>
     );
@@ -26,20 +26,22 @@ class RecipeList extends Component {
     const styles = {
       gridList: {},
       gridTile: {
-        width: 400,
+        width: 300,
       },
+      img: {
+        maxWidth: 300,
+      }
     };
 
     return (
       <div>
         <GridList
-          cellHeight={300}
           style={styles.gridList}
           cols={1}
           children={this.props.recipes.length}
           padding={50}
         >
-          { this.renderItems(styles.gridTile) }
+          { this.renderItems(styles) }
         </GridList>
       </div>
     );
