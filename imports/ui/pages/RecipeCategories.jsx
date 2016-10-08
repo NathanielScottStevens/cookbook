@@ -11,8 +11,18 @@ class RecipeCategories extends Component {
     this.state = { isMenuOpen: false };
   }
 
-  toggleMenu() {
-    this.setState({ isMenuOpen: !this.state.isMenuOpen });
+  renderItems(styles) {
+    return this.props.types.map(type =>
+      (<Link to={`recipes/${type.name}`}>
+        <GridTile
+          title={type.name}
+          style={styles.gridTile}
+          titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+        >
+          <img style={styles.img} src={`../images/${type.img}`} />
+        </GridTile>
+      </Link>)
+    );
   }
 
   render() {
@@ -26,6 +36,10 @@ class RecipeCategories extends Component {
       }
     };
 
+    if (this.props.isLoading) {
+      return (<div>Loading...</div>);
+    }
+
     return (
       <div>
         <GridList
@@ -34,26 +48,7 @@ class RecipeCategories extends Component {
           cols={this.props.width === SMALL ? 1 : 2}
           padding={50}
         >
-          <Link to="category/salad">
-            <GridTile title="Salad" style={styles.gridTile} titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
-              <img style={styles.img} src="../images/salad.jpg" />
-            </GridTile>
-          </Link>
-          <Link to="category/entree">
-            <GridTile title="Entree" style={styles.gridTile} titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
-              <img style={styles.img} src="../images/entree.jpg" />
-            </GridTile>
-          </Link>
-          <Link to="category/side">
-            <GridTile title="Side Dish" style={styles.gridTile} titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
-              <img style={styles.img} src="../images/side-dish.jpg" />
-            </GridTile>
-          </Link>
-          <Link to="category/dessert">
-            <GridTile title="Dessert" style={styles.gridTile} titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
-              <img style={styles.img} src="../images/dessert.jpg" />
-            </GridTile>
-          </Link>
+          {this.renderItems(styles)}
         </GridList>
       </div>
     );
@@ -61,6 +56,8 @@ class RecipeCategories extends Component {
 }
 
 RecipeCategories.propTypes = {
+  types: PropTypes.array,
+  isLoading: PropTypes.bool,
   width: PropTypes.number,
 };
 

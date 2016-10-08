@@ -5,7 +5,7 @@ import { Recipes } from '../../api/recipes/recipes';
 const RecipeContainer = createContainer(({ params: { id } }) => {
   const recipeHandle = Meteor.subscribe('recipes');
   const isLoading = !recipeHandle.ready();
-  const recipe = Recipes.findOne(id);
+  const recipe = Recipes.findOne({ slug: id });
 
   return {
     recipe,

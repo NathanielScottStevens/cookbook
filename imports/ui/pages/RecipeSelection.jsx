@@ -5,7 +5,7 @@ import Miss from 'react-router/Miss';
 
 import AppBar from 'material-ui/AppBar';
 import Navigation from '../components/Navigation';
-import RecipeCategories from '../../ui/pages/RecipeCategories';
+import RecipeCategoriesContainer from '../../ui/containers/RecipeCategories';
 import RecipeListContainer from '../../ui/containers/RecipeList';
 import RecipeContainer from '../../ui/containers/Recipe';
 import NotFound from '../../ui/pages/NotFound';
@@ -60,9 +60,9 @@ class RecipeSelection extends Component {
           onChange={() => { this.toggleMenu(); }}
         />
         <main style={styles.root}>
-          <Match pattern="/recipes" component={RecipeCategories} />
-          <Match pattern="/category/:id" component={RecipeListContainer} />
-          <Match pattern="/recipe/:id" component={RecipeContainer} />
+          <Match exactly pattern="/recipes" component={RecipeCategoriesContainer} />
+          <Match exactly pattern="/recipes/:id" component={RecipeListContainer} />
+          <Match exactly pattern="/recipes/:id/:id" component={RecipeContainer} />
           <Miss component={NotFound} />
         </main>
       </div>

@@ -10,7 +10,7 @@ class RecipeList extends Component {
 
   renderItems(styles) {
     return this.props.recipes.map(recipe =>
-      <Link to={`/recipe/${recipe._id}`}>
+      <Link to={`/recipes/${recipe.type}/${recipe.slug}`}>
         <GridTile title={recipe.name} key={recipe._id} style={styles.gridTile} titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
           <img style={styles.img} src={`../../images/${recipe.img}`} />
         </GridTile>

@@ -2,6 +2,7 @@ const recipesSample = [
   { name: 'garden salad',
     type: 'salad',
     img: 'garden-salad.jpg',
+    slug: 'garden-salad',
     serves: 24,
     ingredients: [
       { name: 'romaine hearts', amt: 3, uom: null },
@@ -25,6 +26,7 @@ const recipesSample = [
   { name: 'spanish rice',
     type: 'side',
     img: 'spanish-rice.jpg',
+    slug: 'spanish-rice',
     serves: 24,
     ingredients: [
       { name: 'Long Grain Brown Rice', amt: 6, uom: 'cup' },

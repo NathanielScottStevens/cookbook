@@ -40,7 +40,7 @@ class Navigation extends Component {
               />
           }
         </Link>
-        <Link to="/category/salad">
+        <Link to="/recipes/salad">
           {
             ({ isActive, onClick }) =>
               <MenuItem
@@ -50,7 +50,7 @@ class Navigation extends Component {
               />
           }
         </Link>
-        <Link to="/category/entree">
+        <Link to="/recipes/entree">
           {
             ({ isActive }) =>
               <MenuItem
@@ -59,7 +59,7 @@ class Navigation extends Component {
               />
           }
         </Link>
-        <Link to="/category/side">
+        <Link to="/recipes/side">
           {
             ({ isActive }) =>
               <MenuItem
@@ -68,7 +68,7 @@ class Navigation extends Component {
               />
           }
         </Link>
-        <Link to="/category/dessert">
+        <Link to="/recipes/dessert">
           {
             ({ isActive }) =>
               <MenuItem
