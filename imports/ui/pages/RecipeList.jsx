@@ -20,7 +20,7 @@ class RecipeList extends Component {
 
   render() {
     if (this.props.isLoading) {
-      return (<div>Loading...</div>);
+      return (<div />);
     }
 
     const styles = {

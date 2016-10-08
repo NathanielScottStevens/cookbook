@@ -37,7 +37,7 @@ class RecipeCategories extends Component {
     };
 
     if (this.props.isLoading) {
-      return (<div>Loading...</div>);
+      return (<div />);
     }
 
     return (

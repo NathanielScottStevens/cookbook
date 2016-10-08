@@ -40,43 +40,6 @@ class Navigation extends Component {
               />
           }
         </Link>
-        <Link to="/recipes/salad">
-          {
-            ({ isActive, onClick }) =>
-              <MenuItem
-                primaryText="Salads"
-                onClick={onClick}
-                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
-              />
-          }
-        </Link>
-        <Link to="/recipes/entree">
-          {
-            ({ isActive }) =>
-              <MenuItem
-                primaryText="Entrees"
-                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
-              />
-          }
-        </Link>
-        <Link to="/recipes/side">
-          {
-            ({ isActive }) =>
-              <MenuItem
-                primaryText="Sides"
-                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
-              />
-          }
-        </Link>
-        <Link to="/recipes/dessert">
-          {
-            ({ isActive }) =>
-              <MenuItem
-                primaryText="Desserts"
-                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
-              />
-          }
-        </Link>
       </Drawer>
     );
   }
