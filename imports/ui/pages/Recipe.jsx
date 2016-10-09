@@ -17,8 +17,8 @@ class Recipe extends Component {
   }
 
   renderTableRows() {
-    return this.props.recipe.ingredients.map(ingredient =>
-      <TableRow>
+    return this.props.recipe.ingredients.map((ingredient, index) =>
+      <TableRow key={index}>
         <TableRowColumn>{ingredient.name}</TableRowColumn>
         <TableRowColumn>
           {ingredient.amt} {this.formatUom(ingredient.uom, ingredient.amt)}
@@ -28,8 +28,8 @@ class Recipe extends Component {
   }
 
   renderSteps() {
-    return this.props.recipe.steps.map(step =>
-      <ListItem><li>{step}</li></ListItem>
+    return this.props.recipe.steps.map((step, index) =>
+      <ListItem key={index}><li>{step}</li></ListItem>
     );
   }
 
