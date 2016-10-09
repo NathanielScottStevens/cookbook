@@ -1,4 +1,4 @@
-import '/imports/startup/client';
+import '/imports/startup/client/index';
 import './main.html';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 

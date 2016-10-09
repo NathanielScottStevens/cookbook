@@ -4,22 +4,17 @@ import { Link } from 'react-router';
 
 import { GridList, GridTile } from 'material-ui/GridList';
 
-class RecipeCategories extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { isMenuOpen: false };
-  }
+class TileLinkList extends Component {
 
   renderItems(styles) {
-    return this.props.types.map(type =>
-      (<Link to={`recipes/${type.name}`}>
+    return this.props.items.map(item =>
+      (<Link to={this.props.getLink(item)} key={item.name}>
         <GridTile
-          title={type.name}
+          title={item.name}
           style={styles.gridTile}
           titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
         >
-          <img style={styles.img} src={`../images/${type.img}`} />
+          <img style={styles.img} src={`../images/${item.img}`} />
         </GridTile>
       </Link>)
     );
@@ -55,10 +50,11 @@ class RecipeCategories extends Component {
   }
 }
 
-RecipeCategories.propTypes = {
-  types: PropTypes.array,
-  isLoading: PropTypes.bool,
-  width: PropTypes.number,
+TileLinkList.propTypes = {
+  items: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  getLink: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired,
 };
 
-export default withWidth()(RecipeCategories);
+export default withWidth()(TileLinkList);

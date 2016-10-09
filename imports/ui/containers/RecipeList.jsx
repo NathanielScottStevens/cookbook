@@ -1,6 +1,10 @@
 import { createContainer } from 'meteor/react-meteor-data';
-import RecipeList from '../pages/RecipeList';
 import { Recipes } from '../../api/recipes/recipes';
+import TileLinkList from '../components/TileLinkList';
+
+function getLink(recipe) {
+  return `/recipes/${recipe.type}/${recipe.slug}`;
+}
 
 const RecipeSelectionContainer = createContainer(({ params: { id } }) => {
   const recipesHandle = Meteor.subscribe('recipes');
@@ -8,9 +12,10 @@ const RecipeSelectionContainer = createContainer(({ params: { id } }) => {
   const recipes = Recipes.find({ type: id }).fetch();
 
   return {
-    recipes,
+    items: recipes,
     isLoading,
+    getLink,
   };
-}, RecipeList);
+}, TileLinkList);
 
 export default RecipeSelectionContainer;

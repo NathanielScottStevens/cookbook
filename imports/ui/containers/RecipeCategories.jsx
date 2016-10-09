@@ -1,6 +1,10 @@
 import { createContainer } from 'meteor/react-meteor-data';
-import RecipeCategories from '../pages/RecipeCategories';
 import { RecipeTypes } from '../../api/recipeTypes/recipeTypes';
+import TileLinkList from '../components/TileLinkList';
+
+function getLink(type) {
+  return `recipes/${type.name}`;
+}
 
 const RecipeCategoriesContainer = createContainer(() => {
   const typesHandle = Meteor.subscribe('recipeTypes');
@@ -8,9 +12,10 @@ const RecipeCategoriesContainer = createContainer(() => {
   const types = RecipeTypes.find({}).fetch();
 
   return {
-    types,
+    items: types,
     isLoading,
+    getLink,
   };
-}, RecipeCategories);
+}, TileLinkList);
 
 export default RecipeCategoriesContainer;
