@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import withWidth, { SMALL } from 'material-ui/utils/withWidth';
 import { Link } from 'react-router';
+import { Motion, spring } from 'react-motion';
 
 import { GridList, GridTile } from 'material-ui/GridList';
+import Paper from 'material-ui/Paper';
 
 class TileLinkList extends Component {
 
@@ -25,6 +27,7 @@ class TileLinkList extends Component {
       gridList: {},
       gridTile: {
         width: 300,
+        boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
       },
       img: {
         maxWidth: 300,
@@ -36,16 +39,20 @@ class TileLinkList extends Component {
     }
 
     return (
-      <div>
-        <GridList
-          style={styles.gridList}
-          children={4}
-          cols={this.props.width === SMALL ? 1 : 2}
-          padding={50}
-        >
-          {this.renderItems(styles)}
-        </GridList>
-      </div>
+      <Motion defaultStyle={{right: -500 }} style={{right: spring(0)}} >
+      { interpolatedStyle => (
+        <div>
+          <GridList
+            style={{position: 'absolute', ...styles.gridList, ...interpolatedStyle}}
+            children={4}
+            cols={this.props.width === SMALL ? 1 : 2}
+            padding={50}
+          >
+            {this.renderItems(styles)}
+          </GridList>
+        </div>
+      )}
+      </Motion>
     );
   }
 }
