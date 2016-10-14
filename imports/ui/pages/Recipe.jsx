@@ -1,36 +1,62 @@
 import React, { Component, PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { List, ListItem } from 'material-ui/List';
-import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import convert from 'convert-units';
 
 
 class Recipe extends Component {
   constructor(props) {
     super(props);
-  }
 
-  formatUom(uom, amt) {
-    if (uom) {
-      return amt > 1 ? `${uom}s` : uom;
-    }
-    return '';
+    this.state = { servingSelection: 0 };
   }
 
   renderTableRows() {
-    return this.props.recipe.ingredients.map((ingredient, index) =>
-      <TableRow key={index}>
-        <TableRowColumn>{ingredient.name}</TableRowColumn>
-        <TableRowColumn>
-          {ingredient.amt} {this.formatUom(ingredient.uom, ingredient.amt)}
-        </TableRowColumn>
-      </TableRow>
-    );
+    const serving = this.state.servingSelection + 1;
+    return this.props.recipe.ingredients.map((ingredient, index) => {
+      let amount;
+      if (ingredient.uom) {
+        //const converted = convert(serving * ingredient.amt).from(ingredient.uom).toBest();
+        const converted = serving * ingredient.amt;
+        //const units = converted.val > 1 ? converted.plural : converted.singular;
+        const units = converted;
+        amount = `${converted.val} ${units}`;
+      } else {
+        amount = ingredient.amt;
+      }
+
+      return (
+        <TableRow key={index}>
+          <TableRowColumn>{ingredient.name}</TableRowColumn>
+          <TableRowColumn>
+            {amount}
+          </TableRowColumn>
+        </TableRow>);
+    });
   }
 
   renderSteps() {
     return this.props.recipe.steps.map((step, index) =>
       <ListItem key={index}><li>{step}</li></ListItem>
     );
+  }
+
+  renderServingItems() {
+    const optionCount = 5;
+    let items = [];
+    for (let i = 1; i < optionCount; i++) {
+      items.push(this.props.recipe.serves * i);
+    }
+
+    return items.map((item, index) =>
+      <MenuItem key={item} value={index} label={item} primaryText={item} />
+    );
+  }
+
+  handleServingChange(event, index, value) {
+    this.setState({ servingSelection: value });
   }
 
   render() {
@@ -59,11 +85,12 @@ class Recipe extends Component {
         <div style={styles.header}>
           <div style={styles.leftHeader}>
             <h1 style={styles.h1}>{ this.props.recipe.name }</h1>
-            <TextField
-              id="text-field-default"
-              floatingLabelText="Serves"
-              defaultValue={this.props.recipe.serves}
-            />
+            <SelectField
+              value={this.state.servingSelection}
+              onChange={(event, index, value) => this.handleServingChange(event, index, value)}
+            >
+              {this.renderServingItems()}
+            </SelectField>
           </div>
           <img style={styles.img} src={`/../../images/${this.props.recipe.img}`} />
         </div>

@@ -4,10 +4,12 @@
   "scripts": {
     "start": "meteor run",
     "story": "start-storybook -p 6006",
-    "t": "meteor test --driver-package practicalmeteor:mocha",
+    "t": "meteor test --driver-package practicalmeteor:mocha -p 3003",
     "lint": "eslint ."
   },
   "dependencies": {
+    "convert-units": "^1.2.0",
+    "fractions": "^1.0.2",
     "material-ui": "^0.15.4",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.3.1",

@@ -6,12 +6,12 @@ const recipesSample = [
     serves: 24,
     ingredients: [
       { name: 'romaine hearts', amt: 3, uom: null },
-      // TODO: ask about ranged amount: 10-12 ounces
-      { name: 'spinach', amt: 10, uom: 'ounce' },
+      // TODO: ask about ranged amount: 10-12 ozs
+      { name: 'spinach', amt: 10, uom: 'oz' },
       { name: 'bell pepper', amt: 2, uom: null },
       { name: 'cucumber', amt: 1, uom: null },
-      // 1 pint or 3 each
-      { name: 'tomatoes',	amt: 1, uom: 'pint' },
+      // 1 pnt or 3 each
+      { name: 'tomatoes',	amt: 1, uom: 'pnt' },
     ],
     steps: [
       'Wash and cut or tear lettuce into bite size pieces.',
@@ -32,9 +32,9 @@ const recipesSample = [
       { name: 'Long Grain Brown Rice', amt: 6, uom: 'cup' },
       { name: 'Red Salsa', amt: 3, uom: 'cup' },
       { name: 'Water', amt: 9, uom: 'cup' },
-      { name: 'Dried Oregano', amt: 1, uom: 'tablespoon' },
-      { name: 'Paprika', amt: 1, uom: 'tablespoon' },
-      { name: 'Salt', amt: 1, uom: 'teaspoon' },
+      { name: 'Dried Oregano', amt: 1, uom: 'Tbs' },
+      { name: 'Paprika', amt: 1, uom: 'Tbs' },
+      { name: 'Salt', amt: 1, uom: 'tsp' },
     ],
     steps: [
       'Preheat oven to 375F.',
