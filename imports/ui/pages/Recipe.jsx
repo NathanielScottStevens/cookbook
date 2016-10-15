@@ -3,8 +3,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { List, ListItem } from 'material-ui/List';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import convert from 'convert-units';
-
+import getMeasurementLabel from '../../helpers/measurement';
 
 class Recipe extends Component {
   constructor(props) {
@@ -16,16 +15,7 @@ class Recipe extends Component {
   renderTableRows() {
     const serving = this.state.servingSelection + 1;
     return this.props.recipe.ingredients.map((ingredient, index) => {
-      let amount;
-      if (ingredient.uom) {
-        //const converted = convert(serving * ingredient.amt).from(ingredient.uom).toBest();
-        const converted = serving * ingredient.amt;
-        //const units = converted.val > 1 ? converted.plural : converted.singular;
-        const units = converted;
-        amount = `${converted.val} ${units}`;
-      } else {
-        amount = ingredient.amt;
-      }
+      let amount = getMeasurementLabel(ingredient.amt * serving, ingredient.uom);
 
       return (
         <TableRow key={index}>
