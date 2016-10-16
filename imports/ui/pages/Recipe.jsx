@@ -12,10 +12,32 @@ class Recipe extends Component {
     this.state = { servingSelection: 0 };
   }
 
+  handleServingChange(event, index, value) {
+    this.setState({ servingSelection: value });
+  }
+
+  renderSteps() {
+    return this.props.recipe.steps.map((step, index) =>
+      <ListItem key={index}><li>{step}</li></ListItem>
+    );
+  }
+
+  renderServingItems() {
+    const optionCount = 5;
+    const items = [];
+    for (let i = 1; i < optionCount; i++) {
+      items.push(this.props.recipe.serves * i);
+    }
+
+    return items.map((item, index) =>
+      <MenuItem key={item} value={index} label={`Serves ${item}`} primaryText={item} />
+    );
+  }
+
   renderTableRows() {
     const serving = this.state.servingSelection + 1;
     return this.props.recipe.ingredients.map((ingredient, index) => {
-      let amount = getMeasurementLabel(ingredient.amt * serving, ingredient.uom);
+      const amount = getMeasurementLabel(ingredient.amt * serving, ingredient.uom);
 
       return (
         <TableRow key={index}>
@@ -27,31 +49,9 @@ class Recipe extends Component {
     });
   }
 
-  renderSteps() {
-    return this.props.recipe.steps.map((step, index) =>
-      <ListItem key={index}><li>{step}</li></ListItem>
-    );
-  }
-
-  renderServingItems() {
-    const optionCount = 5;
-    let items = [];
-    for (let i = 1; i < optionCount; i++) {
-      items.push(this.props.recipe.serves * i);
-    }
-
-    return items.map((item, index) =>
-      <MenuItem key={item} value={index} label={item} primaryText={item} />
-    );
-  }
-
-  handleServingChange(event, index, value) {
-    this.setState({ servingSelection: value });
-  }
-
   render() {
     if (this.props.isLoading) {
-      return (<div />)
+      return (<div />);
     }
 
     const styles = {
