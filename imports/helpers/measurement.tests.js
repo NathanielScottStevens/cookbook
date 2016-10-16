@@ -70,8 +70,8 @@ describe('getMeasurementLabel', function () {
 
   it('convert measurement up to best uom', function () {
     const amount = 48;
-    const uom = 'tsp';
-    const expected = '1 Cup';
+    const uom = 'pnt';
+    const expected = '6 Gallons';
 
     const result = getMeasurementLabel(amount, uom);
 
@@ -99,7 +99,7 @@ describe('getMeasurementLabel', function () {
   it('teaspoon does not get converted to cubic inches', function () {
     const amount = 4;
     const uom = 'tsp';
-    const expected = '1 1/3 Tablespoon';
+    const expected = '1 1/3 Tablespoons';
 
     const result = getMeasurementLabel(amount, uom);
 

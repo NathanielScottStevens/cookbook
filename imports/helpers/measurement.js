@@ -1,13 +1,10 @@
-import Fraction from 'fractions';
+import Decimal from 'decimal';
 import convert from 'convert-units';
 
 function withUom(amount, uom) {
-  let converted;
-  if (uom === 'tsp' && amount >= 3) {
-    converted = { val: convert(amount).from(uom).to('Tbs'), singular: 'Tablespoon', plural: 'Tablespoons' };
-  } else {
-    converted = convert(amount).from(uom).toBest();
-  }
+  const options = { exclude: ['in3', 'ft3', 'yd3'] };
+  const converted = convert(amount).from(uom).toBest(options);
+
 
   let [whole, decimal] = (converted.val.toString()).split('.');
   whole = isNaN(whole) ? 0 : Number(whole);
@@ -17,10 +14,10 @@ function withUom(amount, uom) {
 
   if (decimal !== 0) {
 
-    const fraction = new Fraction(`0.${decimal}`).toString();
+    const fraction = new Decimal(`0.${decimal}`).toFraction(10);
 
     if (whole !== 0) {
-      formattedAmount = `${whole} ${fraction}`;
+      formattedAmount = `${whole} ${fraction[0]}/${fraction[1]}`;
     } else {
       formattedAmount = fraction;
     }
@@ -37,11 +34,11 @@ function withoutUom(amount) {
   decimal = isNaN(decimal) ? 0 : Number(decimal);
 
   if (decimal !== 0) {
-    const fraction = new Fraction(`0.${decimal}`).toString();
+    const fraction = new Decimal(`0.${decimal}`).toFraction(10);
     if (whole !== 0) {
-      return `${whole} ${fraction}`;
+      return `${whole} ${fraction[0]}/${fraction[1]}`;
     } else {
-      return fraction.toString();
+      return `${fraction[0]}/${fraction[1]}`;
     }
   } else {
     return whole.toString();
