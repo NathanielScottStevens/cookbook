@@ -23,7 +23,7 @@ class Recipe extends Component {
   }
 
   renderServingItems() {
-    const optionCount = 5;
+    const optionCount = 10;
     const items = [];
     for (let i = 1; i < optionCount; i++) {
       items.push(this.props.recipe.serves * i);
