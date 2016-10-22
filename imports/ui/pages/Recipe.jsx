@@ -41,8 +41,10 @@ class Recipe extends Component {
 
       return (
         <TableRow key={index}>
-          <TableRowColumn>{ingredient.name}</TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn data-id="ingredient-name">
+            {ingredient.name}
+          </TableRowColumn>
+          <TableRowColumn data-id="ingredient-amount">
             {amount}
           </TableRowColumn>
         </TableRow>);
