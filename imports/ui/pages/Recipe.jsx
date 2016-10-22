@@ -26,7 +26,7 @@ class Recipe extends Component {
         render.push(<Subheader inset>{group.label}</Subheader>);
       }
       group.list.forEach((item, index) => {
-        render.push(<ListItem key={index}><li>{item}</li></ListItem>);
+        render.push(<ListItem key={`${group.label ? group.label : 'no-group'}-${index}`}><li>{item}</li></ListItem>);
       });
     });
 
@@ -65,7 +65,7 @@ class Recipe extends Component {
         const amount = getMeasurementLabel(item.amt * serving, item.uom);
 
         render.push(
-          <TableRow key={index}>
+          <TableRow key={`${group.label ? group.label : 'no-group'}-${index}`}>
             <TableRowColumn data-id="ingredient-name">
               {item.name}
             </TableRowColumn>
