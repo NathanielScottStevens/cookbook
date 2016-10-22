@@ -74,7 +74,8 @@
     },
     "globals": {
       "Meteor": false,
-      "Factory": false
+      "Factory": false,
+      "Fake": false
     }
   }
 }

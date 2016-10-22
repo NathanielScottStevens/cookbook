@@ -40,14 +40,45 @@ function fakeSteps() {
   return steps;
 }
 
-Factory.define('recipe', Recipes, {});
-
-Factory.define('recipes', Recipes, {
+Factory.define('simpleRecipe', Recipes, {
   name: Fake.word(),
   type: Fake.fromArray(['salad', 'entree', 'side', 'dessert']),
   img: 'image.png',
   slug: Fake.word(),
   serves: 24,
-  ingredients: fakeIngredients(),
-  steps: fakeSteps(),
+  ingredients: [
+    {
+      label: null,
+      list: fakeIngredients(),
+    },
+  ],
+  steps: [
+    {
+      label: null,
+      list: fakeSteps(),
+    },
+  ],
 });
+
+Factory.define('complexRecipe', Recipes, Factory.extend('simpleRecipe', {
+  ingredients: [
+    {
+      label: Fake.word(),
+      list: fakeIngredients(),
+    },
+    {
+      label: Fake.word(),
+      list: fakeIngredients(),
+    },
+  ],
+  steps: [
+    {
+      label: Fake.word(),
+      list: fakeSteps(),
+    },
+    {
+      label: Fake.word(),
+      list: fakeSteps(),
+    },
+  ],
+}));

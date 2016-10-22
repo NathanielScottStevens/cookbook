@@ -3,6 +3,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { List, ListItem } from 'material-ui/List';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Subheader from 'material-ui/Subheader';
 import getMeasurementLabel from '../../helpers/measurement';
 
 class Recipe extends Component {
@@ -17,9 +18,19 @@ class Recipe extends Component {
   }
 
   renderSteps() {
-    return this.props.recipe.steps.map((step, index) =>
-      <ListItem key={index}><li>{step}</li></ListItem>
-    );
+    const steps = this.props.recipe.steps;
+    const render = [];
+
+    steps.forEach(group => {
+      if (group.label) {
+        render.push(<Subheader inset>{group.label}</Subheader>);
+      }
+      group.list.forEach((item, index) => {
+        render.push(<ListItem key={index}><li>{item}</li></ListItem>);
+      });
+    });
+
+    return render;
   }
 
   renderServingItems() {
@@ -36,19 +47,37 @@ class Recipe extends Component {
 
   renderTableRows() {
     const serving = this.state.servingSelection + 1;
-    return this.props.recipe.ingredients.map((ingredient, index) => {
-      const amount = getMeasurementLabel(ingredient.amt * serving, ingredient.uom);
+    const ingredients = this.props.recipe.ingredients;
+    const render = [];
 
-      return (
-        <TableRow key={index}>
-          <TableRowColumn data-id="ingredient-name">
-            {ingredient.name}
-          </TableRowColumn>
-          <TableRowColumn data-id="ingredient-amount">
-            {amount}
-          </TableRowColumn>
-        </TableRow>);
+    ingredients.forEach(group => {
+      if (group.label) {
+        render.push(
+          <TableRow key={group.label}>
+            <TableRowColumn colSpan="3">
+              <Subheader inset>{group.label}</Subheader>
+            </TableRowColumn>
+          </TableRow>
+        );
+      }
+
+      group.list.forEach((item, index) => {
+        const amount = getMeasurementLabel(item.amt * serving, item.uom);
+
+        render.push(
+          <TableRow key={index}>
+            <TableRowColumn data-id="ingredient-name">
+              {item.name}
+            </TableRowColumn>
+            <TableRowColumn data-id="ingredient-amount">
+              {amount}
+            </TableRowColumn>
+          </TableRow>
+        );
+      });
     });
+
+    return render;
   }
 
   render() {
