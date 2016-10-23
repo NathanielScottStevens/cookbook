@@ -17,20 +17,35 @@ class Recipe extends Component {
     this.setState({ servingSelection: value });
   }
 
+  renderEachStep(steps, label) {
+    return steps.map((item, index) =>
+      <ListItem
+        key={`${label ?label : 'no-group'}-${index}`}
+      >
+        <li>{item}</li>
+      </ListItem>);
+  }
+
   renderSteps() {
     const steps = this.props.recipe.steps;
-    const render = [];
 
-    steps.forEach(group => {
+    return steps.map(group => {
+      let label;
       if (group.label) {
-        render.push(<Subheader inset>{group.label}</Subheader>);
+        label = <Subheader inset>{group.label}</Subheader>;
       }
-      group.list.forEach((item, index) => {
-        render.push(<ListItem key={`${group.label ? group.label : 'no-group'}-${index}`}><li>{item}</li></ListItem>);
-      });
-    });
 
-    return render;
+      return (
+        <div>
+          {label}
+          <List>
+            <ol>
+              {this.renderEachStep(group.list, group.label)}
+            </ol>
+          </List>
+        </div>
+      );
+    });
   }
 
   renderServingItems() {
@@ -126,12 +141,8 @@ class Recipe extends Component {
             {this.renderTableRows()}
           </TableBody>
         </Table>
-        <List>
           <h2>Steps</h2>
-          <ol>
             {this.renderSteps()}
-          </ol>
-        </List>
       </div>
     );
   }

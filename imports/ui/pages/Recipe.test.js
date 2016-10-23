@@ -83,6 +83,10 @@ describe('Recipe', function () {
 
         expect(actual).to.deep.equal(expected);
       });
+
+      it('has seperate <ol> tags for each group', function() {
+        expect(render.find('ol').length).to.equal(recipe.steps.length);
+      })
     });
   });
 });
