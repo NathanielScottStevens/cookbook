@@ -58,39 +58,45 @@ class Recipe extends Component {
     );
   }
 
-  renderTableRows() {
+  renderTableRows(list) {
     const serving = this.state.servingSelection + 1;
-    const ingredients = this.props.recipe.ingredients;
-    const render = [];
 
-    ingredients.forEach(group => {
-      if (group.label) {
-        render.push(
-          <TableRow key={group.label}>
-            <TableRowColumn colSpan="3">
-              <Subheader inset>{group.label}</Subheader>
-            </TableRowColumn>
-          </TableRow>
-        );
-      }
+    return list.map((item, index) => {
+      const amount = getMeasurementLabel(item.amt * serving, item.uom);
 
-      group.list.forEach((item, index) => {
-        const amount = getMeasurementLabel(item.amt * serving, item.uom);
-
-        render.push(
-          <TableRow key={`${group.label ? group.label : 'no-group'}-${index}`}>
-            <TableRowColumn data-id="ingredient-name">
-              {item.name}
-            </TableRowColumn>
-            <TableRowColumn data-id="ingredient-amount">
-              {amount}
-            </TableRowColumn>
-          </TableRow>
-        );
-      });
+      return (
+        <TableRow key={`${item}-${index}`}>
+          <TableRowColumn data-id="ingredient-name">
+            {item.name}
+          </TableRowColumn>
+          <TableRowColumn data-id="ingredient-amount">
+            {amount}
+          </TableRowColumn>
+        </TableRow>
+      );
     });
+  }
 
-    return render;
+  renderTables(styles) {
+    const ingredients = this.props.recipe.ingredients;
+
+    return ingredients.map(group =>
+      <div>
+        {group.label ? <h3 style={styles.h3}>{group.label}</h3> : ''}
+        <Table>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn>Ingredients</TableHeaderColumn>
+              <TableHeaderColumn>Amount</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false} stripedRows>
+            {this.renderTableRows(group.list)}
+          </TableBody>
+        </Table>
+        <div style={styles.divider} />
+      </div>
+    );
   }
 
   render() {
@@ -118,7 +124,7 @@ class Recipe extends Component {
         textTransform: 'lowercase',
         marginLeft: 72,
         fontWeight: 400,
-        borderBottom: `${this.context.muiTheme.baseTheme.palette.accent3Color} solid 1px`,
+        borderBottom: `${this.context.muiTheme.baseTheme.palette.borderColor} solid 1px`,
       },
       leftHeader: {
         display: 'flex',
@@ -148,17 +154,7 @@ class Recipe extends Component {
           <img style={styles.img} src={`/../../images/${this.props.recipe.img}`} />
         </div>
         <div style={styles.divider} />
-        <Table>
-          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-            <TableRow>
-              <TableHeaderColumn>Ingredients</TableHeaderColumn>
-              <TableHeaderColumn>Amount</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false} stripedRows>
-            {this.renderTableRows()}
-          </TableBody>
-        </Table>
+        {this.renderTables(styles)}
         <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>
             {this.renderSteps(styles)}
