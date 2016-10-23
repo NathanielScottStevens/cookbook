@@ -20,29 +20,27 @@ class Recipe extends Component {
   renderEachStep(steps, label) {
     return steps.map((item, index) =>
       <ListItem
-        key={`${label ?label : 'no-group'}-${index}`}
+        key={`${label ? label : 'no-group'}-${index}`}
       >
         <li>{item}</li>
       </ListItem>);
   }
 
-  renderSteps() {
+  renderSteps(styles) {
     const steps = this.props.recipe.steps;
 
     return steps.map(group => {
       let label;
       if (group.label) {
-        label = <Subheader inset>{group.label}</Subheader>;
+        label = <h3 style={styles.h3}>{group.label}</h3>;
       }
 
       return (
         <div>
           {label}
-          <List>
-            <ol>
+            <ol style={styles.ol}>
               {this.renderEachStep(group.list, group.label)}
             </ol>
-          </List>
         </div>
       );
     });
@@ -110,10 +108,29 @@ class Recipe extends Component {
         fontFamily: this.context.muiTheme.fontFamily,
         textTransform: 'capitalize',
       },
+      h2: {
+        fontFamily: this.context.muiTheme.fontFamily,
+        textTransform: 'capitalize',
+        fontWeight: 500,
+      },
+      h3: {
+        fontFamily: this.context.muiTheme.fontFamily,
+        textTransform: 'lowercase',
+        marginLeft: 72,
+        fontWeight: 400,
+        borderBottom: `${this.context.muiTheme.baseTheme.palette.accent3Color} solid 1px`,
+      },
       leftHeader: {
         display: 'flex',
         flexDirection: 'column',
       },
+      ol: {
+        marginBottom: 60,
+      },
+      divider: {
+        height: 40,
+        width: '100%',
+      }
     };
 
     return (
@@ -130,6 +147,7 @@ class Recipe extends Component {
           </div>
           <img style={styles.img} src={`/../../images/${this.props.recipe.img}`} />
         </div>
+        <div style={styles.divider} />
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
@@ -141,8 +159,9 @@ class Recipe extends Component {
             {this.renderTableRows()}
           </TableBody>
         </Table>
-          <h2>Steps</h2>
-            {this.renderSteps()}
+        <div style={styles.divider} />
+          <h2 style={styles.h2}>Steps</h2>
+            {this.renderSteps(styles)}
       </div>
     );
   }
