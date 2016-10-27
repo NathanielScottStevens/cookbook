@@ -122,9 +122,12 @@ class Recipe extends Component {
       h3: {
         fontFamily: this.context.muiTheme.fontFamily,
         textTransform: 'lowercase',
-        marginLeft: 72,
+        marginLeft: this.context.muiTheme.tableRowColumn.spacing,
         fontWeight: 400,
         borderBottom: `${this.context.muiTheme.baseTheme.palette.borderColor} solid 1px`,
+      },
+      selectField: {
+        marginLeft: this.context.muiTheme.tableRowColumn.spacing,
       },
       leftHeader: {
         display: 'flex',
@@ -136,7 +139,7 @@ class Recipe extends Component {
       divider: {
         height: 40,
         width: '100%',
-      }
+      },
     };
 
     return (
@@ -147,13 +150,14 @@ class Recipe extends Component {
             <SelectField
               value={this.state.servingSelection}
               onChange={(event, index, value) => this.handleServingChange(event, index, value)}
+              style={styles.selectField}
             >
               {this.renderServingItems()}
             </SelectField>
           </div>
           <img style={styles.img} src={`/../../images/${this.props.recipe.img}`} />
         </div>
-        <div style={styles.divider} />
+
         {this.renderTables(styles)}
         <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>
