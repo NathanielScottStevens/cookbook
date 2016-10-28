@@ -4,6 +4,7 @@ import { List, ListItem } from 'material-ui/List';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader';
+import FramedImage from '../components/FramedImage';
 import getMeasurementLabel from '../../helpers/measurement';
 
 class Recipe extends Component {
@@ -155,7 +156,9 @@ class Recipe extends Component {
               {this.renderServingItems()}
             </SelectField>
           </div>
-          <img style={styles.img} src={`/../../images/${this.props.recipe.img}`} />
+          <div style={styles.imgBorder}>
+            <FramedImage img={`/../../images/${this.props.recipe.img}`} />
+          </div>
         </div>
 
         {this.renderTables(styles)}
