@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import { List, ListItem } from 'material-ui/List';
+import withWidth, { SMALL } from 'material-ui/utils/withWidth';
+import { ListItem } from 'material-ui/List';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Subheader from 'material-ui/Subheader';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import FramedImage from '../components/FramedImage';
 import getMeasurementLabel from '../../helpers/measurement';
 
@@ -141,6 +143,11 @@ class Recipe extends Component {
         height: 40,
         width: '100%',
       },
+      floatingActionButton: {
+        position: 'fixed',
+        bottom: this.props.width === SMALL ? 12 : 48,
+        right: this.props.width === SMALL ? 12 : 48,
+      },
     };
 
     return (
@@ -163,8 +170,11 @@ class Recipe extends Component {
 
         {this.renderTables(styles)}
         <div style={styles.divider} />
-          <h2 style={styles.h2}>Steps</h2>
-            {this.renderSteps(styles)}
+        <h2 style={styles.h2}>Steps</h2>
+        {this.renderSteps(styles)}
+        <FloatingActionButton style={styles.floatingActionButton}>
+          <ContentAdd />
+        </FloatingActionButton>
       </div>
     );
   }
@@ -173,10 +183,11 @@ class Recipe extends Component {
 Recipe.propTypes = {
   isLoading: PropTypes.bool,
   recipe: PropTypes.object,
+  width: PropTypes.number.isRequired,
 };
 
 Recipe.contextTypes = {
   muiTheme: PropTypes.object.isRequired,
 };
 
-export default Recipe;
+export default withWidth()(Recipe);

@@ -7,6 +7,7 @@ import Router from 'react-router/BrowserRouter';
 import AppBar from 'material-ui/AppBar';
 import Navigation from '../components/Navigation';
 import RecipeSelection from '../../ui/pages/RecipeSelection';
+import Menu from '../../ui/pages/Menu';
 
 
 class App extends Component {
@@ -60,7 +61,8 @@ class App extends Component {
               onChange={() => { this.toggleMenu(); }}
             />
             <main style={styles.root}>
-              <Match pattern="/" component={RecipeSelection} />
+              <Match exactly pattern="/recipes" component={RecipeSelection} />
+              <Match exactly pattern="/menus" component={Menu} />
             </main>
           </div>
         </Router>
