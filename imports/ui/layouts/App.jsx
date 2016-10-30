@@ -61,8 +61,8 @@ class App extends Component {
               onChange={() => { this.toggleMenu(); }}
             />
             <main style={styles.root}>
-              <Match exactly pattern="/recipes" component={RecipeSelection} />
-              <Match exactly pattern="/menus" component={Menu} />
+              <Match pattern="/recipes" component={RecipeSelection} />
+              {/* <Match pattern="/menus" component={Menu} /> */}
             </main>
           </div>
         </Router>

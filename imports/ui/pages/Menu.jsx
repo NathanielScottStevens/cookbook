@@ -23,6 +23,7 @@ class Menu extends Component {
 
     return (
       <div>
+      <h1>Here</h1>
         <TextField
           id="menu-title"
           defaultValue={menu.title}

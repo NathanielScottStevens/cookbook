@@ -40,7 +40,7 @@ class Navigation extends Component {
               />
           }
         </Link>
-        <Link to="/menus">
+        {/* <Link to="/menus">
           {
             ({ isActive, onClick }) =>
               <MenuItem
@@ -49,7 +49,7 @@ class Navigation extends Component {
                 style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
               />
           }
-        </Link>
+        </Link> */}
       </Drawer>
     );
   }
