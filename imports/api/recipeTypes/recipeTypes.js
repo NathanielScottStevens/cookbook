@@ -15,3 +15,8 @@ if (Meteor.isServer) {
 Meteor.methods({
 
 });
+
+Factory.define('recipeType', RecipeTypes, {
+  name: Fake.word(),
+  img: `${Fake.word()}.png`,
+});
