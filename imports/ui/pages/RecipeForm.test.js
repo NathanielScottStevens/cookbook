@@ -65,5 +65,24 @@ describe('RecipeForm', function () {
 
       expect(types).to.deep.equal(actual);
     });
+
+    it('shows the serving', function () {
+      const serving = wrapper.find('[id="recipe-serving"]').first();
+      expect(serving.prop('value')).to.equal(recipe.serves);
+    });
+
+    it('shows the ingredient names', function () {
+      const ingredients = wrapper.find('[id="recipe-ingredient-name"]');
+      const actual = ingredients.map(i => i.prop('value'));
+      const expected = recipe.ingredients[0].list.map(i => i.name);
+      expect(actual).to.deep.equal(expected);
+    });
+
+    it('shows the ingredient amounts', function () {
+      const ingredients = wrapper.find('[id="recipe-ingredient-amount"]');
+      const actual = ingredients.map(i => i.prop('value'));
+      const expected = recipe.ingredients[0].list.map(i => i.amount);
+      expect(actual).to.deep.equal(expected);
+    });
   });
 });
