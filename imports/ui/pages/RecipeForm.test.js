@@ -8,6 +8,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RecipeForm from './RecipeForm';
 import Recipes from '../../api/recipes/recipes';
 import { RecipeTypes } from '../../api/recipeTypes/recipeTypes';
+import uoms from '../../api/uoms/fixture';
 
 describe('RecipeForm', function () {
   const muiTheme = getMuiTheme();
@@ -17,7 +18,7 @@ describe('RecipeForm', function () {
 
     for (let i = 0; i < 4; i++) {
       const type = Factory.create('recipeType');
-      types.push(type.name);
+      types.push(type);
     }
 
     return types;
@@ -27,7 +28,8 @@ describe('RecipeForm', function () {
     return shallow(
       (<RecipeForm
         recipe={recipe}
-        types={types}
+        recipeTypes={types}
+        uoms={uoms}
       />),
       { context: { muiTheme } });
   }
@@ -61,9 +63,12 @@ describe('RecipeForm', function () {
     it('shows the type dropdown with options', function () {
       const type = wrapper.find('[id="recipe-type"]');
       const options = type.find('MenuItem');
-      const actual = options.map(opt => opt.prop('value'));
+      const expected = types.map(t => t.name);
+      const valueActual = options.map(opt => opt.prop('value'));
+      const textActual = options.map(opt => opt.prop('primaryText'));
 
-      expect(types).to.deep.equal(actual);
+      expect(valueActual).to.include.members(expected);
+      expect(textActual).to.include.members(expected);
     });
 
     it('shows the serving', function () {
@@ -75,14 +80,39 @@ describe('RecipeForm', function () {
       const ingredients = wrapper.find('[id="recipe-ingredient-name"]');
       const actual = ingredients.map(i => i.prop('value'));
       const expected = recipe.ingredients[0].list.map(i => i.name);
-      expect(actual).to.deep.equal(expected);
+      expect(actual).to.include.members(expected);
     });
 
     it('shows the ingredient amounts', function () {
       const ingredients = wrapper.find('[id="recipe-ingredient-amount"]');
       const actual = ingredients.map(i => i.prop('value'));
       const expected = recipe.ingredients[0].list.map(i => i.amount);
-      expect(actual).to.deep.equal(expected);
+      expect(actual).to.include.members(expected);
+    });
+
+    it('shows the uom dropdowns', function () {
+      const dropDowns = wrapper.find('[id="recipe-uom"]');
+      const actual = dropDowns.map(uom => uom.prop('value'));
+      const expected = recipe.ingredients[0].list.map(i => i.uom);
+      expect(actual).to.include.members(expected);
+    });
+
+    it('shows values in uom dropdowns', function () {
+      const dropDown = wrapper.find('[id="recipe-uom"]').first();
+      const menuTitles = dropDown.find('MenuItem');
+      const actualValue = menuTitles.map(i => i.prop('value'));
+      const actualText = menuTitles.map(i => i.prop('primaryText'));
+      const expected = uoms.map(uom => uom.unit);
+
+      expect(actualValue).to.include.members(expected);
+      expect(actualText).to.include.members(expected);
+    });
+
+    it('shows the steps', function () {
+      const textFields = wrapper.find('[id="recipe-step"]');
+      const expected = recipe.steps[0].list;
+      const actual = textFields.map(t => t.prop('value'));
+      expect(expected).to.include.members(actual);
     });
   });
 });

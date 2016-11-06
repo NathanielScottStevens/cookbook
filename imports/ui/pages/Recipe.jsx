@@ -8,6 +8,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FramedImage from '../components/FramedImage';
 import getMeasurementLabel from '../../helpers/measurement';
+import IngredientTable from '../components/IngredientTable';
 
 class Recipe extends Component {
   constructor(props) {
@@ -61,42 +62,16 @@ class Recipe extends Component {
     );
   }
 
-  renderTableRows(list) {
-    const serving = this.state.servingSelection + 1;
-
-    return list.map((item, index) => {
-      const amount = getMeasurementLabel(item.amt * serving, item.uom);
-
-      return (
-        <TableRow key={`${item}-${index}`}>
-          <TableRowColumn data-id="ingredient-name">
-            {item.name}
-          </TableRowColumn>
-          <TableRowColumn data-id="ingredient-amount">
-            {amount}
-          </TableRowColumn>
-        </TableRow>
-      );
-    });
-  }
-
   renderTables(styles) {
     const ingredients = this.props.recipe.ingredients;
 
     return ingredients.map(group =>
       <div>
         {group.label ? <h3 style={styles.h3}>{group.label}</h3> : ''}
-        <Table>
-          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-            <TableRow>
-              <TableHeaderColumn>Ingredients</TableHeaderColumn>
-              <TableHeaderColumn>Amount</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false} stripedRows>
-            {this.renderTableRows(group.list)}
-          </TableBody>
-        </Table>
+        <IngredientTable
+          ingredients={group.list}
+          serving={this.state.servingSelection}
+        />
         <div style={styles.divider} />
       </div>
     );

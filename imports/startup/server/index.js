@@ -6,8 +6,14 @@ import recipeSample from '../../api/recipes/fixture';
 import { RecipeTypes } from '../../api/recipeTypes/recipeTypes';
 import recipeTypes from '../../api/recipeTypes/fixture';
 
+// import { Menus } from '../../api/menus/menus';
+// import { menus } from '../../api/menus/fixture';
 
-function setRecipes() {
+import { Uoms } from '../../api/uoms/uoms';
+import uoms from '../../api/uoms/fixture';
+
+
+function setSampleData() {
   if (Recipes.find().count() === 0) {
     recipeSample.forEach(recipe => {
       Recipes.insert(recipe);
@@ -19,8 +25,21 @@ function setRecipes() {
       RecipeTypes.insert(recipeType);
     });
   }
+
+  if (Uoms.find().count() === 0) {
+    uoms.forEach(uom => {
+      Uoms.insert(uom);
+    });
+  }
+
+  //
+  // if (Menus.find().count() === 0) {
+  //   menus.forEach(menu => {
+  //     Menus.insert(menu);
+  //   });
+  // }
 }
 
 Meteor.startup(() => {
-  setRecipes();
+  setSampleData();
 });

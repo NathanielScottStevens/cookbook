@@ -31,14 +31,6 @@ describe('Recipe', function () {
         wrapper = renderRecipe(recipe);
       });
 
-      it('shows ingredients', function () {
-        const ingredients = wrapper.find('[data-id="ingredient-name"]');
-        const actual = ingredients.map(ingredient => ingredient.prop('children'));
-        const expected = recipe.ingredients[0].list.map(ingredient => ingredient.name);
-
-        expect(actual).to.deep.equal(expected);
-      });
-
       it('shows steps', function () {
         const steps = wrapper.find('li');
         const actual = steps.map(step => step.text());
@@ -57,19 +49,6 @@ describe('Recipe', function () {
       beforeEach(function () {
         recipe = Factory.create('complexRecipe');
         wrapper = renderRecipe(recipe);
-      });
-
-      it('shows ingredients', function () {
-        const ingredients = wrapper.find('[data-id="ingredient-name"]');
-        const actual = ingredients.map(ingredient => ingredient.prop('children'));
-        let expected = [];
-
-        recipe.ingredients.forEach(group => {
-          const expectedIngredients = group.list.map(i => i.name);
-          expected = [...expected, ...expectedIngredients];
-        });
-
-        expect(actual).to.deep.equal(expected);
       });
 
       it('shows steps', function () {

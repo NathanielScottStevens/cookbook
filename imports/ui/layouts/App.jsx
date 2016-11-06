@@ -6,8 +6,9 @@ import Router from 'react-router/BrowserRouter';
 
 import AppBar from 'material-ui/AppBar';
 import Navigation from '../components/Navigation';
-import RecipeSelection from '../../ui/pages/RecipeSelection';
-import Menu from '../../ui/pages/Menu';
+import RecipeSelection from '../pages/RecipeSelection';
+import Menu from '../pages/Menu';
+import RecipeForm from '../containers/RecipeForm'
 
 
 class App extends Component {

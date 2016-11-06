@@ -2,45 +2,76 @@ import React, { Component, PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
 class RecipeForm extends Component {
 
   renderTypeDropDownItems() {
-    return this.props.types.map(type =>
-      <MenuItem value={type} />
+    return this.props.recipeTypes.map(type =>
+      <MenuItem
+        primaryText={type.name}
+        value={type.name}
+      />
+    );
+  }
+
+  renderUomDropDownItems() {
+    return this.props.uoms.map(uom =>
+      <MenuItem
+        primaryText={uom.unit}
+        value={uom.unit}
+      />
     );
   }
 
   renderIngredientList(list) {
     return list.map(item =>
-      <div>
-        <TextField
-          id="recipe-ingredient-name"
-          value={item.name}
-        />
-        <TextField
-          id="recipe-ingredient-amount"
-          value={item.amount}
-        />
-      </div>
-    );
-  }
-
-  renderIngredientSet(set) {
-    return (
-      <div>
-        {this.renderIngredientList(set.list)}
-      </div>
+      <TableRow key={item.name}>
+        <TableRowColumn>
+          <TextField
+            id="recipe-ingredient-name"
+            value={item.name}
+          />
+        </TableRowColumn>
+        <TableRowColumn>
+          <TextField
+            id="recipe-ingredient-amount"
+            value={item.amount}
+          />
+          <SelectField
+            id="recipe-uom"
+            value={item.uom}
+          >
+            {this.renderUomDropDownItems()}
+          </SelectField>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 
   renderIngredients() {
-    return this.props.recipe.ingredients.map(ingredientSet =>
-      this.renderIngredientSet(ingredientSet)
+    return this.props.recipe.ingredients.map((ingredientSet, index) =>
+      this.renderIngredientList(ingredientSet.list)
+    );
+  }
+
+  renderSteps() {
+    return this.props.recipe.steps[0].list.map((step, index) =>
+      <TextField
+        id="recipe-step"
+        key={index}
+        value={step}
+        multiLine
+        fullWidth
+      />
     );
   }
 
   render() {
+    if (this.props.isLoading) {
+      return (<div />);
+    }
+
     const recipe = this.props.recipe;
 
     return (
@@ -59,11 +90,22 @@ class RecipeForm extends Component {
         >
           {this.renderTypeDropDownItems()}
         </SelectField>
+        <Table>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn>Ingredients</TableHeaderColumn>
+              <TableHeaderColumn>Amount</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false} stripedRows>
+            {this.renderIngredients()}
+          </TableBody>
+        </Table>
         <TextField
           id="recipe-serving"
           value={recipe.serves}
         />
-        {this.renderIngredients()}
+        {this.renderSteps()}
       </div>
     );
   }
@@ -72,7 +114,8 @@ class RecipeForm extends Component {
 RecipeForm.propTypes = {
   isLoading: PropTypes.bool,
   recipe: PropTypes.object,
-  types: PropTypes.array,
+  recipeTypes: PropTypes.array,
+  uoms: PropTypes.array,
 };
 
 RecipeForm.contextTypes = {
