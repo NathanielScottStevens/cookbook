@@ -14,7 +14,7 @@ class IngredientTableRow extends Component {
     const amount = getMeasurementLabel(ingredient.amt * this.props.servingMultiplier, ingredient.uom);
 
     return (
-      <TableRow key={ingredient}>
+      <TableRow key={ingredient} striped={this.props.striped}>
         <TableRowColumn data-id="ingredient-name">
           {ingredient.name}
         </TableRowColumn>
@@ -29,10 +29,12 @@ class IngredientTableRow extends Component {
 IngredientTableRow.propTypes = {
   ingredient: PropTypes.object.isRequired,
   servingMultiplier: PropTypes.object,
+  striped: PropTypes.bool,
 };
 
 IngredientTableRow.defaultProps = {
   servingMultiplier: 1,
+  striped: false,
 };
 
 export default IngredientTableRow;

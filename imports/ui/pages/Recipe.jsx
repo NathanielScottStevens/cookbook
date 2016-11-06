@@ -1,14 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import withWidth, { SMALL } from 'material-ui/utils/withWidth';
-import { ListItem } from 'material-ui/List';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FramedImage from '../components/FramedImage';
-import getMeasurementLabel from '../../helpers/measurement';
 import IngredientTable from '../components/IngredientTable';
+import Steps from '../components/Steps';
 
 class Recipe extends Component {
   constructor(props) {
@@ -21,33 +19,15 @@ class Recipe extends Component {
     this.setState({ servingSelection: value });
   }
 
-  renderEachStep(steps, label) {
-    return steps.map((item, index) =>
-      <ListItem
-        key={`${label ? label : 'no-group'}-${index}`}
-      >
-        <li>{item}</li>
-      </ListItem>);
-  }
-
-  renderSteps(styles) {
+  renderSteps() {
     const steps = this.props.recipe.steps;
 
-    return steps.map(group => {
-      let label;
-      if (group.label) {
-        label = <h3 style={styles.h3}>{group.label}</h3>;
-      }
-
-      return (
-        <div>
-          {label}
-            <ol style={styles.ol}>
-              {this.renderEachStep(group.list, group.label)}
-            </ol>
-        </div>
-      );
-    });
+    return steps.map(group =>
+      <Steps
+        steps={group.list}
+        label={group.label}
+      />
+    );
   }
 
   renderServingItems() {
@@ -58,7 +38,7 @@ class Recipe extends Component {
     }
 
     return items.map((item, index) =>
-      <MenuItem key={item} value={index} label={`Serves ${item}`} primaryText={item} />
+      <MenuItem key={index} value={index} label={`Serves ${item}`} primaryText={item} />
     );
   }
 
@@ -70,7 +50,7 @@ class Recipe extends Component {
         {group.label ? <h3 style={styles.h3}>{group.label}</h3> : ''}
         <IngredientTable
           ingredients={group.list}
-          serving={this.state.servingSelection}
+          servingMultiplier={this.state.servingSelection + 1}
         />
         <div style={styles.divider} />
       </div>
@@ -110,9 +90,6 @@ class Recipe extends Component {
       leftHeader: {
         display: 'flex',
         flexDirection: 'column',
-      },
-      ol: {
-        marginBottom: 60,
       },
       divider: {
         height: 40,

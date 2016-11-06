@@ -9,20 +9,21 @@ import Recipes from '../../api/recipes/recipes';
 
 describe('IngredientTableRow', function () {
   const muiTheme = getMuiTheme();
+  let wrapper;
+  let ingredient;
+  let servingMultiplier = 1;
+  const striped = true;
 
   function render(ingredient, servingMultiplier) {
     return shallow(
       (<IngredientTableRow
         ingredient={ingredient}
         servingMultiplier={servingMultiplier}
+        striped={striped}
       />),
       { context: { muiTheme } }
     );
   }
-
-  let wrapper;
-  let ingredient;
-  let servingMultiplier = 1;
 
   context('single serving', function () {
     beforeEach(function () {
@@ -38,6 +39,12 @@ describe('IngredientTableRow', function () {
     it('shows amount', function () {
       const amount = wrapper.find('[data-id="ingredient-amount"]');
       expect(amount.length).to.equal(1);
+    });
+
+    it('passes striped', function () {
+      const row = wrapper.find('TableRow').first();
+      const actual = row.prop('striped');
+      expect(actual).to.equal(striped);
     });
   });
 
