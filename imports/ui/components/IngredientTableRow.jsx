@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
 import getMeasurementLabel from '../../helpers/measurement';
 
 class IngredientTableRow extends Component {
@@ -11,7 +11,10 @@ class IngredientTableRow extends Component {
 
   render() {
     const ingredient = this.props.ingredient;
-    const amount = getMeasurementLabel(ingredient.amt * this.props.servingMultiplier, ingredient.uom);
+    const amount = getMeasurementLabel(
+      ingredient.amt * this.props.servingMultiplier,
+      ingredient.uom
+    );
 
     return (
       <TableRow key={ingredient} striped={this.props.striped}>
@@ -28,13 +31,17 @@ class IngredientTableRow extends Component {
 
 IngredientTableRow.propTypes = {
   ingredient: PropTypes.object.isRequired,
-  servingMultiplier: PropTypes.object,
+  servingMultiplier: PropTypes.number,
   striped: PropTypes.bool,
 };
 
 IngredientTableRow.defaultProps = {
   servingMultiplier: 1,
   striped: false,
+};
+
+IngredientTableRow.contextTypes = {
+  muiTheme: PropTypes.object.isRequired,
 };
 
 export default IngredientTableRow;

@@ -31,40 +31,10 @@ describe('Recipe', function () {
         wrapper = renderRecipe(recipe);
       });
 
-      it('shows steps', function () {
-        const steps = wrapper.find('li');
-        const actual = steps.map(step => step.text());
-
-        expect(actual).to.deep.equal(recipe.steps[0].list);
-      });
-
       it('shows no subheaders', function () {
         const actual = wrapper.find('Subheader');
 
         expect(actual.length).to.equal(0);
-      });
-    });
-
-    context('Complex Recipe', function () {
-      beforeEach(function () {
-        recipe = Factory.create('complexRecipe');
-        wrapper = renderRecipe(recipe);
-      });
-
-      it('shows steps', function () {
-        const steps = wrapper.find('li');
-        const actual = steps.map(step => step.text());
-        let expected = [];
-
-        recipe.steps.forEach(group => {
-          expected = [...expected, ...group.list];
-        });
-
-        expect(actual).to.deep.equal(expected);
-      });
-
-      it('has seperate <ol> tags for each group', function () {
-        expect(wrapper.find('ol').length).to.equal(recipe.steps.length);
       });
     });
   });

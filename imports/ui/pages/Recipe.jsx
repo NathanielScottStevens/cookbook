@@ -47,9 +47,9 @@ class Recipe extends Component {
 
     return ingredients.map(group =>
       <div>
-        {group.label ? <h3 style={styles.h3}>{group.label}</h3> : ''}
         <IngredientTable
           ingredients={group.list}
+          label={group.label}
           servingMultiplier={this.state.servingSelection + 1}
         />
         <div style={styles.divider} />
@@ -119,7 +119,6 @@ class Recipe extends Component {
             <FramedImage img={`/../../images/${this.props.recipe.img}`} />
           </div>
         </div>
-
         {this.renderTables(styles)}
         <div style={styles.divider} />
         <h2 style={styles.h2}>Steps</h2>
