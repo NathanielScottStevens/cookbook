@@ -1,22 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import withWidth, { SMALL } from 'material-ui/utils/withWidth';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import FramedImage from '../components/FramedImage';
 import IngredientTable from '../components/IngredientTable';
 import Steps from '../components/Steps';
+import RecipeHeader from '../components/RecipeHeader';
 
 class Recipe extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { servingSelection: 0 };
+    this.state = { servingMultiplier: 1 };
+    this.onServingChange = this.onServingChange.bind(this);
   }
 
-  handleServingChange(event, index, value) {
-    this.setState({ servingSelection: value });
+  onServingChange(value) {
+    this.setState({ servingMultiplier: value });
   }
 
   renderSteps() {
@@ -30,18 +29,6 @@ class Recipe extends Component {
     );
   }
 
-  renderServingItems() {
-    const optionCount = 10;
-    const items = [];
-    for (let i = 1; i < optionCount; i++) {
-      items.push(this.props.recipe.serves * i);
-    }
-
-    return items.map((item, index) =>
-      <MenuItem key={index} value={index} label={`Serves ${item}`} primaryText={item} />
-    );
-  }
-
   renderTables(styles) {
     const ingredients = this.props.recipe.ingredients;
 
@@ -50,7 +37,7 @@ class Recipe extends Component {
         <IngredientTable
           ingredients={group.list}
           label={group.label}
-          servingMultiplier={this.state.servingSelection + 1}
+          servingMultiplier={this.state.servingMultiplier}
         />
         <div style={styles.divider} />
       </div>
@@ -61,6 +48,8 @@ class Recipe extends Component {
     if (this.props.isLoading) {
       return (<div />);
     }
+
+    const recipe = this.props.recipe;
 
     const styles = {
       header: {
@@ -104,21 +93,12 @@ class Recipe extends Component {
 
     return (
       <div>
-        <div style={styles.header}>
-          <div style={styles.leftHeader}>
-            <h1 style={styles.h1}>{ this.props.recipe.name }</h1>
-            <SelectField
-              value={this.state.servingSelection}
-              onChange={(event, index, value) => this.handleServingChange(event, index, value)}
-              style={styles.selectField}
-            >
-              {this.renderServingItems()}
-            </SelectField>
-          </div>
-          <div style={styles.imgBorder}>
-            <FramedImage img={`/../../images/${this.props.recipe.img}`} />
-          </div>
-        </div>
+        <RecipeHeader
+          title={recipe.name}
+          img={recipe.img}
+          serves={recipe.serves}
+          onServingChange={this.onServingChange}
+        />
         {this.renderTables(styles)}
         <div style={styles.divider} />
         <h2 style={styles.h2}>Steps</h2>
