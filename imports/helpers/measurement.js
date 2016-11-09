@@ -2,7 +2,7 @@ import Decimal from 'decimal';
 import convert from 'convert-units';
 
 function withUom(amount, uom) {
-  const options = { exclude: ['in3', 'ft3', 'yd3'] };
+  const options = { exclude: ['in3', 'ft3', 'yd3', 'fl-oz'] };
   const converted = convert(amount).from(uom).toBest(options);
 
 

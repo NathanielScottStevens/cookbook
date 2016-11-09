@@ -64,13 +64,13 @@ describe('RecipeHeader', function () {
     it('calls onServingChange', function () {
       const dropDown = wrapper.find('SelectField').first();
       dropDown.simulate('change', null, 1, 2);
-      expect(onServingChange.calledWith(2)).to.be.true;
+      expect(onServingChange).to.be.calledWith(2);
     });
 
     it('maintains serving dropdown selection state', function () {
       const dropDown = wrapper.find('SelectField').first();
-      dropDown.simulate('change', null, 2, 4);
-      expect(wrapper.state('servingSelection')).to.equal(2);
+      dropDown.simulate('change', null, 5, 6);
+      expect(wrapper.state('servingSelection')).to.equal(6);
     });
   });
 });

@@ -52,11 +52,6 @@ class Recipe extends Component {
     const recipe = this.props.recipe;
 
     const styles = {
-      header: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-      },
       h1: {
         fontFamily: this.context.muiTheme.fontFamily,
         textTransform: 'capitalize',
@@ -65,20 +60,6 @@ class Recipe extends Component {
         fontFamily: this.context.muiTheme.fontFamily,
         textTransform: 'capitalize',
         fontWeight: 500,
-      },
-      h3: {
-        fontFamily: this.context.muiTheme.fontFamily,
-        textTransform: 'lowercase',
-        marginLeft: this.context.muiTheme.tableRowColumn.spacing,
-        fontWeight: 400,
-        borderBottom: `${this.context.muiTheme.baseTheme.palette.borderColor} solid 1px`,
-      },
-      selectField: {
-        marginLeft: this.context.muiTheme.tableRowColumn.spacing,
-      },
-      leftHeader: {
-        display: 'flex',
-        flexDirection: 'column',
       },
       divider: {
         height: 40,

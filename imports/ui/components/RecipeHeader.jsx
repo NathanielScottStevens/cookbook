@@ -7,12 +7,12 @@ class RecipeHeader extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { isEditing: false, servingSelection: 0 };
+    this.state = { isEditing: false, servingSelection: 1 };
   }
 
   handleServingChange(event, index, value) {
     this.props.onServingChange(value);
-    this.setState({ servingSelection: index });
+    this.setState({ servingSelection: value });
   }
 
   renderServingItems() {
@@ -24,7 +24,12 @@ class RecipeHeader extends Component {
     }
 
     return items.map((item, index) =>
-      <MenuItem key={index} value={index} label={`Serves ${item}`} primaryText={item} />
+      <MenuItem
+        key={index}
+        value={index + 1}
+        label={`Serves ${item}`}
+        primaryText={item}
+      />
     );
   }
 
