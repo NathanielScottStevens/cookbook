@@ -52,7 +52,6 @@ class App extends Component {
           <div>
             <AppBar
               title="Cookbook"
-              iconClassNameRight="muidocs-icon-navigation-expand-more"
               onLeftIconButtonTouchTap={() => { this.toggleMenu(); }}
               style={styles.appBar}
             />

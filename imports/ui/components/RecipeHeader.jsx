@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FramedImage from '../components/FramedImage';
+import TextField from 'material-ui/TextField';
 
 class RecipeHeader extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class RecipeHeader extends Component {
 
   render() {
     const { title, img } = this.props;
+    const isEditing = this.state.isEditing;
 
     const styles = {
       header: {
@@ -58,7 +60,10 @@ class RecipeHeader extends Component {
     return (
       <div style={styles.header}>
         <div style={styles.leftHeader}>
-          <h1 style={styles.h1}>{title}</h1>
+          {isEditing ?
+            <TextField id="recipe-name" value={title} />
+            : <h1 style={styles.h1}>{title}</h1>
+          }
           <SelectField
             value={this.state.servingSelection}
             onChange={(event, index, value) => this.handleServingChange(event, index, value)}
