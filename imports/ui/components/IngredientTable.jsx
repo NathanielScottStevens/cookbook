@@ -3,10 +3,11 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'mate
 import IngredientTableRow from './IngredientTableRow';
 
 const IngredientTable = ({ ingredients, label, servingMultiplier }, context) => {
-  const rows = ingredients.map(ingredient =>
+  const rows = ingredients.map((ingredient, index) =>
     <IngredientTableRow
       ingredient={ingredient}
       servingMultiplier={servingMultiplier}
+      key={index}
     />
   );
 

@@ -1,6 +1,6 @@
 import { createContainer } from 'meteor/react-meteor-data';
 import { RecipeTypes } from '../../api/recipeTypes/recipeTypes';
-import TileLinkList from '../components/TileLinkList';
+import TileLinkList from '../pages/TileLinkList';
 
 function getLink(type) {
   return `recipes/${type.name}`;

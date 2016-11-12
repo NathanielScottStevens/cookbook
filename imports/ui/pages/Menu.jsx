@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
+import AppBarNavigation from '../components/AppBarNavigation';
 
 class Menu extends Component {
 
@@ -23,6 +24,7 @@ class Menu extends Component {
 
     return (
       <div>
+      <AppBarNavigation />
       <h1>Here</h1>
         <TextField
           id="menu-title"

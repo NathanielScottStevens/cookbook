@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import withWidth, { SMALL } from 'material-ui/utils/withWidth';
+import withWidth, { SMALL, LARGE } from 'material-ui/utils/withWidth';
 import { Link } from 'react-router';
-
 import { GridList, GridTile } from 'material-ui/GridList';
+import AppBarNavigation from '../components/AppBarNavigation';
+
 
 class TileLinkList extends Component {
 
@@ -22,13 +23,18 @@ class TileLinkList extends Component {
 
   render() {
     const styles = {
+      main: {
+        paddingLeft: this.props.width === LARGE ? 256 : 0,
+        paddingTop: 30,
+        margin: 50,
+      },
       gridList: {},
       gridTile: {
         width: 300,
       },
       img: {
         maxWidth: 300,
-      }
+      },
     };
 
     if (this.props.isLoading) {
@@ -37,14 +43,17 @@ class TileLinkList extends Component {
 
     return (
       <div>
-        <GridList
-          style={styles.gridList}
-          children={4}
-          cols={this.props.width === SMALL ? 1 : 2}
-          padding={50}
-        >
-          {this.renderItems(styles)}
-        </GridList>
+        <AppBarNavigation />
+        <main style={styles.main}>
+          <GridList
+            style={styles.gridList}
+            children={4}
+            cols={this.props.width === SMALL ? 1 : 2}
+            padding={50}
+          >
+            {this.renderItems(styles)}
+          </GridList>
+        </main>
       </div>
     );
   }

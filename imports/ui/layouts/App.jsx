@@ -1,78 +1,44 @@
-import React, { Component, PropTypes } from 'react';
-import withWidth, { LARGE } from 'material-ui/utils/withWidth';
+import React from 'react';
 import Match from 'react-router/Match';
+import Miss from 'react-router/Miss';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Router from 'react-router/BrowserRouter';
 
-import AppBar from 'material-ui/AppBar';
-import Navigation from '../components/Navigation';
-import RecipeSelection from '../pages/RecipeSelection';
-import Menu from '../pages/Menu';
-import RecipeForm from '../containers/RecipeForm'
+import RecipeCategoriesContainer from '../../ui/containers/RecipeCategories';
+import RecipeListContainer from '../../ui/containers/RecipeList';
+import RecipeContainer from '../../ui/containers/Recipe';
+import NotFound from '../../ui/pages/NotFound';
 
+const App = () => {
+  // const styles = {
+  //   appBar: {
+  //     position: 'fixed',
+  //     top: 0,
+  //   },
+  //   root: {
+  //     paddingLeft: isMenuDocked ? 256 : 0,
+  //     paddingTop: 30,
+  //     margin: 50,
+  //     display: 'flex',
+  //     flexWrap: 'wrap',
+  //     justifyContent: 'space-around',
+  //   },
+  // };
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { isMenuOpen: false };
-  }
-
-  toggleMenu() {
-    this.setState({ isMenuOpen: !this.state.isMenuOpen });
-  }
-
-  render() {
-    let isMenuOpen = this.state.isMenuOpen;
-    let isMenuDocked = false;
-
-    if (this.props.width === LARGE) {
-      isMenuOpen = true;
-      isMenuDocked = true;
-    }
-
-    const styles = {
-      appBar: {
-        position: 'fixed',
-        top: 0,
-      },
-      root: {
-        paddingLeft: isMenuDocked ? 256 : 0,
-        paddingTop: 30,
-        margin: 50,
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-      },
-    };
-
-    return (
-      <MuiThemeProvider>
-        <Router>
-          <div>
-            <AppBar
-              title="Cookbook"
-              onLeftIconButtonTouchTap={() => { this.toggleMenu(); }}
-              style={styles.appBar}
-            />
-            <Navigation
-              open={isMenuOpen}
-              docked={isMenuDocked}
-              onChange={() => { this.toggleMenu(); }}
-            />
-            <main style={styles.root}>
-              <Match pattern="/recipes" component={RecipeSelection} />
-              {/* <Match pattern="/menus" component={Menu} /> */}
-            </main>
-          </div>
-        </Router>
-      </MuiThemeProvider>
-    );
-  }
-}
-
-App.propTypes = {
-  width: PropTypes.number,
+  return (
+    <MuiThemeProvider>
+      <Router>
+        <div>
+          <Match exactly pattern="/recipes" component={RecipeCategoriesContainer} />
+          <Match exactly pattern="/recipes/:id" component={RecipeListContainer} />
+          <Match exactly pattern="/recipes/:id/:id" component={RecipeContainer} />
+          <Miss component={NotFound} />
+          {/* <Match pattern="/recipes" component={RecipeSelection} /> */}
+          {/* <Match pattern="/menus" component={Menu} /> */}
+        </div>
+      </Router>
+    </MuiThemeProvider>
+  );
 };
 
-export default withWidth()(App);
+export default App;
