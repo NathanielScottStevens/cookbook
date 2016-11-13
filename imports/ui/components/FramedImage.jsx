@@ -8,6 +8,7 @@ const FramedImage = ({ img, imgStyle }) => {
       backgroundSize: '100%',
       backgroundPositionY: '100%',
       padding: 10,
+      height: '100%',
     },
   };
 

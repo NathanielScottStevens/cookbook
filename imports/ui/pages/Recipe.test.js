@@ -8,10 +8,12 @@ import { SMALL } from 'material-ui/utils/withWidth';
 
 import Recipe from './Recipe';
 import Recipes from '../../api/recipes/recipes';
+import { getTypesArray } from '../../api/recipeTypes/recipeTypes';
 
 describe('Recipe', function () {
   const muiTheme = getMuiTheme();
   const uoms = ['cup', 'tsp', 'tbsp'];
+  const recipeTypes = getTypesArray();
 
   function renderRecipe(recipe) {
     return shallow(
@@ -19,6 +21,7 @@ describe('Recipe', function () {
         recipe={recipe}
         width={SMALL}
         uoms={uoms}
+        recipeTypes={recipeTypes}
       />)
     ).dive().dive({ context: { muiTheme } });
   }
@@ -96,6 +99,12 @@ describe('Recipe', function () {
         expect(wrapper.state('isEditing')).to.be.false;
       });
 
+      it('clicking done button disabled edit mode', function () {
+        const clear = wrapper.find('[data-id="done-button"]').first();
+        clear.simulate('click');
+        expect(wrapper.state('isEditing')).to.be.false;
+      });
+
       it('sets RecipeHeader to isEditing', function () {
         const header = wrapper.find('RecipeHeader').first();
         expect(header.prop('isEditing')).to.be.true;
@@ -109,6 +118,11 @@ describe('Recipe', function () {
       it('passes uoms to IngredientTable', function () {
         const table = wrapper.find('IngredientTable').first();
         expect(table.prop('uoms')).to.include.members(uoms);
+      });
+
+      it('passes recipeTypes to RecipeHeader', function () {
+        const header = wrapper.find('RecipeHeader').first();
+        expect(header.prop('recipeTypes')).to.include.members(recipeTypes);
       });
     });
   });

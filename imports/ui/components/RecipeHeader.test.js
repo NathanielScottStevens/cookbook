@@ -7,6 +7,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import RecipeHeader from './RecipeHeader';
 import Recipes from '../../api/recipes/recipes';
+import { getTypesArray } from '../../api/recipeTypes/recipeTypes';
 
 describe('RecipeHeader', function () {
   const muiTheme = getMuiTheme();
@@ -14,6 +15,7 @@ describe('RecipeHeader', function () {
   let recipe;
   let onServingChange;
   let isEditing;
+  let types;
 
   function render() {
     return shallow(
@@ -21,7 +23,9 @@ describe('RecipeHeader', function () {
         title={recipe.name}
         img={recipe.img}
         serves={recipe.serves}
+        slug={recipe.slug}
         onServingChange={onServingChange}
+        recipeTypes={types}
         isEditing={isEditing}
       />),
       { context: { muiTheme } }
@@ -48,30 +52,30 @@ describe('RecipeHeader', function () {
     });
 
     it('shows serving dropdown', function () {
-      const dropDown = wrapper.find('SelectField');
-      expect(dropDown.length).to.equal(1);
+      const dropDown = wrapper.find('[id="serving-selection"]');
+      expect(dropDown).to.have.a.lengthOf(1);
     });
 
     it('serving dropdown shows correct first option', function () {
-      const dropDown = wrapper.find('SelectField');
+      const dropDown = wrapper.find('[id="serving-selection"]');
       const items = dropDown.find('MenuItem');
       expect(items.first().prop('primaryText')).to.equal(recipe.serves);
     });
 
     it('serving dropdown multiplies by serving amount', function () {
-      const dropDown = wrapper.find('SelectField');
+      const dropDown = wrapper.find('[id="serving-selection"]');
       const items = dropDown.find('MenuItem');
       expect(items.at(1).prop('primaryText')).to.equal(recipe.serves * 2);
     });
 
     it('calls onServingChange', function () {
-      const dropDown = wrapper.find('SelectField').first();
+      const dropDown = wrapper.find('[id="serving-selection"]').first();
       dropDown.simulate('change', null, 1, 2);
       expect(onServingChange).to.be.calledWith(2);
     });
 
     it('maintains serving dropdown selection state', function () {
-      const dropDown = wrapper.find('SelectField').first();
+      const dropDown = wrapper.find('[id="serving-selection"]').first();
       dropDown.simulate('change', null, 5, 6);
       expect(wrapper.state('servingSelection')).to.equal(6);
     });
@@ -82,6 +86,7 @@ describe('RecipeHeader', function () {
       recipe = Factory.create('simpleRecipe');
       onServingChange = sinon.spy();
       isEditing = true;
+      types = getTypesArray();
       wrapper = render();
     });
 
@@ -90,44 +95,50 @@ describe('RecipeHeader', function () {
       expect(title.prop('value')).to.equal(recipe.name);
     });
 
-    // it('shows the slug', function () {
-    //   const slug = wrapper.find('[id="recipe-slug"]').first();
-    //   expect(slug.prop('value')).to.equal(recipe.slug);
-    // });
+    it('shows the title with label', function () {
+      const title = wrapper.find('[id="recipe-name"]').first();
+      expect(title.prop('floatingLabelText')).to.equal('name');
+    });
 
-    // it('shows image', function () {
-    //   const img = wrapper.find('FramedImage').first();
-    //   const expected = `/../../images/${recipe.img}`;
-    //   expect(img.prop('img')).to.equal(expected);
-    // });
-    //
-    // it('shows serving dropdown', function () {
-    //   const dropDown = wrapper.find('SelectField');
-    //   expect(dropDown.length).to.equal(1);
-    // });
-    //
-    // it('serving dropdown shows correct first option', function () {
-    //   const dropDown = wrapper.find('SelectField');
-    //   const items = dropDown.find('MenuItem');
-    //   expect(items.first().prop('primaryText')).to.equal(recipe.serves);
-    // });
-    //
-    // it('serving dropdown multiplies by serving amount', function () {
-    //   const dropDown = wrapper.find('SelectField');
-    //   const items = dropDown.find('MenuItem');
-    //   expect(items.at(1).prop('primaryText')).to.equal(recipe.serves * 2);
-    // });
-    //
-    // it('calls onServingChange', function () {
-    //   const dropDown = wrapper.find('SelectField').first();
-    //   dropDown.simulate('change', null, 1, 2);
-    //   expect(onServingChange).to.be.calledWith(2);
-    // });
-    //
-    // it('maintains serving dropdown selection state', function () {
-    //   const dropDown = wrapper.find('SelectField').first();
-    //   dropDown.simulate('change', null, 5, 6);
-    //   expect(wrapper.state('servingSelection')).to.equal(6);
-    // });
+    it('shows the slug', function () {
+      const slug = wrapper.find('[id="recipe-slug"]').first();
+      expect(slug.prop('value')).to.equal(recipe.slug);
+    });
+
+    it('shows the slug with label', function () {
+      const slug = wrapper.find('[id="recipe-slug"]').first();
+      expect(slug.prop('floatingLabelText')).to.equal('slug');
+    });
+
+    it('shows the serving', function () {
+      const serves = wrapper.find('[id="recipe-serves"]').first();
+      expect(serves.prop('value')).to.equal(recipe.serves);
+    });
+
+    it('shows the serving with label', function () {
+      const serves = wrapper.find('[id="recipe-serves"]').first();
+      expect(serves.prop('floatingLabelText')).to.equal('serves');
+    });
+
+    it('does not showing serving dropdown', function () {
+      const dropDown = wrapper.find('[id="serving-selection"]');
+      expect(dropDown).to.have.a.lengthOf(0);
+    });
+
+    it('shows the type dropdown', function () {
+      const type = wrapper.find('[id="recipe-type"]');
+      expect(type.length).to.equal(1);
+    });
+
+    it('shows the type dropdown with options', function () {
+      const type = wrapper.find('[id="recipe-type"]');
+      const options = type.find('MenuItem');
+      const expected = types.map(t => t.name);
+      const valueActual = options.map(opt => opt.prop('value'));
+      const textActual = options.map(opt => opt.prop('primaryText'));
+
+      expect(valueActual).to.include.members(expected);
+      expect(textActual).to.include.members(expected);
+    });
   });
 });

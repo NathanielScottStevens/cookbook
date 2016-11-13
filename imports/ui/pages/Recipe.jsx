@@ -61,6 +61,7 @@ class Recipe extends Component {
     }
 
     const recipe = this.props.recipe;
+    const recipeTypes = this.props.recipeTypes;
     const isEditing = this.state.isEditing;
 
     const styles = {
@@ -96,7 +97,10 @@ class Recipe extends Component {
           {isEditing
           ? (
             <div>
-              <FlatButton data-id="done-button" >
+              <FlatButton
+                data-id="done-button"
+                onClick={() => { this.setState({ isEditing: false }); }}
+              >
                 <Done color="white" />
               </FlatButton>
               <FlatButton
@@ -122,6 +126,8 @@ class Recipe extends Component {
             title={recipe.name}
             img={recipe.img}
             serves={recipe.serves}
+            type={recipe.type}
+            recipeTypes={recipeTypes}
             onServingChange={this.onServingChange}
             isEditing={isEditing}
           />
