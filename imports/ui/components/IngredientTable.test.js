@@ -12,6 +12,8 @@ describe('IngredientTable', function () {
   let wrapper;
   let ingredients;
   const servingMultiplier = 3;
+  let isEditing = false;
+  const uoms = ['cup', 'tsp', 'tbsp'];
 
   function render() {
     return shallow(
@@ -19,6 +21,8 @@ describe('IngredientTable', function () {
         ingredients={ingredients.list}
         label={ingredients.label}
         servingMultiplier={servingMultiplier}
+        isEditing={isEditing}
+        uoms={uoms}
       />),
       { context: { muiTheme } }
     );
@@ -65,6 +69,24 @@ describe('IngredientTable', function () {
     it('shows no label', function () {
       const h3 = wrapper.find('h3');
       expect(h3.length).to.equal(0);
+    });
+  });
+
+  context('in edit mode', function () {
+    beforeEach(function () {
+      ingredients = Factory.create('simpleRecipe').ingredients[0];
+      isEditing = true;
+      wrapper = render();
+    });
+
+    it('sets rows to editing', function () {
+      const row = wrapper.find('IngredientTableRow').first();
+      expect(row.prop('isEditing')).to.equal(true);
+    });
+
+    it('passes uoms to rows', function () {
+      const row = wrapper.find('IngredientTableRow').first();
+      expect(row.prop('uoms')).to.include.members(uoms);
     });
   });
 });

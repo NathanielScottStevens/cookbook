@@ -7,6 +7,9 @@ const CustomAppBar = ({ onMenuChange, children }) => {
       position: 'fixed',
       top: 0,
     },
+    toolbar: {
+      marginTop: 18,
+    },
   };
 
   return (
@@ -15,7 +18,9 @@ const CustomAppBar = ({ onMenuChange, children }) => {
       style={styles.appBar}
       onLeftIconButtonTouchTap={() => { onMenuChange(); }}
     >
-      {children}
+      <div style={styles.toolbar}>
+        {children}
+      </div>
     </AppBar>
   );
 };

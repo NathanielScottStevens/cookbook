@@ -8,7 +8,7 @@ class RecipeHeader extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { isEditing: false, servingSelection: 1 };
+    this.state = { servingSelection: 1 };
   }
 
   handleServingChange(event, index, value) {
@@ -35,8 +35,7 @@ class RecipeHeader extends Component {
   }
 
   render() {
-    const { title, img } = this.props;
-    const isEditing = this.state.isEditing;
+    const { title, img, isEditing } = this.props;
 
     const styles = {
       header: {
@@ -85,6 +84,11 @@ RecipeHeader.propTypes = {
   img: PropTypes.string,
   serves: PropTypes.number,
   onServingChange: PropTypes.func,
+  isEditing: PropTypes.bool,
+};
+
+RecipeHeader.defaultProps = {
+  isEditing: false,
 };
 
 RecipeHeader.contextTypes = {

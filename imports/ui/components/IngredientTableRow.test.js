@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import IngredientTableRow from './IngredientTableRow';
 import Recipes from '../../api/recipes/recipes';
+import uoms from '../../api/uoms/fixture';
 
 describe('IngredientTableRow', function () {
   const muiTheme = getMuiTheme();
@@ -13,13 +14,16 @@ describe('IngredientTableRow', function () {
   let ingredient;
   let servingMultiplier = 1;
   const striped = true;
+  let isEditing = false;
 
-  function render(ingredient, servingMultiplier) {
+  function render() {
     return shallow(
       (<IngredientTableRow
         ingredient={ingredient}
         servingMultiplier={servingMultiplier}
         striped={striped}
+        isEditing={isEditing}
+        uoms={uoms}
       />),
       { context: { muiTheme } }
     );
@@ -28,7 +32,7 @@ describe('IngredientTableRow', function () {
   context('single serving', function () {
     beforeEach(function () {
       ingredient = Factory.create('simpleRecipe').ingredients[0].list[0];
-      wrapper = render(ingredient, servingMultiplier);
+      wrapper = render();
     });
 
     it('shows name', function () {
@@ -53,7 +57,7 @@ describe('IngredientTableRow', function () {
       ingredient = Factory.create('simpleRecipe').ingredients[0].list[0];
       ingredient.uom = 'gal';
       servingMultiplier = 3;
-      wrapper = render(ingredient, servingMultiplier);
+      wrapper = render();
     });
 
     it('increases by serving size', function () {
@@ -62,6 +66,42 @@ describe('IngredientTableRow', function () {
       const expected = ingredient.amt * servingMultiplier;
 
       expect(Number(actual)).to.equal(expected);
+    });
+  });
+
+  context('In Edit Mode', function () {
+    beforeEach(function () {
+      ingredient = Factory.create('simpleRecipe').ingredients[0].list[0];
+      ingredient.uom = 'gal';
+      servingMultiplier = 3;
+      isEditing = true;
+      wrapper = render();
+    });
+
+    it('shows text field for ingredient', function () {
+      const name = wrapper.find('[id="ingredient-name"]');
+      expect(name.prop('value')).to.equal(ingredient.name);
+    });
+
+    it('shows text field for amount', function () {
+      const amount = wrapper.find('[id="ingredient-amount"]');
+      expect(amount.prop('value')).to.equal(ingredient.amt);
+    });
+
+    it('shows uom dropdown', function () {
+      const dropDown = wrapper.find('[id="recipe-uom"]');
+      expect(dropDown.prop('value')).to.equal(ingredient.uom);
+    });
+
+    it('shows values in uom dropdowns', function () {
+      const dropDown = wrapper.find('[id="recipe-uom"]').first();
+      const menuTitles = dropDown.find('MenuItem');
+      const actualValue = menuTitles.map(i => i.prop('value'));
+      const actualText = menuTitles.map(i => i.prop('primaryText'));
+      const expected = uoms.map(uom => uom.unit);
+
+      expect(actualValue).to.include.members(expected);
+      expect(actualText).to.include.members(expected);
     });
   });
 });

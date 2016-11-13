@@ -2,12 +2,14 @@ import React, { PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 import IngredientTableRow from './IngredientTableRow';
 
-const IngredientTable = ({ ingredients, label, servingMultiplier }, context) => {
+const IngredientTable = ({ ingredients, label, servingMultiplier, uoms, isEditing }, context) => {
   const rows = ingredients.map((ingredient, index) =>
     <IngredientTableRow
       ingredient={ingredient}
       servingMultiplier={servingMultiplier}
       key={index}
+      isEditing={isEditing}
+      uoms={uoms}
     />
   );
 
@@ -24,8 +26,8 @@ const IngredientTable = ({ ingredients, label, servingMultiplier }, context) => 
   return (
     <div>
       {
-        label ?
-          <h3 style={styles.h3}>{label}</h3>
+        label
+          ? <h3 style={styles.h3}>{label}</h3>
           : ''
       }
       <Table>
@@ -47,10 +49,13 @@ IngredientTable.propTypes = {
   ingredients: PropTypes.array.isRequired,
   label: PropTypes.string,
   servingMultiplier: PropTypes.number,
+  uoms: PropTypes.array,
+  isEditing: PropTypes.bool,
 };
 
 IngredientTable.defaultProps = {
   servingMultiplier: 1,
+  isEditing: false,
 };
 
 IngredientTable.contextTypes = {

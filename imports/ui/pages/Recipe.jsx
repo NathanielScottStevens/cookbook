@@ -16,7 +16,7 @@ class Recipe extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { servingMultiplier: 1 };
+    this.state = { servingMultiplier: 1, isEditing: false };
     this.onServingChange = this.onServingChange.bind(this);
   }
 
@@ -38,13 +38,17 @@ class Recipe extends Component {
 
   renderTables(styles) {
     const ingredients = this.props.recipe.ingredients;
+    const uoms = this.props.uoms;
+    const { servingMultiplier, isEditing } = this.state;
 
     return ingredients.map((group, index) =>
       <div key={`${group.label}-${index}`}>
         <IngredientTable
           ingredients={group.list}
           label={group.label}
-          servingMultiplier={this.state.servingMultiplier}
+          servingMultiplier={servingMultiplier}
+          isEditing={isEditing}
+          uoms={uoms}
         />
         <div style={styles.divider} />
       </div>
@@ -57,6 +61,7 @@ class Recipe extends Component {
     }
 
     const recipe = this.props.recipe;
+    const isEditing = this.state.isEditing;
 
     const styles = {
       main: {
@@ -85,17 +90,32 @@ class Recipe extends Component {
     };
 
     return (
+
       <div>
         <AppBarNavigation>
-          <FlatButton>
-            <ModeEdit color="white" />
-          </FlatButton>
-          <FlatButton>
-            <Done color="white" />
-          </FlatButton>
-          <FlatButton>
-            <Clear color="white" />
-          </FlatButton>
+          {isEditing
+          ? (
+            <div>
+              <FlatButton data-id="done-button" >
+                <Done color="white" />
+              </FlatButton>
+              <FlatButton
+                data-id="clear-button"
+                onClick={() => { this.setState({ isEditing: false }); }}
+              >
+                <Clear color="white" />
+              </FlatButton>
+            </div>
+            )
+          : (
+            <FlatButton
+              data-id="edit-button"
+              onClick={() => { this.setState({ isEditing: true }); }}
+            >
+              <ModeEdit color="white" />
+            </FlatButton>
+            )
+         }
         </AppBarNavigation>
         <main style={styles.main}>
           <RecipeHeader
@@ -103,6 +123,7 @@ class Recipe extends Component {
             img={recipe.img}
             serves={recipe.serves}
             onServingChange={this.onServingChange}
+            isEditing={isEditing}
           />
           {this.renderTables(styles)}
           <div style={styles.divider} />
@@ -120,6 +141,8 @@ class Recipe extends Component {
 Recipe.propTypes = {
   isLoading: PropTypes.bool,
   recipe: PropTypes.object,
+  recipeTypes: PropTypes.array,
+  uoms: PropTypes.array,
   width: PropTypes.number.isRequired,
 };
 

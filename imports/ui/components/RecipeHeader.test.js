@@ -13,6 +13,7 @@ describe('RecipeHeader', function () {
   let wrapper;
   let recipe;
   let onServingChange;
+  let isEditing;
 
   function render() {
     return shallow(
@@ -21,6 +22,7 @@ describe('RecipeHeader', function () {
         img={recipe.img}
         serves={recipe.serves}
         onServingChange={onServingChange}
+        isEditing={isEditing}
       />),
       { context: { muiTheme } }
     );
@@ -30,6 +32,7 @@ describe('RecipeHeader', function () {
     beforeEach(function () {
       recipe = Factory.create('simpleRecipe');
       onServingChange = sinon.spy();
+      isEditing = false;
       wrapper = render();
     });
 
@@ -78,8 +81,8 @@ describe('RecipeHeader', function () {
     beforeEach(function () {
       recipe = Factory.create('simpleRecipe');
       onServingChange = sinon.spy();
+      isEditing = true;
       wrapper = render();
-      wrapper.setState({ isEditing: true });
     });
 
     it('shows the title', function () {

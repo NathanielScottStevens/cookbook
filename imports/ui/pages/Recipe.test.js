@@ -11,12 +11,14 @@ import Recipes from '../../api/recipes/recipes';
 
 describe('Recipe', function () {
   const muiTheme = getMuiTheme();
+  const uoms = ['cup', 'tsp', 'tbsp'];
 
   function renderRecipe(recipe) {
     return shallow(
       (<Recipe
         recipe={recipe}
         width={SMALL}
+        uoms={uoms}
       />)
     ).dive().dive({ context: { muiTheme } });
   }
@@ -33,8 +35,80 @@ describe('Recipe', function () {
 
       it('shows no subheaders', function () {
         const actual = wrapper.find('Subheader');
-
         expect(actual.length).to.equal(0);
+      });
+    });
+
+    context('Not In Edit Mode', function () {
+      beforeEach(function () {
+        recipe = Factory.create('simpleRecipe');
+        wrapper = renderRecipe(recipe);
+        wrapper.setState({ isEditing: false });
+      });
+
+      it('shows edit button', function () {
+        const edit = wrapper.find('[data-id="edit-button"]');
+        expect(edit.length).to.equal(1);
+      });
+
+      it('does not show clear button', function () {
+        const clear = wrapper.find('[data-id="clear-button"]');
+        expect(clear.length).to.equal(0);
+      });
+
+      it('does not show done button', function () {
+        const done = wrapper.find('[data-id="done-button"]');
+        expect(done.length).to.equal(0);
+      });
+
+      it('clicking edit button enables edit mode', function () {
+        const edit = wrapper.find('[data-id="edit-button"]').first();
+        edit.simulate('click');
+        expect(wrapper.state('isEditing')).to.be.true;
+      });
+    });
+
+    context('In Edit Mode', function () {
+      beforeEach(function () {
+        recipe = Factory.create('simpleRecipe');
+        wrapper = renderRecipe(recipe);
+        wrapper.setState({ isEditing: true });
+      });
+
+      it('does not show edit button', function () {
+        const edit = wrapper.find('[data-id="edit-button"]');
+        expect(edit.length).to.equal(0);
+      });
+
+      it('shows clear button', function () {
+        const clear = wrapper.find('[data-id="clear-button"]');
+        expect(clear.length).to.equal(1);
+      });
+
+      it('shows done button', function () {
+        const done = wrapper.find('[data-id="done-button"]');
+        expect(done.length).to.equal(1);
+      });
+
+      it('clicking clear button disabled edit mode', function () {
+        const clear = wrapper.find('[data-id="clear-button"]').first();
+        clear.simulate('click');
+        expect(wrapper.state('isEditing')).to.be.false;
+      });
+
+      it('sets RecipeHeader to isEditing', function () {
+        const header = wrapper.find('RecipeHeader').first();
+        expect(header.prop('isEditing')).to.be.true;
+      });
+
+      it('sets IngredientTable to edit mode', function () {
+        const table = wrapper.find('IngredientTable').first();
+        expect(table.prop('isEditing')).to.be.true;
+      });
+
+      it('passes uoms to IngredientTable', function () {
+        const table = wrapper.find('IngredientTable').first();
+        expect(table.prop('uoms')).to.include.members(uoms);
       });
     });
   });
