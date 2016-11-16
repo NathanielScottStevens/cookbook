@@ -69,6 +69,11 @@ describe('Recipe', function () {
         edit.simulate('click');
         expect(wrapper.state('isEditing')).to.be.true;
       });
+
+      it('shows floating add to menu button', function () {
+        const button = wrapper.find('FloatingActionButton');
+        expect(button).to.have.a.lengthOf(1);
+      });
     });
 
     context('In Edit Mode', function () {
@@ -110,6 +115,11 @@ describe('Recipe', function () {
         expect(header.prop('isEditing')).to.be.true;
       });
 
+      it('sets Steps to isEditing', function () {
+        const header = wrapper.find('Steps').first();
+        expect(header.prop('isEditing')).to.be.true;
+      });
+
       it('sets IngredientTable to edit mode', function () {
         const table = wrapper.find('IngredientTable').first();
         expect(table.prop('isEditing')).to.be.true;
@@ -123,6 +133,11 @@ describe('Recipe', function () {
       it('passes recipeTypes to RecipeHeader', function () {
         const header = wrapper.find('RecipeHeader').first();
         expect(header.prop('recipeTypes')).to.include.members(recipeTypes);
+      });
+
+      it('does not show floating add to menu button', function () {
+        const button = wrapper.find('FloatingActionButton');
+        expect(button).to.have.a.lengthOf(0);
       });
     });
   });

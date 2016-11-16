@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'meteor/practicalmeteor:chai';
 import { describe, it, beforeEach, context } from 'meteor/practicalmeteor:mocha';
+import { sinon } from 'meteor/practicalmeteor:sinon';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Steps from './Steps';
@@ -11,12 +12,16 @@ describe('IngredientTableRow', function () {
   const muiTheme = getMuiTheme();
   let wrapper;
   let steps;
+  let isEditing;
+  let onAddStep;
 
   function render() {
     return shallow(
       (<Steps
         steps={steps.list}
         label={steps.label}
+        isEditing={isEditing}
+        onAddStep={onAddStep}
       />),
       { context: { muiTheme } }
     );
@@ -54,6 +59,31 @@ describe('IngredientTableRow', function () {
     it('does not show label', function () {
       const h3 = wrapper.find('h3');
       expect(h3.length).to.equal(0);
+    });
+  });
+
+  context('in edit mode', function () {
+    beforeEach(function () {
+      steps = Factory.create('simpleRecipe').steps[0];
+      isEditing = true;
+      onAddStep = sinon.spy();
+      wrapper = render();
+    });
+
+    it('shows text fields', function () {
+      const fields = wrapper.find('TextField');
+      expect(fields).to.have.a.lengthOf(steps.list.length);
+    });
+
+    it('shows button for adding a step', function () {
+      const button = wrapper.find('[data-id="add-step"]');
+      expect(button).to.have.a.lengthOf(1);
+    });
+
+    it('calls onAddStep when add step is clicked', function () {
+      const button = wrapper.find('[data-id="add-step"]');
+      button.first().simulate('click');
+      expect(onAddStep).to.have.been.calledOnce;
     });
   });
 });

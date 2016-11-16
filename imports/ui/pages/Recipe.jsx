@@ -20,6 +20,10 @@ class Recipe extends Component {
     this.onServingChange = this.onServingChange.bind(this);
   }
 
+  onAddStep() {
+
+  }
+
   onServingChange(value) {
     this.setState({ servingMultiplier: value });
   }
@@ -32,6 +36,8 @@ class Recipe extends Component {
         steps={group.list}
         label={group.label}
         key={`${group.label}-${index}`}
+        isEditing={this.state.isEditing}
+        onAddStep={this.onAddStep}
       />
     );
   }
@@ -127,6 +133,7 @@ class Recipe extends Component {
             img={recipe.img}
             serves={recipe.serves}
             type={recipe.type}
+            slug={recipe.slug}
             recipeTypes={recipeTypes}
             onServingChange={this.onServingChange}
             isEditing={isEditing}
@@ -135,9 +142,11 @@ class Recipe extends Component {
           <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>
           {this.renderSteps(styles)}
-          <FloatingActionButton style={styles.floatingActionButton}>
-            <ContentAdd />
-          </FloatingActionButton>
+          {!isEditing &&
+            <FloatingActionButton style={styles.floatingActionButton}>
+              <ContentAdd />
+            </FloatingActionButton>
+          }
         </main>
       </div>
     );
