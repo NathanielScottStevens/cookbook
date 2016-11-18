@@ -130,7 +130,7 @@ class Recipe extends Component {
             type={recipe.type}
             recipeTypes={recipeTypes}
             onServingChange={this.onServingChange}
-            isEditing={isEditing}
+            isEditingEnabled={isEditing}
           />
           {this.renderTables(styles)}
           <div style={styles.divider} />

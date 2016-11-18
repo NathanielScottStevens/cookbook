@@ -14,8 +14,9 @@ describe('RecipeHeader', function () {
   let wrapper;
   let recipe;
   let onServingChange;
-  let isEditing;
+  let isEditingEnabled;
   let types;
+  let onChange;
 
   function render() {
     return shallow(
@@ -24,19 +25,21 @@ describe('RecipeHeader', function () {
         img={recipe.img}
         serves={recipe.serves}
         slug={recipe.slug}
+        type={recipe.type}
         onServingChange={onServingChange}
         recipeTypes={types}
-        isEditing={isEditing}
+        isEditingEnabled={isEditingEnabled}
+        onChange={onChange}
       />),
       { context: { muiTheme } }
     );
   }
 
-  context('Rendering', function () {
+  context('Basic Rendering', function () {
     beforeEach(function () {
       recipe = Factory.create('simpleRecipe');
       onServingChange = sinon.spy();
-      isEditing = false;
+      isEditingEnabled = false;
       wrapper = render();
     });
 
@@ -79,24 +82,45 @@ describe('RecipeHeader', function () {
       dropDown.simulate('change', null, 5, 6);
       expect(wrapper.state('servingSelection')).to.equal(6);
     });
+
+    it('does not show edit button', function () {
+      const button = wrapper.find('EditButton');
+      expect(button).to.have.a.lengthOf(0);
+    });
+  });
+
+  context('Editing Enabled', function () {
+    beforeEach(function () {
+      recipe = Factory.create('simpleRecipe');
+      onServingChange = sinon.spy();
+      isEditingEnabled = true;
+      wrapper = render();
+    });
+
+    it('shows edit button', function () {
+      const button = wrapper.find('EditButton');
+      expect(button).to.have.a.lengthOf(1);
+    });
   });
 
   context('In edit mode', function () {
     beforeEach(function () {
       recipe = Factory.create('simpleRecipe');
       onServingChange = sinon.spy();
-      isEditing = true;
+      isEditingEnabled = true;
       types = getTypesArray();
+      onChange = sinon.spy();
       wrapper = render();
+      wrapper.find('EditButton').first().simulate('edit');
     });
 
     it('shows the title', function () {
-      const title = wrapper.find('[id="recipe-name"]').first();
+      const title = wrapper.find('[id="recipe-title"]').first();
       expect(title.prop('value')).to.equal(recipe.name);
     });
 
     it('shows the title with label', function () {
-      const title = wrapper.find('[id="recipe-name"]').first();
+      const title = wrapper.find('[id="recipe-title"]').first();
       expect(title.prop('floatingLabelText')).to.equal('name');
     });
 
@@ -139,6 +163,52 @@ describe('RecipeHeader', function () {
 
       expect(valueActual).to.include.members(expected);
       expect(textActual).to.include.members(expected);
+    });
+
+    it('disabled edit mode on clear', function () {
+      wrapper.find('EditButton').first().simulate('clear');
+      expect(wrapper.state('isEditing')).to.be.false;
+    });
+
+    it('resets name field on clear', function () {
+      wrapper.find('[id="recipe-title"]').first().simulate('change', null, 'New Name');
+      wrapper.find('EditButton').first().simulate('clear');
+      expect(wrapper.state('title')).to.equal(recipe.name);
+    });
+
+    it('resets serves field on clear', function () {
+      wrapper.find('[id="recipe-serves"]').first().simulate('change', null, 'New Name');
+      wrapper.find('EditButton').first().simulate('clear');
+      expect(wrapper.state('serves')).to.equal(recipe.serves);
+    });
+
+    it('resets slug field on clear', function () {
+      wrapper.find('[id="recipe-slug"]').first().simulate('change', null, 'New Name');
+      wrapper.find('EditButton').first().simulate('clear');
+      expect(wrapper.state('slug')).to.equal(recipe.slug);
+    });
+
+    it('resets type field on clear', function () {
+      wrapper.find('[id="recipe-type"]').first().simulate('change', null, 'New Name');
+      wrapper.find('EditButton').first().simulate('clear');
+      expect(wrapper.state('type')).to.equal(recipe.type);
+    });
+
+    it('calls onChange when saved', function () {
+      const expected = {
+        title: 'new title',
+        serves: 'new serves',
+        slug: 'new slug',
+        type: 'new type',
+      };
+      wrapper.find('[id="recipe-title"]').first().simulate('change', null, expected.title);
+      wrapper.find('[id="recipe-serves"]').first().simulate('change', null, expected.serves);
+      wrapper.find('[id="recipe-slug"]').first().simulate('change', null, expected.slug);
+      wrapper.find('[id="recipe-type"]').first().simulate('change', null, expected.type);
+
+      wrapper.find('EditButton').first().simulate('save');
+
+      expect(onChange).to.have.been.calledWith(expected);
     });
   });
 });

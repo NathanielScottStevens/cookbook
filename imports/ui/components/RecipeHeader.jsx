@@ -2,13 +2,47 @@ import React, { Component, PropTypes } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
-import FramedImage from '../components/FramedImage';
+
+import FramedImage from './FramedImage';
+import EditButton from './EditButton';
 
 class RecipeHeader extends Component {
   constructor(props) {
     super(props);
+    const { title, serves, slug, type, img } = this.props;
 
-    this.state = { servingSelection: 1 };
+    this.state = {
+      servingSelection: 1,
+      isEditing: false,
+      title,
+      serves,
+      slug,
+      type,
+      img,
+    };
+  }
+
+  onClear() {
+    const { title, serves, slug, type } = this.props;
+    this.setState({
+      isEditing: false,
+      title,
+      serves,
+      slug,
+      type,
+    });
+  }
+
+  onSave() {
+    const { title, serves, slug, type } = this.state;
+    if (this.props.onChange) {
+      this.props.onChange({
+        title,
+        serves,
+        slug,
+        type,
+      });
+    }
   }
 
   handleServingChange(event, index, value) {
@@ -45,11 +79,19 @@ class RecipeHeader extends Component {
 
 
   renderViewMode(styles) {
-    const { title, img } = this.props;
+    const { title, img, isEditingEnabled } = this.props;
 
     return (
       <div style={styles.header}>
         <div style={styles.leftHeader}>
+          {isEditingEnabled &&
+            <EditButton
+              isEditing={this.state.isEditing}
+              onEdit={() => this.setState({ isEditing: true })}
+              onClear={() => this.onClear()}
+              onSave={() => this.onSave()}
+            />
+          }
           <h1 style={styles.h1}>{title}</h1>
           <SelectField
             id="serving-selection"
@@ -68,29 +110,39 @@ class RecipeHeader extends Component {
   }
 
   renderEditMode(styles) {
-    const { title, img, slug, type, serves } = this.props;
+    const { title, img, slug, type, serves } = this.state;
 
     return (
       <div style={styles.header}>
         <div style={styles.leftHeader}>
+          <EditButton
+            isEditing={this.state.isEditing}
+            onEdit={() => this.setState({ isEditing: true })}
+            onClear={() => this.onClear()}
+            onSave={() => this.onSave()}
+          />
           <TextField
-            id="recipe-name"
+            id="recipe-title"
             value={title}
+            onChange={(_, value) => { this.setState({ title: value }); }}
             floatingLabelText="name"
           />
           <TextField
             id="recipe-serves"
             value={serves}
+            onChange={(_, value) => { this.setState({ serves: value }); }}
             floatingLabelText="serves"
           />
           <TextField
             id="recipe-slug"
             value={slug}
+            onChange={(_, value) => { this.setState({ slug: value }); }}
             floatingLabelText="slug"
           />
           <SelectField
             id="recipe-type"
             value={type}
+            onChange={(_, value) => { this.setState({ type: value }); }}
           >
             {this.renderTypeDropDownItems()}
           </SelectField>
@@ -122,7 +174,7 @@ class RecipeHeader extends Component {
       },
     };
 
-    if (this.props.isEditing) {
+    if (this.state.isEditing) {
       return this.renderEditMode(styles);
     }
 
@@ -138,7 +190,8 @@ RecipeHeader.propTypes = {
   type: PropTypes.string,
   recipeTypes: PropTypes.array,
   onServingChange: PropTypes.func,
-  isEditing: PropTypes.bool,
+  isEditingEnabled: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 RecipeHeader.defaultProps = {

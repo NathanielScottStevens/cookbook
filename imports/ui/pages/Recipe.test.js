@@ -105,9 +105,9 @@ describe('Recipe', function () {
         expect(wrapper.state('isEditing')).to.be.false;
       });
 
-      it('sets RecipeHeader to isEditing', function () {
+      it('sets RecipeHeader to enable editing', function () {
         const header = wrapper.find('RecipeHeader').first();
-        expect(header.prop('isEditing')).to.be.true;
+        expect(header.prop('isEditingEnabled')).to.be.true;
       });
 
       it('sets IngredientTable to edit mode', function () {
@@ -115,7 +115,7 @@ describe('Recipe', function () {
         expect(table.prop('isEditing')).to.be.true;
       });
 
-      it('sets Steps to enabled Editing', function () {
+      it('sets Steps to enabled editing', function () {
         const steps = wrapper.find('Steps').first();
         expect(steps.prop('isEditingEnabled')).to.be.true;
       });
