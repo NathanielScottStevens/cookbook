@@ -32,6 +32,7 @@ class Recipe extends Component {
         steps={group.list}
         label={group.label}
         key={`${group.label}-${index}`}
+        isEditingEnabled={this.state.isEditing}
       />
     );
   }

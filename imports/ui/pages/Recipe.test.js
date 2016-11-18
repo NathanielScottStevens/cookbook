@@ -115,6 +115,11 @@ describe('Recipe', function () {
         expect(table.prop('isEditing')).to.be.true;
       });
 
+      it('sets Steps to enabled Editing', function () {
+        const steps = wrapper.find('Steps').first();
+        expect(steps.prop('isEditingEnabled')).to.be.true;
+      });
+
       it('passes uoms to IngredientTable', function () {
         const table = wrapper.find('IngredientTable').first();
         expect(table.prop('uoms')).to.include.members(uoms);

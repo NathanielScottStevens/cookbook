@@ -70,7 +70,9 @@
       "no-unused-expressions": "off",
       "no-underscore-dangle": "off",
       "react/require-extension": "off",
-      "linebreak-style": "off"
+      "linebreak-style": "off",
+      "react/jsx-indent-props": "off",
+      "react/jsx-closing-bracket-location": "off"
     },
     "globals": {
       "Meteor": false,
