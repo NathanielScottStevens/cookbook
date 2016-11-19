@@ -2,26 +2,32 @@ import React, { Component, PropTypes } from 'react';
 import withWidth, { SMALL, LARGE } from 'material-ui/utils/withWidth';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import FlatButton from 'material-ui/FlatButton';
-import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
-import Done from 'material-ui/svg-icons/action/done';
-import Clear from 'material-ui/svg-icons/content/clear';
 
 import IngredientTable from '../components/IngredientTable';
 import Steps from '../components/Steps';
 import RecipeHeader from '../components/RecipeHeader';
 import AppBarNavigation from '../components/AppBarNavigation';
+import EditButton from '../components/EditButton';
+import RecipeHeaderEditable from '../components/RecipeHeaderEditable';
 
 class Recipe extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { servingMultiplier: 1, isEditing: false };
+    this.state = {
+      servingMultiplier: 1,
+      isEditingHeader: false,
+    };
+
     this.onServingChange = this.onServingChange.bind(this);
   }
 
   onServingChange(value) {
     this.setState({ servingMultiplier: value });
+  }
+
+  onHeaderChange(newValues) {
+    this.setState({ isEditingHeader: false });
   }
 
   renderSteps() {
@@ -92,46 +98,37 @@ class Recipe extends Component {
     };
 
     return (
-
       <div>
-        <AppBarNavigation>
-          {isEditing
-          ? (
-            <div>
-              <FlatButton
-                data-id="done-button"
-                onClick={() => { this.setState({ isEditing: false }); }}
-              >
-                <Done color="white" />
-              </FlatButton>
-              <FlatButton
-                data-id="clear-button"
-                onClick={() => { this.setState({ isEditing: false }); }}
-              >
-                <Clear color="white" />
-              </FlatButton>
-            </div>
-            )
-          : (
-            <FlatButton
-              data-id="edit-button"
-              onClick={() => { this.setState({ isEditing: true }); }}
-            >
-              <ModeEdit color="white" />
-            </FlatButton>
-            )
-         }
-        </AppBarNavigation>
+        <AppBarNavigation />
         <main style={styles.main}>
-          <RecipeHeader
-            title={recipe.name}
-            img={recipe.img}
-            serves={recipe.serves}
-            type={recipe.type}
-            recipeTypes={recipeTypes}
-            onServingChange={this.onServingChange}
-            isEditingEnabled={isEditing}
-          />
+          {this.state.isEditingHeader
+            ? <RecipeHeaderEditable
+                title={recipe.name}
+                img={recipe.img}
+                serves={recipe.serves}
+                slug={recipe.slug}
+                type={recipe.type}
+                recipeTypes={recipeTypes}
+                onChange={(v) => { this.onHeaderChange(v); }}
+                onClear={() => {
+                  this.setState({ isEditingHeader: false });
+                }}
+              />
+            : <div>
+                <EditButton
+                  data-id="header-edit"
+                  onClick={() => {
+                    this.setState({ isEditingHeader: true });
+                  }}
+                />
+                <RecipeHeader
+                  title={recipe.name}
+                  img={recipe.img}
+                  serves={recipe.serves}
+                  onServingChange={this.onServingChange}
+                />
+              </div>
+          }
           {this.renderTables(styles)}
           <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>

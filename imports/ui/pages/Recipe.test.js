@@ -8,14 +8,16 @@ import { SMALL } from 'material-ui/utils/withWidth';
 
 import Recipe from './Recipe';
 import Recipes from '../../api/recipes/recipes';
-import { getTypesArray } from '../../api/recipeTypes/recipeTypes';
+import recipeTypes from '../../api/recipeTypes/fixture';
 
 describe('Recipe', function () {
   const muiTheme = getMuiTheme();
   const uoms = ['cup', 'tsp', 'tbsp'];
-  const recipeTypes = getTypesArray();
+  const headerEditSelector = '[data-id="header-edit"]';
+  let wrapper;
+  let recipe;
 
-  function renderRecipe(recipe) {
+  function renderRecipe() {
     return shallow(
       (<Recipe
         recipe={recipe}
@@ -27,108 +29,63 @@ describe('Recipe', function () {
   }
 
   describe('Rendering', function () {
-    let wrapper;
-    let recipe;
-
-    context('Simple Recipe', function () {
-      beforeEach(function () {
-        recipe = Factory.create('simpleRecipe');
-        wrapper = renderRecipe(recipe);
-      });
-
-      it('shows no subheaders', function () {
-        const actual = wrapper.find('Subheader');
-        expect(actual.length).to.equal(0);
-      });
+    beforeEach(function () {
+      recipe = Factory.create('simpleRecipe');
+      wrapper = renderRecipe(recipe);
     });
 
-    context('Not In Edit Mode', function () {
-      beforeEach(function () {
-        recipe = Factory.create('simpleRecipe');
-        wrapper = renderRecipe(recipe);
-        wrapper.setState({ isEditing: false });
-      });
-
-      it('shows edit button', function () {
-        const edit = wrapper.find('[data-id="edit-button"]');
-        expect(edit.length).to.equal(1);
-      });
-
-      it('does not show clear button', function () {
-        const clear = wrapper.find('[data-id="clear-button"]');
-        expect(clear.length).to.equal(0);
-      });
-
-      it('does not show done button', function () {
-        const done = wrapper.find('[data-id="done-button"]');
-        expect(done.length).to.equal(0);
-      });
-
-      it('clicking edit button enables edit mode', function () {
-        const edit = wrapper.find('[data-id="edit-button"]').first();
-        edit.simulate('click');
-        expect(wrapper.state('isEditing')).to.be.true;
-      });
+    it('shows RecipeHeader', function () {
+      const header = wrapper.find('RecipeHeader');
+      expect(header).to.have.a.lengthOf(1);
     });
 
-    context('In Edit Mode', function () {
-      beforeEach(function () {
-        recipe = Factory.create('simpleRecipe');
-        wrapper = renderRecipe(recipe);
-        wrapper.setState({ isEditing: true });
-      });
+    it('has edit button for RecipeHeader', function () {
+      const button = wrapper.find(headerEditSelector);
+      expect(button).to.have.a.lengthOf(1);
+    });
 
-      it('does not show edit button', function () {
-        const edit = wrapper.find('[data-id="edit-button"]');
-        expect(edit.length).to.equal(0);
-      });
+    it('passes correct props to RecipeHeader', function () {
+      const subject = wrapper.find('RecipeHeader');
+      expect(subject.prop('title'), 'title').to.equal(recipe.name);
+      expect(subject.prop('img'), 'img').to.equal(recipe.img);
+      expect(subject.prop('serves'), 'serves').to.equal(recipe.serves);
+      expect(subject.prop('onServingChange'), 'onServingChange').to.exist;
+    });
 
-      it('shows clear button', function () {
-        const clear = wrapper.find('[data-id="clear-button"]');
-        expect(clear.length).to.equal(1);
-      });
+    it('passes uoms to IngredientTable', function () {
+      const table = wrapper.find('IngredientTable').first();
+      expect(table.prop('uoms')).to.include.members(uoms);
+    });
+  });
 
-      it('shows done button', function () {
-        const done = wrapper.find('[data-id="done-button"]');
-        expect(done.length).to.equal(1);
-      });
+  context('Editing RecipeHeader', function () {
+    beforeEach(function () {
+      recipe = Factory.create('simpleRecipe');
+      wrapper = renderRecipe(recipe);
+      wrapper.find(headerEditSelector).simulate('click');
+    });
 
-      it('clicking clear button disabled edit mode', function () {
-        const clear = wrapper.find('[data-id="clear-button"]').first();
-        clear.simulate('click');
-        expect(wrapper.state('isEditing')).to.be.false;
-      });
+    it('shows RecipeHeaderEditable', function () {
+      const actual = wrapper.find('RecipeHeaderEditable');
+      expect(actual).to.have.a.lengthOf(1);
+    });
 
-      it('clicking done button disabled edit mode', function () {
-        const clear = wrapper.find('[data-id="done-button"]').first();
-        clear.simulate('click');
-        expect(wrapper.state('isEditing')).to.be.false;
-      });
+    it('passes correct props', function () {
+      const subject = wrapper.find('RecipeHeaderEditable');
+      expect(subject.prop('title'), 'title').to.equal(recipe.name);
+      expect(subject.prop('img'), 'img').to.equal(recipe.img);
+      expect(subject.prop('serves'), 'serves').to.equal(recipe.serves);
+      expect(subject.prop('slug'), 'slug').to.equal(recipe.slug);
+      expect(subject.prop('type'), 'type').to.equal(recipe.type);
+      expect(subject.prop('recipeTypes'), 'recipeTypes').to.equal(recipeTypes);
+      expect(subject.prop('onChange'), 'onChange').to.exist;
+    });
 
-      it('sets RecipeHeader to enable editing', function () {
-        const header = wrapper.find('RecipeHeader').first();
-        expect(header.prop('isEditingEnabled')).to.be.true;
-      });
+    it('disabled editing onClear', function () {
+      wrapper.find('RecipeHeaderEditable').simulate('clear');
+      const subject = wrapper.find('RecipeHeaderEditable');
 
-      it('sets IngredientTable to edit mode', function () {
-        const table = wrapper.find('IngredientTable').first();
-        expect(table.prop('isEditing')).to.be.true;
-      });
-
-      it('sets Steps to enabled editing', function () {
-        const steps = wrapper.find('Steps').first();
-        expect(steps.prop('isEditingEnabled')).to.be.true;
-      });
-
-      it('passes uoms to IngredientTable', function () {
-        const table = wrapper.find('IngredientTable').first();
-        expect(table.prop('uoms')).to.include.members(uoms);
-      });
-
-      it('passes recipeTypes to RecipeHeader', function () {
-        const header = wrapper.find('RecipeHeader').first();
-        expect(header.prop('recipeTypes')).to.include.members(recipeTypes);
-      });
+      expect(subject).to.have.a.lengthOf(0);
     });
   });
 });

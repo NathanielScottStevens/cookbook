@@ -72,7 +72,8 @@
       "react/require-extension": "off",
       "linebreak-style": "off",
       "react/jsx-indent-props": "off",
-      "react/jsx-closing-bracket-location": "off"
+      "react/jsx-closing-bracket-location": "off",
+      "react/jsx-indent": "off"
     },
     "globals": {
       "Meteor": false,
