@@ -17,7 +17,7 @@ describe('DoneClearButton', function () {
     return shallow(
       (<DoneClearButton
         onClear={onClear}
-        onSave={onSave}
+        onDone={onDone}
       />),
        { context: { muiTheme } }
     );

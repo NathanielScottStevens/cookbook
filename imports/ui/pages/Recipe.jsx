@@ -5,6 +5,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import IngredientTable from '../components/IngredientTable';
 import Steps from '../components/Steps';
+import StepsEditable from '../components/StepsEditable';
 import RecipeHeader from '../components/RecipeHeader';
 import AppBarNavigation from '../components/AppBarNavigation';
 import EditButton from '../components/EditButton';
@@ -17,7 +18,12 @@ class Recipe extends Component {
     this.state = {
       servingMultiplier: 1,
       isEditingHeader: false,
+      isEditingSteps: [],
     };
+
+    props.recipe.steps.forEach(() =>
+      this.state.isEditingSteps.push(false)
+    );
 
     this.onServingChange = this.onServingChange.bind(this);
   }
@@ -26,21 +32,51 @@ class Recipe extends Component {
     this.setState({ servingMultiplier: value });
   }
 
-  onHeaderChange(newValues) {
+  onHeaderChange(value) {
     this.setState({ isEditingHeader: false });
+  }
+
+  onStepsChange(index, value) {
+    this.setStepEditingState(index, false);
+  }
+
+  setStepEditingState(index, value) {
+    const newState = [...this.state.isEditingSteps];
+    newState[index] = value;
+    this.setState({ isEditingSteps: newState });
   }
 
   renderSteps() {
     const steps = this.props.recipe.steps;
 
-    return steps.map((group, index) =>
-      <Steps
-        steps={group.list}
-        label={group.label}
-        key={`${group.label}-${index}`}
-        isEditingEnabled={this.state.isEditing}
-      />
-    );
+    return steps.map((group, index) => {
+      if (this.state.isEditingSteps[index]) {
+        return (
+          <StepsEditable
+            label={group.label}
+            steps={group.list}
+            onChange={(value) => this.onStepsChange(index, value)}
+            onClear={() => this.setStepEditingState(index, false)}
+          />
+        );
+      }
+
+      return (
+        <div>
+          <EditButton
+            data-id={`steps-edit-${index}`}
+            onClick={() =>
+              this.setStepEditingState(index, true)
+            }
+          />
+          <Steps
+            steps={group.list}
+            label={group.label}
+            key={`${group.label}-${index}`}
+          />
+        </div>
+      );
+    });
   }
 
   renderTables(styles) {

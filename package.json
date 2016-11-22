@@ -73,7 +73,8 @@
       "linebreak-style": "off",
       "react/jsx-indent-props": "off",
       "react/jsx-closing-bracket-location": "off",
-      "react/jsx-indent": "off"
+      "react/jsx-indent": "off",
+      "arrow-body-style": "off"
     },
     "globals": {
       "Meteor": false,

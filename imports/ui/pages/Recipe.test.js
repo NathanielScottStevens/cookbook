@@ -13,7 +13,6 @@ import recipeTypes from '../../api/recipeTypes/fixture';
 describe('Recipe', function () {
   const muiTheme = getMuiTheme();
   const uoms = ['cup', 'tsp', 'tbsp'];
-  const headerEditSelector = '[data-id="header-edit"]';
   let wrapper;
   let recipe;
 
@@ -40,7 +39,7 @@ describe('Recipe', function () {
     });
 
     it('has edit button for RecipeHeader', function () {
-      const button = wrapper.find(headerEditSelector);
+      const button = wrapper.find('[data-id="header-edit"]');
       expect(button).to.have.a.lengthOf(1);
     });
 
@@ -62,7 +61,7 @@ describe('Recipe', function () {
     beforeEach(function () {
       recipe = Factory.create('simpleRecipe');
       wrapper = renderRecipe(recipe);
-      wrapper.find(headerEditSelector).simulate('click');
+      wrapper.find('[data-id="header-edit"]').simulate('click');
     });
 
     it('shows RecipeHeaderEditable', function () {
@@ -84,6 +83,35 @@ describe('Recipe', function () {
     it('disabled editing onClear', function () {
       wrapper.find('RecipeHeaderEditable').simulate('clear');
       const subject = wrapper.find('RecipeHeaderEditable');
+
+      expect(subject).to.have.a.lengthOf(0);
+    });
+  });
+
+  context('Editing Steps', function () {
+    beforeEach(function () {
+      recipe = Factory.create('simpleRecipe');
+      recipe.steps[0].label = 'Steps Label';
+      wrapper = renderRecipe(recipe);
+      wrapper.find('[data-id="steps-edit-0"]').simulate('click');
+    });
+
+    it('shows StepsEditable', function () {
+      const actual = wrapper.find('StepsEditable');
+      expect(actual).to.have.a.lengthOf(1);
+    });
+
+    it('passes correct props', function () {
+      const subject = wrapper.find('StepsEditable');
+      expect(subject.prop('label'), 'label').to.equal(recipe.steps[0].label);
+      expect(subject.prop('steps'), 'steps').to.include.members(recipe.steps[0].list);
+      expect(subject.prop('onChange'), 'onChange').to.exist;
+      expect(subject.prop('onClear'), 'onClear').to.exist;
+    });
+
+    it('disabled editing onClear', function () {
+      wrapper.find('StepsEditable').simulate('clear');
+      const subject = wrapper.find('StepsEditable');
 
       expect(subject).to.have.a.lengthOf(0);
     });
