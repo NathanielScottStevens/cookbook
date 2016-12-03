@@ -9,8 +9,8 @@ class RecipeForm extends Component {
   renderTypeDropDownItems() {
     return this.props.recipeTypes.map(type =>
       <MenuItem
-        primaryText={type.name}
-        value={type.name}
+        primaryText={type.label}
+        value={type.label}
       />
     );
   }
@@ -26,11 +26,11 @@ class RecipeForm extends Component {
 
   renderIngredientList(list) {
     return list.map(item =>
-      <TableRow key={item.name}>
+      <TableRow key={item.label}>
         <TableRowColumn>
           <TextField
-            id="recipe-ingredient-name"
-            value={item.name}
+            id="recipe-ingredient-label"
+            value={item.label}
           />
         </TableRowColumn>
         <TableRowColumn>
@@ -77,8 +77,8 @@ class RecipeForm extends Component {
     return (
       <div>
         <TextField
-          id="recipe-name"
-          value={recipe.name}
+          id="recipe-label"
+          value={recipe.label}
         />
         <TextField
           id="recipe-slug"

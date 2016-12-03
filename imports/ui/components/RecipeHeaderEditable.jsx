@@ -34,18 +34,18 @@ class RecipeHeaderEditable extends Component {
   getSelectedType() {
     const recipeTypes = this.props.recipeTypes;
     const type = this.state.type;
-    return recipeTypes.findIndex(t => t.name === type);
+    return recipeTypes.findIndex(t => t.label === type);
   }
 
   typeDropdownOnChange(value) {
     const selection = this.props.recipeTypes[value];
-    this.setState({ type: selection.name });
+    this.setState({ type: selection.label });
   }
 
   renderTypeDropDownItems() {
     return this.props.recipeTypes.map((type, index) =>
       <MenuItem
-        primaryText={type.name}
+        primaryText={type.label}
         value={index}
       />
     );
@@ -77,7 +77,7 @@ class RecipeHeaderEditable extends Component {
             id="recipe-title"
             value={title}
             onChange={(_, value) => { this.setState({ title: value }); }}
-            floatingLabelText="name"
+            floatingLabelText="label"
           />
           <TextField
             id="recipe-serves"

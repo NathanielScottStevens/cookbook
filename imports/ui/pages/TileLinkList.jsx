@@ -9,9 +9,9 @@ class TileLinkList extends Component {
 
   renderItems(styles) {
     return this.props.items.map(item =>
-      (<Link to={this.props.getLink(item)} key={item.name}>
+      (<Link to={this.props.getLink(item)} key={item.label}>
         <GridTile
-          title={item.name}
+          title={item.label}
           style={styles.gridTile}
           titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
         >

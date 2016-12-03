@@ -28,14 +28,14 @@ class IngredientTableRow extends Component {
         key={ingredient}
         striped={this.props.striped}
       >
-        <TableRowColumn data-id="ingredient-name">
+        <TableRowColumn data-id="ingredient-label">
           {isEditing
             ?
               <TextField
-                id="ingredient-name"
-                value={ingredient.name}
+                id="ingredient-label"
+                value={ingredient.label}
               />
-            : ingredient.name
+            : ingredient.label
           }
         </TableRowColumn>
         <TableRowColumn data-id="ingredient-amount">

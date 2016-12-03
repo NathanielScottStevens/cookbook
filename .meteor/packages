@@ -26,3 +26,5 @@ shell-server@0.2.1
 dburles:collection-helpers
 dburles:factory
 anti:fake
+mdg:validated-method
+aldeed:simple-schema

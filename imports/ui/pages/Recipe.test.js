@@ -27,7 +27,7 @@ describe('Recipe', function () {
     ).dive().dive({ context: { muiTheme } });
   }
 
-  describe('Rendering', function () {
+  context('Simple Recipe', function () {
     beforeEach(function () {
       recipe = Factory.create('simpleRecipe');
       wrapper = renderRecipe(recipe);
@@ -45,7 +45,7 @@ describe('Recipe', function () {
 
     it('passes correct props to RecipeHeader', function () {
       const subject = wrapper.find('RecipeHeader');
-      expect(subject.prop('title'), 'title').to.equal(recipe.name);
+      expect(subject.prop('title'), 'title').to.equal(recipe.label);
       expect(subject.prop('img'), 'img').to.equal(recipe.img);
       expect(subject.prop('serves'), 'serves').to.equal(recipe.serves);
       expect(subject.prop('onServingChange'), 'onServingChange').to.exist;
@@ -54,6 +54,23 @@ describe('Recipe', function () {
     it('passes uoms to IngredientTable', function () {
       const table = wrapper.find('IngredientTable').first();
       expect(table.prop('uoms')).to.include.members(uoms);
+    });
+
+    it('shows StepsGroup', function () {
+      const subject = wrapper.find('StepsGroup');
+      expect(subject).to.have.a.lengthOf(1);
+    });
+  });
+
+  context('Complex Recipe', function () {
+    beforeEach(function () {
+      recipe = Factory.create('complexRecipe');
+      wrapper = renderRecipe(recipe);
+    });
+
+    it('shows currect number of StepsGroups', function () {
+      const subject = wrapper.find('StepsGroup');
+      expect(subject).to.have.a.lengthOf(recipe.steps.length);
     });
   });
 
@@ -71,7 +88,7 @@ describe('Recipe', function () {
 
     it('passes correct props', function () {
       const subject = wrapper.find('RecipeHeaderEditable');
-      expect(subject.prop('title'), 'title').to.equal(recipe.name);
+      expect(subject.prop('title'), 'title').to.equal(recipe.label);
       expect(subject.prop('img'), 'img').to.equal(recipe.img);
       expect(subject.prop('serves'), 'serves').to.equal(recipe.serves);
       expect(subject.prop('slug'), 'slug').to.equal(recipe.slug);
@@ -83,36 +100,6 @@ describe('Recipe', function () {
     it('disabled editing onClear', function () {
       wrapper.find('RecipeHeaderEditable').simulate('clear');
       const subject = wrapper.find('RecipeHeaderEditable');
-
-      expect(subject).to.have.a.lengthOf(0);
-    });
-  });
-
-  context('Editing Steps', function () {
-    beforeEach(function () {
-      recipe = Factory.create('simpleRecipe');
-      recipe.steps[0].label = 'Steps Label';
-      wrapper = renderRecipe(recipe);
-      wrapper.find('[data-id="steps-edit-0"]').simulate('click');
-    });
-
-    it('shows StepsEditable', function () {
-      const actual = wrapper.find('StepsEditable');
-      expect(actual).to.have.a.lengthOf(1);
-    });
-
-    it('passes correct props', function () {
-      const subject = wrapper.find('StepsEditable');
-      expect(subject.prop('label'), 'label').to.equal(recipe.steps[0].label);
-      expect(subject.prop('steps'), 'steps').to.include.members(recipe.steps[0].list);
-      expect(subject.prop('onChange'), 'onChange').to.exist;
-      expect(subject.prop('onClear'), 'onClear').to.exist;
-    });
-
-    it('disabled editing onClear', function () {
-      wrapper.find('StepsEditable').simulate('clear');
-      const subject = wrapper.find('StepsEditable');
-
       expect(subject).to.have.a.lengthOf(0);
     });
   });

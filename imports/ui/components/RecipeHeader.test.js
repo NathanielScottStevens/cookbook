@@ -17,7 +17,7 @@ describe('RecipeHeader', function () {
   function render() {
     return shallow(
       (<RecipeHeader
-        title={recipe.name}
+        title={recipe.label}
         img={recipe.img}
         serves={recipe.serves}
         onServingChange={onServingChange}
@@ -35,7 +35,7 @@ describe('RecipeHeader', function () {
 
     it('shows title', function () {
       const h1 = wrapper.find('h1');
-      expect(h1.text()).to.equal(recipe.name);
+      expect(h1.text()).to.equal(recipe.label);
     });
 
     it('shows image', function () {

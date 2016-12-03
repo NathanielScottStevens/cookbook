@@ -1,5 +1,5 @@
 const recipesSample = [
-  { name: 'garden salad',
+  { label: 'garden salad',
     type: 'salad',
     img: 'garden-salad.jpg',
     slug: 'garden-salad',
@@ -7,13 +7,13 @@ const recipesSample = [
     ingredients: [
       { label: null,
         list: [
-          { name: 'romaine hearts', amt: 3, uom: null },
+          { label: 'romaine hearts', amt: 3, uom: null },
           // TODO: ask about ranged amount: 10-12 ozs
-          { name: 'spinach', amt: 10, uom: 'oz' },
-          { name: 'bell pepper', amt: 2, uom: null },
-          { name: 'cucumber', amt: 1, uom: null },
+          { label: 'spinach', amt: 10, uom: 'oz' },
+          { label: 'bell pepper', amt: 2, uom: null },
+          { label: 'cucumber', amt: 1, uom: null },
           // 1 pnt or 3 each
-          { name: 'tomatoes',	amt: 1, uom: 'pnt' },
+          { label: 'tomatoes',	amt: 1, uom: 'pnt' },
         ],
       },
     ],
@@ -28,10 +28,10 @@ const recipesSample = [
           'Refrigerate until ready to serve.',
           'Dress before serving, not in advance.',
         ],
-      }
+      },
     ],
   },
-  { name: 'spanish rice',
+  { label: 'spanish rice',
     type: 'side',
     img: 'spanish-rice.jpg',
     slug: 'spanish-rice',
@@ -39,12 +39,12 @@ const recipesSample = [
     ingredients: [
       { label: null,
         list: [
-          { name: 'Long Grain Brown Rice', amt: 6, uom: 'cup' },
-          { name: 'Red Salsa', amt: 3, uom: 'cup' },
-          { name: 'Water', amt: 9, uom: 'cup' },
-          { name: 'Dried Oregano', amt: 1, uom: 'Tbs' },
-          { name: 'Paprika', amt: 1, uom: 'Tbs' },
-          { name: 'Salt', amt: 1, uom: 'tsp' },
+          { label: 'Long Grain Brown Rice', amt: 6, uom: 'cup' },
+          { label: 'Red Salsa', amt: 3, uom: 'cup' },
+          { label: 'Water', amt: 9, uom: 'cup' },
+          { label: 'Dried Oregano', amt: 1, uom: 'Tbs' },
+          { label: 'Paprika', amt: 1, uom: 'Tbs' },
+          { label: 'Salt', amt: 1, uom: 'tsp' },
         ],
       },
     ],
@@ -62,7 +62,7 @@ const recipesSample = [
       },
     ],
   },
-  { name: 'enchilada casserole',
+  { label: 'enchilada casserole',
     type: 'entree',
     img: 'spanish-rice.jpg',
     slug: 'enchilada-casserole',
@@ -71,29 +71,29 @@ const recipesSample = [
       { label: 'shredded chicken',
         list: [
           // 3-4 pounds
-          { name: 'Boneless Chicken Breasts', amt: 4, uom: 'lb' },
-          { name: 'Salt', amt: 2, uom: 'tsp' },
-          { name: 'Ground Pepper', amt: 2, uom: 'tsp' },
-          { name: 'Garlic Powder', amt: 2, uom: 'tsp' },
-          { name: 'Water', amt: 2, uom: 'cup' },
-          { name: 'Dried Oregano', amt: 1, uom: 'tsp' },
-          { name: 'Onion Powder', amt: 1, uom: 'tsp' },
+          { label: 'Boneless Chicken Breasts', amt: 4, uom: 'lb' },
+          { label: 'Salt', amt: 2, uom: 'tsp' },
+          { label: 'Ground Pepper', amt: 2, uom: 'tsp' },
+          { label: 'Garlic Powder', amt: 2, uom: 'tsp' },
+          { label: 'Water', amt: 2, uom: 'cup' },
+          { label: 'Dried Oregano', amt: 1, uom: 'tsp' },
+          { label: 'Onion Powder', amt: 1, uom: 'tsp' },
         ],
       },
       { label: 'casserole',
         list: [
           // 2 -(28 ounce) Cans
-          { name: 'Red Enchilada Sauce', amt: 48, uom: 'oz' },
-          { name: 'Corn Tortillas', amt: 30, uom: null },
+          { label: 'Red Enchilada Sauce', amt: 48, uom: 'oz' },
+          { label: 'Corn Tortillas', amt: 30, uom: null },
           // 4-(15 ounce) Cans
-          { name: 'Black Beans, drain, rinse', amt: 60, uom: 'oz' },
+          { label: 'Black Beans, drain, rinse', amt: 60, uom: 'oz' },
           // 2-(15 ounce) Cans
-          { name: 'Corn, drain, rinse, or defrost', amt: 30, uom: 'oz' },
+          { label: 'Corn, drain, rinse, or defrost', amt: 30, uom: 'oz' },
           // 12 (2 Bunches)
-          { name: 'Green Onions (Whites and Greens)', amt: 12, uom: null },
+          { label: 'Green Onions (Whites and Greens)', amt: 12, uom: null },
           // 8 Cups, (3 pounds), 6-10 Breasts -- This is confusing since it's less than the above recipe
-          { name: 'Shredded Cooked Chicken', amt: 3, uom: 'lb' },
-          { name: 'Shredded Mexican Blend Cheese', amt: 6, uom: 'cup' },
+          { label: 'Shredded Cooked Chicken', amt: 3, uom: 'lb' },
+          { label: 'Shredded Mexican Blend Cheese', amt: 6, uom: 'cup' },
         ],
       },
     ],
@@ -132,13 +132,13 @@ const recipesSample = [
       },
     ],
   },
-  { name: 'fish', type: 'entree', img: 'entree.jpg' },
-  { name: 'pasta', type: 'entree', img: 'entree.jpg' },
-  { name: 'soup', type: 'entree', img: 'entree.jpg' },
-  { name: 'carrots', type: 'side', img: 'side-dish.jpg' },
-  { name: 'corn', type: 'side', img: 'side-dish.jpg' },
-  { name: 'pudding', type: 'dessert', img: 'dessert.jpg' },
-  { name: 'cake', type: 'dessert', img: 'dessert.jpg' },
+  { label: 'fish', type: 'entree', img: 'entree.jpg' },
+  { label: 'pasta', type: 'entree', img: 'entree.jpg' },
+  { label: 'soup', type: 'entree', img: 'entree.jpg' },
+  { label: 'carrots', type: 'side', img: 'side-dish.jpg' },
+  { label: 'corn', type: 'side', img: 'side-dish.jpg' },
+  { label: 'pudding', type: 'dessert', img: 'dessert.jpg' },
+  { label: 'cake', type: 'dessert', img: 'dessert.jpg' },
 ];
 
 export default recipesSample;

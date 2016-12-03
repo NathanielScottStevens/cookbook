@@ -3,7 +3,7 @@ import { RecipeTypes } from '../../api/recipeTypes/recipeTypes';
 import TileLinkList from '../pages/TileLinkList';
 
 function getLink(type) {
-  return `recipes/${type.name}`;
+  return `recipes/${type.label}`;
 }
 
 const RecipeCategoriesContainer = createContainer(() => {

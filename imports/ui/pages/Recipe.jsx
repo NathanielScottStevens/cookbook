@@ -4,8 +4,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import IngredientTable from '../components/IngredientTable';
-import Steps from '../components/Steps';
-import StepsEditable from '../components/StepsEditable';
+import StepsGroup from '../components/StepsGroup';
 import RecipeHeader from '../components/RecipeHeader';
 import AppBarNavigation from '../components/AppBarNavigation';
 import EditButton from '../components/EditButton';
@@ -18,12 +17,7 @@ class Recipe extends Component {
     this.state = {
       servingMultiplier: 1,
       isEditingHeader: false,
-      isEditingSteps: [],
     };
-
-    props.recipe.steps.forEach(() =>
-      this.state.isEditingSteps.push(false)
-    );
 
     this.onServingChange = this.onServingChange.bind(this);
   }
@@ -37,46 +31,18 @@ class Recipe extends Component {
   }
 
   onStepsChange(index, value) {
-    this.setStepEditingState(index, false);
-  }
 
-  setStepEditingState(index, value) {
-    const newState = [...this.state.isEditingSteps];
-    newState[index] = value;
-    this.setState({ isEditingSteps: newState });
   }
 
   renderSteps() {
-    const steps = this.props.recipe.steps;
-
-    return steps.map((group, index) => {
-      if (this.state.isEditingSteps[index]) {
-        return (
-          <StepsEditable
-            label={group.label}
-            steps={group.list}
-            onChange={(value) => this.onStepsChange(index, value)}
-            onClear={() => this.setStepEditingState(index, false)}
-          />
-        );
-      }
-
-      return (
-        <div>
-          <EditButton
-            data-id={`steps-edit-${index}`}
-            onClick={() =>
-              this.setStepEditingState(index, true)
-            }
-          />
-          <Steps
-            steps={group.list}
-            label={group.label}
-            key={`${group.label}-${index}`}
-          />
-        </div>
-      );
-    });
+    return this.props.recipe.steps.map(steps =>
+      <StepsGroup
+        steps={steps}
+        onChange={(index, value) =>
+          this.onStepsChange(index, value)
+        }
+      />
+    );
   }
 
   renderTables(styles) {
@@ -139,7 +105,7 @@ class Recipe extends Component {
         <main style={styles.main}>
           {this.state.isEditingHeader
             ? <RecipeHeaderEditable
-                title={recipe.name}
+                title={recipe.label}
                 img={recipe.img}
                 serves={recipe.serves}
                 slug={recipe.slug}
@@ -158,7 +124,7 @@ class Recipe extends Component {
                   }}
                 />
                 <RecipeHeader
-                  title={recipe.name}
+                  title={recipe.label}
                   img={recipe.img}
                   serves={recipe.serves}
                   onServingChange={this.onServingChange}

@@ -35,9 +35,9 @@ describe('IngredientTableRow', function () {
       wrapper = render();
     });
 
-    it('shows name', function () {
-      const name = wrapper.find('[data-id="ingredient-name"]');
-      expect(name.prop('children')).to.equal(ingredient.name);
+    it('shows label', function () {
+      const label = wrapper.find('[data-id="ingredient-label"]');
+      expect(label.prop('children')).to.equal(ingredient.label);
     });
 
     it('shows amount', function () {
@@ -79,8 +79,8 @@ describe('IngredientTableRow', function () {
     });
 
     it('shows text field for ingredient', function () {
-      const name = wrapper.find('[id="ingredient-name"]');
-      expect(name.prop('value')).to.equal(ingredient.name);
+      const label = wrapper.find('[id="ingredient-label"]');
+      expect(label.prop('value')).to.equal(ingredient.label);
     });
 
     it('shows text field for amount', function () {

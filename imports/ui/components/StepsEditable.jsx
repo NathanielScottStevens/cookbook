@@ -23,7 +23,7 @@ class StepsEditable extends Component {
     const { label, steps } = this.state;
     const onChange = this.props.onChange;
     if (onChange) {
-      onChange(label, steps);
+      onChange({ label, list: steps });
     }
   }
 

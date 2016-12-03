@@ -1,8 +1,8 @@
 const recipeTypes = [
-  { name: 'salad', img: 'salad.jpg' },
-  { name: 'entree', img: 'entree.jpg' },
-  { name: 'side', img: 'side-dish.jpg' },
-  { name: 'dessert', img: 'dessert.jpg' },
+  { label: 'salad', img: 'salad.jpg' },
+  { label: 'entree', img: 'entree.jpg' },
+  { label: 'side', img: 'side-dish.jpg' },
+  { label: 'dessert', img: 'dessert.jpg' },
 ];
 
 export default recipeTypes;

@@ -46,8 +46,8 @@ describe('RecipeForm', function () {
     });
 
     it('shows the title', function () {
-      const title = wrapper.find('[id="recipe-name"]').first();
-      expect(title.prop('value')).to.equal(recipe.name);
+      const title = wrapper.find('[id="recipe-label"]').first();
+      expect(title.prop('value')).to.equal(recipe.label);
     });
 
     it('shows the slug', function () {
@@ -63,7 +63,7 @@ describe('RecipeForm', function () {
     it('shows the type dropdown with options', function () {
       const type = wrapper.find('[id="recipe-type"]');
       const options = type.find('MenuItem');
-      const expected = types.map(t => t.name);
+      const expected = types.map(t => t.label);
       const valueActual = options.map(opt => opt.prop('value'));
       const textActual = options.map(opt => opt.prop('primaryText'));
 
@@ -76,10 +76,10 @@ describe('RecipeForm', function () {
       expect(serving.prop('value')).to.equal(recipe.serves);
     });
 
-    it('shows the ingredient names', function () {
-      const ingredients = wrapper.find('[id="recipe-ingredient-name"]');
+    it('shows the ingredient labels', function () {
+      const ingredients = wrapper.find('[id="recipe-ingredient-label"]');
       const actual = ingredients.map(i => i.prop('value'));
-      const expected = recipe.ingredients[0].list.map(i => i.name);
+      const expected = recipe.ingredients[0].list.map(i => i.label);
       expect(actual).to.include.members(expected);
     });
 

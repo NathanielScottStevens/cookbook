@@ -19,11 +19,11 @@ describe('RecipeHeaderEditable', function () {
   function render() {
     return shallow(
       (<RecipeHeaderEditable
-        title={recipe.name}
+        title={recipe.label}
         img={recipe.img}
         serves={recipe.serves}
         slug={recipe.slug}
-        type={recipe.type.name}
+        type={recipe.type.label}
         recipeTypes={recipeTypes}
         onChange={onChange}
         onClear={onClear}
@@ -45,12 +45,12 @@ describe('RecipeHeaderEditable', function () {
 
     it('shows the title', function () {
       const title = wrapper.find('[id="recipe-title"]').first();
-      expect(title.prop('value')).to.equal(recipe.name);
+      expect(title.prop('value')).to.equal(recipe.label);
     });
 
     it('shows the title with label', function () {
       const title = wrapper.find('[id="recipe-title"]').first();
-      expect(title.prop('floatingLabelText')).to.equal('name');
+      expect(title.prop('floatingLabelText')).to.equal('label');
     });
 
     it('shows the slug', function () {
@@ -81,7 +81,7 @@ describe('RecipeHeaderEditable', function () {
     it('shows the type dropdown with options', function () {
       const type = wrapper.find('[id="recipe-type"]');
       const options = type.find('MenuItem');
-      const expected = recipeTypes.map(t => t.name);
+      const expected = recipeTypes.map(t => t.label);
       const textActual = options.map(opt => opt.prop('primaryText'));
 
       expect(textActual).to.include.members(expected);
@@ -89,7 +89,7 @@ describe('RecipeHeaderEditable', function () {
 
     it('sets type dropdown to correct value', function () {
       const type = wrapper.find('[id="recipe-type"]');
-      const expected = recipeTypes.findIndex(t => t.name === recipe.type.name);
+      const expected = recipeTypes.findIndex(t => t.label === recipe.type.label);
       const actual = type.prop('value');
 
       expect(actual).to.equal(expected);
@@ -105,7 +105,7 @@ describe('RecipeHeaderEditable', function () {
         title: 'new title',
         serves: 'new serves',
         slug: 'new slug',
-        type: recipeTypes[0].name,
+        type: recipeTypes[0].label,
       };
       wrapper.find('[id="recipe-title"]').first().simulate('change', null, expected.title);
       wrapper.find('[id="recipe-serves"]').first().simulate('change', null, expected.serves);

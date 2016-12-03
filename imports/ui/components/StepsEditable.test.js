@@ -55,7 +55,10 @@ describe('StepsEditable', function () {
       field.simulate('change', null, newText);
       wrapper.find('DoneClearButton').first().simulate('done');
 
-      expect(onChange).to.be.calledWith(steps.label, expectedList);
+      expect(onChange).to.be.calledWith({
+        label: steps.label,
+        list: expectedList,
+      });
     });
 
     it('calls onClear when cleared', function () {
