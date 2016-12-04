@@ -15,41 +15,44 @@ if (Meteor.isServer) {
   });
 }
 
-export const recipeSchema = new SimpleSchema({
-  _id: { type: String },
+const ingredientItemSchema = new SimpleSchema({
+  label: { type: String },
+  amt: { type: Number },
+  uom: { type: String, optional: true },
+});
+
+export const ingredientsSchema = new SimpleSchema({
+  label: { type: String, optional: true },
+  list: { type: [ingredientItemSchema] },
+});
+
+export const headerSchema = new SimpleSchema({
   label: { type: String },
   type: { type: String },
   img: { type: String, regEx: /^\S*$/ },
   slug: { type: String, regEx: /^\S*$/ },
   serves: { type: Number },
-  ingredients: { type: [Object] },
-  'ingredients.$.label': { type: String, optional: true },
-  'ingredients.$.list': { type: [Object] },
-  'ingredients.$.list.$.label': { type: String },
-  'ingredients.$.list.$.amt': { type: Number },
-  'ingredients.$.list.$.uom': { type: String, optional: true },
-  steps: { type: [Object] },
-  'steps.$.label': { type: String, optional: true },
-  'steps.$.list': { type: [String] },
 });
+
+export const stepsSchema = new SimpleSchema({
+  label: { type: String, optional: true },
+  list: { type: [String] },
+});
+
+export const recipeSchema = new SimpleSchema([
+  { _id: { type: String } },
+  headerSchema,
+  {
+    ingredients: { type: [ingredientsSchema] },
+    steps: { type: [stepsSchema] },
+  },
+]);
 
 export const updateRecipe = new ValidatedMethod({
   name: 'recipe',
   validate: recipeSchema.validator(),
-  run() {
-    const { _id, ...recipe } = this;
+  run({ _id, ...recipe }) {
     Recipes.update(_id, recipe);
-  },
-});
-
-export const updateHeader = new ValidatedMethod({
-  name: 'recipe.header',
-  validate: recipeSchema.validator(),
-  run() {
-    const { _id, label, type, img, slug, serves } = this;
-    Recipes.update(_id, {
-      $set: { label, type, img, slug, serves },
-    });
   },
 });
 

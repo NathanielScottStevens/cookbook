@@ -8,8 +8,8 @@ import AppBarNavigation from '../components/AppBarNavigation';
 class TileLinkList extends Component {
 
   renderItems(styles) {
-    return this.props.items.map(item =>
-      (<Link to={this.props.getLink(item)} key={item.label}>
+    return this.props.items.map((item, index) =>
+      (<Link to={this.props.getLink(item)} key={index}>
         <GridTile
           title={item.label}
           style={styles.gridTile}

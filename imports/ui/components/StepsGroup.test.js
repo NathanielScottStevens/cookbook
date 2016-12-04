@@ -49,7 +49,7 @@ describe('StepsGroup', function () {
       wrapper.find('[data-id="steps-edit-0"]').simulate('click');
     });
 
-    it('shows correct number of StepsEditable', function () {
+    it('shows StepsEditable', function () {
       const subject = wrapper.find('StepsEditable');
       expect(subject).to.have.a.lengthOf(1);
     });

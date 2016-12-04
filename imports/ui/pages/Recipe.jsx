@@ -9,6 +9,7 @@ import RecipeHeader from '../components/RecipeHeader';
 import AppBarNavigation from '../components/AppBarNavigation';
 import EditButton from '../components/EditButton';
 import RecipeHeaderEditable from '../components/RecipeHeaderEditable';
+import { updateRecipe } from '../../api/recipes/recipes';
 
 class Recipe extends Component {
   constructor(props) {
@@ -28,6 +29,8 @@ class Recipe extends Component {
 
   onHeaderChange(value) {
     this.setState({ isEditingHeader: false });
+    const toSave = Object.assign({}, this.props.recipe, value);
+    updateRecipe.call(toSave);
   }
 
   onStepsChange(index, value) {
@@ -35,14 +38,12 @@ class Recipe extends Component {
   }
 
   renderSteps() {
-    return this.props.recipe.steps.map(steps =>
-      <StepsGroup
-        steps={steps}
+      return (<StepsGroup
+        steps={this.props.recipe.steps}
         onChange={(index, value) =>
           this.onStepsChange(index, value)
         }
-      />
-    );
+      />);
   }
 
   renderTables(styles) {
@@ -71,7 +72,6 @@ class Recipe extends Component {
 
     const recipe = this.props.recipe;
     const recipeTypes = this.props.recipeTypes;
-    const isEditing = this.state.isEditing;
 
     const styles = {
       main: {
@@ -105,7 +105,7 @@ class Recipe extends Component {
         <main style={styles.main}>
           {this.state.isEditingHeader
             ? <RecipeHeaderEditable
-                title={recipe.label}
+                label={recipe.label}
                 img={recipe.img}
                 serves={recipe.serves}
                 slug={recipe.slug}
@@ -124,7 +124,7 @@ class Recipe extends Component {
                   }}
                 />
                 <RecipeHeader
-                  title={recipe.label}
+                  label={recipe.label}
                   img={recipe.img}
                   serves={recipe.serves}
                   onServingChange={this.onServingChange}

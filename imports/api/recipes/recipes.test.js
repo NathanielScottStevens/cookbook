@@ -37,31 +37,9 @@ describe('Recipes API', function () {
       it('updates', function () {
         const recipe = Factory.create('simpleRecipe');
         recipe.label = 'New label';
-        updateRecipe._execute(recipe, () => {});
+        updateRecipe._execute({}, recipe);
 
         expect(Recipes.findOne(recipe._id).label).to.equal('New label');
-      });
-    });
-
-    describe('Update Header', function () {
-      it('updates', function () {
-        const recipe = Factory.create('simpleRecipe');
-        const newValues = {
-          _id: recipe._id,
-          label: 'New Label',
-          type: 'New Type',
-          img: 'new-img.png',
-          slug: 'new-slug',
-          serves: 129403,
-        };
-        updateHeader._execute(newValues, () => {});
-        const actual = Recipes.findOne(recipe._id);
-
-        expect(actual.label, 'Label').to.equal(newValues.label);
-        expect(actual.type, 'Type').to.equal(newValues.type);
-        expect(actual.img, 'Img').to.equal(newValues.img);
-        expect(actual.slug, 'Slug').to.equal(newValues.slug);
-        expect(actual.serves, 'Serves').to.equal(newValues.serves);
       });
     });
   });

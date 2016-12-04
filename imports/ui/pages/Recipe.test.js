@@ -45,7 +45,7 @@ describe('Recipe', function () {
 
     it('passes correct props to RecipeHeader', function () {
       const subject = wrapper.find('RecipeHeader');
-      expect(subject.prop('title'), 'title').to.equal(recipe.label);
+      expect(subject.prop('label'), 'label').to.equal(recipe.label);
       expect(subject.prop('img'), 'img').to.equal(recipe.img);
       expect(subject.prop('serves'), 'serves').to.equal(recipe.serves);
       expect(subject.prop('onServingChange'), 'onServingChange').to.exist;
@@ -60,17 +60,11 @@ describe('Recipe', function () {
       const subject = wrapper.find('StepsGroup');
       expect(subject).to.have.a.lengthOf(1);
     });
-  });
 
-  context('Complex Recipe', function () {
-    beforeEach(function () {
-      recipe = Factory.create('complexRecipe');
-      wrapper = renderRecipe(recipe);
-    });
-
-    it('shows currect number of StepsGroups', function () {
+    it('passes correct props to StepsGroup', function () {
       const subject = wrapper.find('StepsGroup');
-      expect(subject).to.have.a.lengthOf(recipe.steps.length);
+      expect(subject.prop('steps')).to.deep.equal(recipe.steps);
+      expect(subject.prop('onChange')).to.exist;
     });
   });
 
@@ -88,7 +82,7 @@ describe('Recipe', function () {
 
     it('passes correct props', function () {
       const subject = wrapper.find('RecipeHeaderEditable');
-      expect(subject.prop('title'), 'title').to.equal(recipe.label);
+      expect(subject.prop('label'), 'label').to.equal(recipe.label);
       expect(subject.prop('img'), 'img').to.equal(recipe.img);
       expect(subject.prop('serves'), 'serves').to.equal(recipe.serves);
       expect(subject.prop('slug'), 'slug').to.equal(recipe.slug);

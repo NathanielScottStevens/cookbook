@@ -19,7 +19,7 @@ describe('RecipeHeaderEditable', function () {
   function render() {
     return shallow(
       (<RecipeHeaderEditable
-        title={recipe.label}
+        label={recipe.label}
         img={recipe.img}
         serves={recipe.serves}
         slug={recipe.slug}
@@ -43,14 +43,14 @@ describe('RecipeHeaderEditable', function () {
       wrapper.find('EditButton').first().simulate('edit');
     });
 
-    it('shows the title', function () {
-      const title = wrapper.find('[id="recipe-title"]').first();
-      expect(title.prop('value')).to.equal(recipe.label);
+    it('shows the label', function () {
+      const label = wrapper.find('[id="recipe-label"]').first();
+      expect(label.prop('value')).to.equal(recipe.label);
     });
 
-    it('shows the title with label', function () {
-      const title = wrapper.find('[id="recipe-title"]').first();
-      expect(title.prop('floatingLabelText')).to.equal('label');
+    it('shows the label with label', function () {
+      const label = wrapper.find('[id="recipe-label"]').first();
+      expect(label.prop('floatingLabelText')).to.equal('label');
     });
 
     it('shows the slug', function () {
@@ -102,12 +102,13 @@ describe('RecipeHeaderEditable', function () {
 
     it('calls onChange with changes when saved', function () {
       const expected = {
-        title: 'new title',
+        label: 'new label',
         serves: 'new serves',
         slug: 'new slug',
         type: recipeTypes[0].label,
+        img: recipe.img,
       };
-      wrapper.find('[id="recipe-title"]').first().simulate('change', null, expected.title);
+      wrapper.find('[id="recipe-label"]').first().simulate('change', null, expected.label);
       wrapper.find('[id="recipe-serves"]').first().simulate('change', null, expected.serves);
       wrapper.find('[id="recipe-slug"]').first().simulate('change', null, expected.slug);
       wrapper.find('[id="recipe-type"]').first().simulate('change', null, 0);

@@ -32,6 +32,7 @@ class StepsGroup extends Component {
       if (this.state.isEditing[index]) {
         return (
           <StepsEditable
+            key={index}
             label={group.label}
             steps={group.list}
             onChange={(value) => this.onChange(index, value)}
@@ -41,7 +42,7 @@ class StepsGroup extends Component {
       }
 
       return (
-        <div>
+        <div key={index}>
           <EditButton
             data-id={`steps-edit-${index}`}
             onClick={() =>

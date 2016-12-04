@@ -9,24 +9,26 @@ import DoneClearButton from './DoneClearButton';
 class RecipeHeaderEditable extends Component {
   constructor(props) {
     super(props);
-    const { title, serves, slug, type } = this.props;
+    const { label, serves, slug, type, img } = this.props;
 
     this.state = {
-      title,
+      label,
       serves,
       slug,
       type,
+      img,
     };
   }
 
   onDone() {
-    const { title, serves, slug, type } = this.state;
+    const { label, serves, slug, type, img } = this.state;
     if (this.props.onChange) {
       this.props.onChange({
-        title,
+        label,
         serves,
         slug,
         type,
+        img,
       });
     }
   }
@@ -45,6 +47,7 @@ class RecipeHeaderEditable extends Component {
   renderTypeDropDownItems() {
     return this.props.recipeTypes.map((type, index) =>
       <MenuItem
+        key={index}
         primaryText={type.label}
         value={index}
       />
@@ -52,7 +55,7 @@ class RecipeHeaderEditable extends Component {
   }
 
   render() {
-    const { title, slug, serves } = this.state;
+    const { label, slug, serves } = this.state;
 
     const styles = {
       header: {
@@ -74,9 +77,9 @@ class RecipeHeaderEditable extends Component {
             onDone={() => this.onDone()}
           />
           <TextField
-            id="recipe-title"
-            value={title}
-            onChange={(_, value) => { this.setState({ title: value }); }}
+            id="recipe-label"
+            value={label}
+            onChange={(_, value) => { this.setState({ label: value }); }}
             floatingLabelText="label"
           />
           <TextField
@@ -108,7 +111,7 @@ class RecipeHeaderEditable extends Component {
 }
 
 RecipeHeaderEditable.propTypes = {
-  title: PropTypes.string,
+  label: PropTypes.string,
   img: PropTypes.string,
   serves: PropTypes.number,
   slug: PropTypes.string,

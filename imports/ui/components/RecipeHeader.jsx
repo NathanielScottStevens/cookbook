@@ -34,7 +34,7 @@ class RecipeHeader extends Component {
   }
 
   render() {
-    const { title, img } = this.props;
+    const { label, img } = this.props;
 
     const styles = {
       header: {
@@ -58,7 +58,7 @@ class RecipeHeader extends Component {
     return (
       <div style={styles.header}>
         <div style={styles.leftHeader}>
-          <h1 style={styles.h1}>{title}</h1>
+          <h1 style={styles.h1}>{label}</h1>
           <SelectField
             id="serving-selection"
             value={this.state.servingSelection}
@@ -77,7 +77,7 @@ class RecipeHeader extends Component {
 }
 
 RecipeHeader.propTypes = {
-  title: PropTypes.string,
+  label: PropTypes.string,
   img: PropTypes.string,
   serves: PropTypes.number,
   slug: PropTypes.string,
