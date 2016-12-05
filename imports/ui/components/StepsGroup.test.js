@@ -68,10 +68,24 @@ describe('StepsGroup', function () {
       expect(subject).to.have.a.lengthOf(0);
     });
 
-    it('calls onChange with index and new value', function () {
+    it('disables editing onChange', function () {
+      wrapper.find('StepsEditable').simulate('change');
+      const subject = wrapper.find('StepsEditable');
+      expect(subject).to.have.a.lengthOf(0);
+    });
+
+    it('calls onChange with correct values', function () {
       const subject = wrapper.find('StepsEditable').first();
-      subject.simulate('change', steps[0]);
-      expect(onChange).to.be.calledWith(0, steps[0]);
+      const newSteps = {
+        label: 'New Label',
+        list: ['Step 1', 'Step 2'],
+      };
+
+      subject.simulate('change', newSteps);
+
+      const expected = [...steps];
+      expected[0] = newSteps;
+      expect(onChange).to.be.calledWith(expected);
     });
   });
 });

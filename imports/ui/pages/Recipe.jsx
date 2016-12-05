@@ -33,17 +33,9 @@ class Recipe extends Component {
     updateRecipe.call(toSave);
   }
 
-  onStepsChange(index, value) {
-
-  }
-
-  renderSteps() {
-      return (<StepsGroup
-        steps={this.props.recipe.steps}
-        onChange={(index, value) =>
-          this.onStepsChange(index, value)
-        }
-      />);
+  onStepsChange(value) {
+    const toSave = Object.assign({}, this.props.recipe, { steps: value });
+    updateRecipe.call(toSave);
   }
 
   renderTables(styles) {
@@ -134,7 +126,12 @@ class Recipe extends Component {
           {this.renderTables(styles)}
           <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>
-          {this.renderSteps(styles)}
+          <StepsGroup
+            steps={this.props.recipe.steps}
+            onChange={value =>
+              this.onStepsChange(value)
+            }
+          />
           <FloatingActionButton style={styles.floatingActionButton}>
             <ContentAdd />
           </FloatingActionButton>

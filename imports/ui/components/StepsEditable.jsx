@@ -19,6 +19,10 @@ class StepsEditable extends Component {
     this.setState({ steps });
   }
 
+  onChangeLabel(label) {
+    this.setState({ label });
+  }
+
   onDone() {
     const { label, steps } = this.state;
     const onChange = this.props.onChange;
@@ -46,7 +50,7 @@ class StepsEditable extends Component {
   }
 
   render() {
-    const label = this.props.label;
+    const label = this.state.label;
     const styles = {
       h3: {
         fontFamily: this.context.muiTheme.fontFamily,
@@ -67,7 +71,12 @@ class StepsEditable extends Component {
           onClear={() => { this.onClear(); }}
         />
         {label &&
-          <h3 style={styles.h3}>{label}</h3>
+          <TextField
+            id="label"
+            value={label}
+            onChange={(e, value) => this.onChangeLabel(value)}
+            fullWidth
+          />
         }
         <ol style={styles.ol}>
           {this.renderSteps()}

@@ -14,8 +14,11 @@ class StepsGroup extends Component {
   }
 
   onChange(index, value) {
+    this.setStepEditingState(index, false);
     if (this.props.onChange) {
-      this.props.onChange(index, value);
+      const newValue = [...this.props.steps];
+      newValue[index] = value;
+      this.props.onChange(newValue);
     }
   }
 
