@@ -1,18 +1,8 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 import IngredientTableRow from './IngredientTableRow';
 
-const IngredientTable = ({ ingredients, label, servingMultiplier, uoms, isEditing }, context) => {
-  const rows = ingredients.map((ingredient, index) =>
-    <IngredientTableRow
-      ingredient={ingredient}
-      servingMultiplier={servingMultiplier}
-      key={index}
-      isEditing={isEditing}
-      uoms={uoms}
-    />
-  );
-
+const IngredientTable = ({ ingredients, label, servingMultiplier }, context) => {
   const styles = {
     h3: {
       fontFamily: context.muiTheme.fontFamily,
@@ -38,7 +28,13 @@ const IngredientTable = ({ ingredients, label, servingMultiplier, uoms, isEditin
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false} stripedRows>
-          {rows}
+          {ingredients.map((ingredient, index) =>
+            <IngredientTableRow
+              ingredient={ingredient}
+              servingMultiplier={servingMultiplier}
+              key={index}
+            />
+          )}
         </TableBody>
       </Table>
     </div>
@@ -49,13 +45,10 @@ IngredientTable.propTypes = {
   ingredients: PropTypes.array.isRequired,
   label: PropTypes.string,
   servingMultiplier: PropTypes.number,
-  uoms: PropTypes.array,
-  isEditing: PropTypes.bool,
 };
 
 IngredientTable.defaultProps = {
   servingMultiplier: 1,
-  isEditing: false,
 };
 
 IngredientTable.contextTypes = {

@@ -3,7 +3,7 @@ import withWidth, { SMALL, LARGE } from 'material-ui/utils/withWidth';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import IngredientTable from '../components/IngredientTable';
+import IngredientsGroup from '../components/IngredientsGroup';
 import StepsGroup from '../components/StepsGroup';
 import RecipeHeader from '../components/RecipeHeader';
 import AppBarNavigation from '../components/AppBarNavigation';
@@ -36,25 +36,6 @@ class Recipe extends Component {
   onStepsChange(value) {
     const toSave = Object.assign({}, this.props.recipe, { steps: value });
     updateRecipe.call(toSave);
-  }
-
-  renderTables(styles) {
-    const ingredients = this.props.recipe.ingredients;
-    const uoms = this.props.uoms;
-    const { servingMultiplier, isEditing } = this.state;
-
-    return ingredients.map((group, index) =>
-      <div key={`${group.label}-${index}`}>
-        <IngredientTable
-          ingredients={group.list}
-          label={group.label}
-          servingMultiplier={servingMultiplier}
-          isEditing={isEditing}
-          uoms={uoms}
-        />
-        <div style={styles.divider} />
-      </div>
-    );
   }
 
   render() {
@@ -123,7 +104,12 @@ class Recipe extends Component {
                 />
               </div>
           }
-          {this.renderTables(styles)}
+          <IngredientsGroup
+            ingredients={recipe.ingredients}
+            servingMultiplier={this.state.servingMultiplier}
+            uoms={this.props.uoms}
+            onChange={() => {}}
+          />
           <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>
           <StepsGroup

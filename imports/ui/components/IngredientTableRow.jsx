@@ -1,80 +1,37 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import getMeasurementLabel from '../../helpers/measurement';
 
-class IngredientTableRow extends Component {
-  renderUomDropDownItems() {
-    return this.props.uoms.map(uom =>
-      <MenuItem
-        primaryText={uom.unit}
-        value={uom.unit}
-      />
-    );
-  }
+const IngredientTableRow = ({ ingredient, servingMultiplier, striped }) => {
+  const amountFormatted = getMeasurementLabel(
+    ingredient.amt * servingMultiplier,
+    ingredient.uom
+  );
 
-  render() {
-    const ingredient = this.props.ingredient;
-    const amountFormatted = getMeasurementLabel(
-      ingredient.amt * this.props.servingMultiplier,
-      ingredient.uom
-    );
-    const isEditing = this.props.isEditing;
-
-    return (
-      <TableRow
-        key={ingredient}
-        striped={this.props.striped}
-      >
-        <TableRowColumn data-id="ingredient-label">
-          {isEditing
-            ?
-              <TextField
-                id="ingredient-label"
-                value={ingredient.label}
-              />
-            : ingredient.label
-          }
-        </TableRowColumn>
-        <TableRowColumn data-id="ingredient-amount">
-          {isEditing
-            ?
-              <TextField
-                id="ingredient-amount"
-                value={ingredient.amt}
-              />
-            : amountFormatted
-          }
-        </TableRowColumn>
-        {isEditing &&
-          <TableRowColumn data-id="ingredient-uom">
-            <SelectField
-              id="recipe-uom"
-              value={ingredient.uom}
-            >
-              {this.renderUomDropDownItems()}
-            </SelectField>
-          </TableRowColumn>
-        }
-      </TableRow>
-    );
-  }
-}
+  return (
+    <TableRow
+      key={ingredient}
+      striped={striped}
+    >
+      <TableRowColumn data-id="ingredient-label">
+        {ingredient.label}
+      </TableRowColumn>
+      <TableRowColumn data-id="ingredient-amount">
+        {amountFormatted}
+      </TableRowColumn>
+    </TableRow>
+  );
+};
 
 IngredientTableRow.propTypes = {
   ingredient: PropTypes.object.isRequired,
   servingMultiplier: PropTypes.number,
   striped: PropTypes.bool,
-  isEditing: PropTypes.bool,
-  uoms: PropTypes.array,
 };
 
 IngredientTableRow.defaultProps = {
   servingMultiplier: 1,
   striped: false,
-  isEditing: true,
 };
 
 IngredientTableRow.contextTypes = {

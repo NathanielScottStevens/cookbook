@@ -45,15 +45,25 @@ describe('Recipe', function () {
 
     it('passes correct props to RecipeHeader', function () {
       const subject = wrapper.find('RecipeHeader');
-      expect(subject.prop('label'), 'label').to.equal(recipe.label);
-      expect(subject.prop('img'), 'img').to.equal(recipe.img);
-      expect(subject.prop('serves'), 'serves').to.equal(recipe.serves);
-      expect(subject.prop('onServingChange'), 'onServingChange').to.exist;
+      const { label, img, serves, onServingChange } = subject.props();
+
+      expect(label, 'label').to.equal(recipe.label);
+      expect(img, 'img').to.equal(recipe.img);
+      expect(serves, 'serves').to.equal(recipe.serves);
+      expect(onServingChange, 'onServingChange').to.exist;
     });
 
-    it('passes uoms to IngredientTable', function () {
-      const table = wrapper.find('IngredientTable').first();
-      expect(table.prop('uoms')).to.include.members(uoms);
+    it('passes correct props to IngredientsGroup', function () {
+      const group = wrapper.find('IngredientsGroup').first();
+
+      expect(group.prop('ingredients'), 'ingredients')
+        .to.deep.equal(recipe.ingredients);
+      expect(group.prop('servingMultiplier'), 'servingMultiplier')
+        .to.equal(wrapper.state('servingMultiplier'));
+      expect(group.prop('uoms'), 'uoms')
+        .to.include.members(uoms);
+      expect(group.prop('onChange'), 'onChange')
+        .to.exist;
     });
 
     it('shows StepsGroup', function () {
