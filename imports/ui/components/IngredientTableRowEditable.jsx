@@ -10,8 +10,13 @@ class IngredientTableRowEditable extends Component {
 
     if (onChange) {
       const newValues = Object.assign({}, ingredient, values);
+      newValues.amt = Number(newValues.amt);
       onChange(newValues);
     }
+  }
+
+  onUomChange(value) {
+    this.onChange({ uom: this.props.uoms[value].unit });
   }
 
   renderUomDropDownItems() {
@@ -54,7 +59,7 @@ class IngredientTableRowEditable extends Component {
             id="ingredient-uom"
             value={ingredient.uom}
             onChange={(_, v) =>
-             this.onChange({ uom: v })
+             this.onUomChange(v)
             }
           >
             {this.renderUomDropDownItems()}

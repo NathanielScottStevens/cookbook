@@ -21,7 +21,9 @@ class RecipeHeaderEditable extends Component {
   }
 
   onDone() {
-    const { label, serves, slug, type, img } = this.state;
+    const { label, slug, type, img } = this.state;
+    const serves = Number(this.state.serves);
+
     if (this.props.onChange) {
       this.props.onChange({
         label,

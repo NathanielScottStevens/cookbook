@@ -12,23 +12,27 @@ class IngredientTableEditable extends Component {
 
     this.state = {
       label: props.label,
-      ingredients,
+      list: ingredients,
     };
   }
 
   onDone() {
     const onChange = this.props.onChange;
     if (onChange) {
-      const { label, ingredients } = this.state;
-      onChange(label, ingredients);
+      const { label, list } = this.state;
+      onChange({ label, list });
     }
   }
 
   onClear() {
     this.setState({
       label: this.props.label,
-      ingredients: this.copyIngredients(this.props.ingredients),
+      list: this.copyIngredients(this.props.ingredients),
     });
+
+    if (this.props.onClear) {
+      this.props.onClear();
+    }
   }
 
   onLabelChange(value) {
@@ -36,9 +40,9 @@ class IngredientTableEditable extends Component {
   }
 
   onIngredientChange(value, index) {
-    const ingredients = this.copyIngredients(this.state.ingredients);
-    ingredients[index] = value;
-    this.setState({ ingredients });
+    const list = this.copyIngredients(this.state.list);
+    list[index] = value;
+    this.setState({ list });
   }
 
   copyIngredients(ingredients) {
@@ -56,7 +60,7 @@ class IngredientTableEditable extends Component {
 
   render() {
     const uoms = this.props.uoms;
-    const { label, ingredients } = this.state;
+    const { label, list } = this.state;
 
     return (
       <div>
@@ -79,7 +83,7 @@ class IngredientTableEditable extends Component {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false} stripedRows>
-            {ingredients.map((ingredient, index) =>
+            {list.map((ingredient, index) =>
               <IngredientTableRowEditable
                 ingredient={ingredient}
                 key={index}
@@ -101,6 +105,7 @@ IngredientTableEditable.propTypes = {
   label: PropTypes.string,
   uoms: PropTypes.array,
   onChange: PropTypes.func,
+  onClear: PropTypes.func,
 };
 
 IngredientTableEditable.contextTypes = {

@@ -33,6 +33,11 @@ class Recipe extends Component {
     updateRecipe.call(toSave);
   }
 
+  onIngredientsChange(value) {
+    const toSave = Object.assign({}, this.props.recipe, { ingredients: value });
+    updateRecipe.call(toSave);
+  }
+
   onStepsChange(value) {
     const toSave = Object.assign({}, this.props.recipe, { steps: value });
     updateRecipe.call(toSave);
@@ -108,7 +113,7 @@ class Recipe extends Component {
             ingredients={recipe.ingredients}
             servingMultiplier={this.state.servingMultiplier}
             uoms={this.props.uoms}
-            onChange={() => {}}
+            onChange={(v) => { this.onIngredientsChange(v); }}
           />
           <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>

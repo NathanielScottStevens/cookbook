@@ -85,11 +85,19 @@ describe('IngredientTableRowEditable', function () {
       expect(onChange).to.be.calledWith(expected);
     });
 
+    it('amount is passed as a number', function () {
+      const amount = wrapper.find('[id="ingredient-amount"]');
+      const newValue = '55';
+      amount.simulate('change', null, newValue);
+
+      expect(onChange.firstCall.args[0].amt).to.be.a('number');
+    });
+
     it('calls onChange for uom', function () {
       const uom = wrapper.find('[id="ingredient-uom"]');
-      const newValue = 'tbsp';
-      const expected = Object.assign({}, ingredient, { uom: newValue });
-      uom.simulate('change', null, newValue);
+      const newValueIndex = 3;
+      const expected = Object.assign({}, ingredient, { uom: uoms[newValueIndex].unit });
+      uom.simulate('change', null, newValueIndex);
 
       expect(onChange).to.be.calledWith(expected);
     });

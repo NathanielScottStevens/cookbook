@@ -103,7 +103,7 @@ describe('RecipeHeaderEditable', function () {
     it('calls onChange with changes when saved', function () {
       const expected = {
         label: 'new label',
-        serves: 'new serves',
+        serves: 15,
         slug: 'new slug',
         type: recipeTypes[0].label,
         img: recipe.img,
@@ -116,6 +116,17 @@ describe('RecipeHeaderEditable', function () {
       wrapper.find('DoneClearButton').first().simulate('done');
 
       expect(onChange).to.have.been.calledWith(expected);
+    });
+
+    it('serves is a number when onChange is called', function () {
+      wrapper.find('[id="recipe-serves"]').first()
+        .simulate('change', null, '15');
+
+      wrapper.find('DoneClearButton').first()
+        .simulate('done');
+
+      expect(onChange.firstCall.args[0].serves)
+        .to.be.a('number');
     });
 
     it('calls onClear when cleared', function () {

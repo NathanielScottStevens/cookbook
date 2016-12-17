@@ -14,6 +14,7 @@ describe('IngredientTableEditable', function () {
   let ingredients;
   const uoms = ['cup', 'tsp', 'tbsp'];
   let onChange;
+  let onClear;
 
   const labelID = '[id="ingredient-label"]';
 
@@ -24,6 +25,7 @@ describe('IngredientTableEditable', function () {
         label={ingredients.label}
         uoms={uoms}
         onChange={onChange}
+        onClear={onClear}
       />),
       { context: { muiTheme } }
     );
@@ -33,6 +35,7 @@ describe('IngredientTableEditable', function () {
     beforeEach(function () {
       ingredients = Factory.create('complexRecipe').ingredients[0];
       onChange = sinon.spy();
+      onClear = sinon.spy();
       wrapper = render();
     });
 
@@ -92,10 +95,10 @@ describe('IngredientTableEditable', function () {
       wrapper.find('DoneClearButton').first()
         .simulate('done');
 
-      const expected = ingredients.list;
-      expected[0] = newValue;
+      const expected = { label: ingredients.label, list: ingredients.list };
+      expected.list[0] = newValue;
 
-      expect(onChange).to.have.been.calledWith(ingredients.label, expected);
+      expect(onChange).to.have.been.calledWith(expected);
     });
 
     it('calls onChange with new label value', function () {
@@ -106,7 +109,9 @@ describe('IngredientTableEditable', function () {
       wrapper.find('DoneClearButton').first()
         .simulate('done');
 
-      expect(onChange).to.have.been.calledWith(newValue, ingredients.list);
+      const expected = { label: newValue, list: ingredients.list };
+
+      expect(onChange).to.have.been.calledWith(expected);
     });
 
     it('onClear clears values', function () {
@@ -121,6 +126,13 @@ describe('IngredientTableEditable', function () {
         .to.equal(ingredients.label);
       expect(wrapper.find('IngredientTableRowEditable').first().prop('ingredient'))
         .to.deep.equal(ingredients.list[0]);
+    });
+
+    it('calls onClear when cleared', function () {
+      wrapper.find('DoneClearButton').first()
+        .simulate('clear');
+
+      expect(onClear).to.have.been.called;
     });
   });
 });
