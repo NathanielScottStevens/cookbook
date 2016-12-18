@@ -134,5 +134,18 @@ describe('IngredientTableEditable', function () {
 
       expect(onClear).to.have.been.called;
     });
+
+    it('shows add ingredient button', function () {
+      expect(wrapper.find('[data-id="add-ingredient"]'))
+        .to.have.a.lengthOf(1);
+    });
+
+    it('when ingredient is added a new row is created', function () {
+      wrapper.find('[data-id="add-ingredient"]')
+        .simulate('click');
+
+      expect(wrapper.find('IngredientTableRowEditable'))
+        .to.have.a.lengthOf(ingredients.list.length + 1);
+    });
   });
 });

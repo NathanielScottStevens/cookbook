@@ -1,8 +1,9 @@
 import React, { PropTypes, Component } from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRowColumn, TableRow } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 import IngredientTableRowEditable from './IngredientTableRowEditable';
 import DoneClearButton from './DoneClearButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class IngredientTableEditable extends Component {
   constructor(props) {
@@ -42,6 +43,12 @@ class IngredientTableEditable extends Component {
   onIngredientChange(value, index) {
     const list = this.copyIngredients(this.state.list);
     list[index] = value;
+    this.setState({ list });
+  }
+
+  onAddIngredient() {
+    const list = this.copyIngredients(this.state.list);
+    list.push({ label: null, amt: null, uom: null });
     this.setState({ list });
   }
 
@@ -93,6 +100,16 @@ class IngredientTableEditable extends Component {
                 }}
               />
             )}
+            <TableRow>
+              <TableRowColumn>
+                <RaisedButton
+                  data-id="add-ingredient"
+                  secondary
+                  label="+ ingredient"
+                  onClick={() => { this.onAddIngredient(); }}
+                />
+              </TableRowColumn>
+            </TableRow>
           </TableBody>
         </Table>
       </div>
