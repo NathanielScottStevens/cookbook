@@ -39,6 +39,11 @@ class IngredientsGroup extends Component {
         height: 40,
         width: '100%',
       },
+      editButton: {
+        top: 45,
+        left: -40,
+        minWidth: 33,
+      },
     };
 
     const tables = ingredients.map((group, index) => {
@@ -57,6 +62,7 @@ class IngredientsGroup extends Component {
             : <div>
                 <EditButton
                   data-id={`ingredients-edit-${index}`}
+                  style={styles.editButton}
                   onClick={() =>
                     this.setEditingState(index, true)
                   }

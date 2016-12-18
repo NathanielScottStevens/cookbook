@@ -30,6 +30,13 @@ class StepsGroup extends Component {
 
   render() {
     const steps = this.props.steps;
+    const styles = {
+      editButton: {
+        top: 45,
+        left: -40,
+        minWidth: 33,
+      },
+    };
 
     const renderedSteps = steps.map((group, index) => {
       if (this.state.isEditing[index]) {
@@ -48,6 +55,7 @@ class StepsGroup extends Component {
         <div key={index}>
           <EditButton
             data-id={`steps-edit-${index}`}
+            style={styles.editButton}
             onClick={() =>
               this.setStepEditingState(index, true)
             }

@@ -75,6 +75,11 @@ class Recipe extends Component {
         bottom: this.props.width === SMALL ? 12 : 48,
         right: this.props.width === SMALL ? 12 : 48,
       },
+      editButton: {
+        top: 55,
+        left: -40,
+        minWidth: 33,
+      },
     };
 
     return (
@@ -97,6 +102,7 @@ class Recipe extends Component {
             : <div>
                 <EditButton
                   data-id="header-edit"
+                  style={styles.editButton}
                   onClick={() => {
                     this.setState({ isEditingHeader: true });
                   }}
