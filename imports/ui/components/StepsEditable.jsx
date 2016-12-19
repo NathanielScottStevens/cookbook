@@ -53,6 +53,7 @@ class StepsEditable extends Component {
           value={item}
           onChange={(e, value) => this.onChangeStep(value, index)}
           fullWidth
+          multiLine
         />
       </ListItem>);
   }

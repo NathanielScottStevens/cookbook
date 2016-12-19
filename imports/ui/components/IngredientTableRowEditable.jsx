@@ -30,16 +30,22 @@ class IngredientTableRowEditable extends Component {
 
   render() {
     const ingredient = this.props.ingredient;
+    const styles = {
+      ingredientLabel: {
+        width: '100%',
+      },
+    };
 
     return (
       <TableRow
         key={ingredient}
         striped={this.props.striped}
       >
-        <TableRowColumn>
+        <TableRowColumn colSpan={2}>
           <TextField
             id="ingredient-label"
             value={ingredient.label}
+            style={styles.ingredientLabel}
             onChange={(_, v) =>
              this.onChange({ label: v })
             }
