@@ -1,24 +1,8 @@
 import React, { PropTypes } from 'react';
 import { ListItem } from 'material-ui/List';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 
-class Steps extends Component {
-  renderSteps() {
-    const { isEditing, steps } = this.props;
-
-    if (isEditing) {
-      return steps.map((item, index) =>
-        <TextField
-          key={index}
-          value={item}
-          id={`step-${index}`}
-          fullWidth
-          multiLine
-        />
-      );
-    }
-
+const Steps = ({ steps, label }, context) => {
+  const renderSteps = () => {
     return steps.map((item, index) =>
       <ListItem
         key={index}
@@ -28,46 +12,34 @@ class Steps extends Component {
     );
   };
 
-  render() {
-    const { label, onAddStep } = this.props;
-    const styles = {
-      h3: {
-        fontFamily: this.context.muiTheme.fontFamily,
-        textTransform: 'lowercase',
-        marginLeft: this.context.muiTheme.tableRowColumn.spacing,
-        fontWeight: 400,
-        borderBottom: `${this.context.muiTheme.baseTheme.palette.borderColor} solid 1px`,
-      },
-      ol: {
-        marginBottom: 60,
-      },
-    };
+  const styles = {
+    h3: {
+      fontFamily: context.muiTheme.fontFamily,
+      textTransform: 'lowercase',
+      marginLeft: context.muiTheme.tableRowColumn.spacing,
+      fontWeight: 400,
+      borderBottom: `${context.muiTheme.baseTheme.palette.borderColor} solid 1px`,
+    },
+    ol: {
+      marginBottom: 60,
+    },
+  };
 
-    return (
-      <div>
-        {label
-          ? <h3 style={styles.h3}>{label}</h3>
-          : <div />
-        }
-        <ol style={styles.ol}>
-          {this.renderSteps()}
-        </ol>
-        <RaisedButton
-          label="Add Step"
-          data-id="add-step"
-          secondary
-          onClick={() => { onAddStep(); }}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {label &&
+        <h3 style={styles.h3}>{label}</h3>
+      }
+      <ol style={styles.ol}>
+        {renderSteps()}
+      </ol>
+    </div>
+  );
+};
 
 Steps.propTypes = {
   steps: PropTypes.array.isRequired,
   label: PropTypes.string,
-  isEditing: PropTypes.bool,
-  onAddStep: PropTypes.func,
 };
 
 Steps.contextTypes = {
