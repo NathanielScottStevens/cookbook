@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import withWidth, { SMALL, LARGE } from 'material-ui/utils/withWidth';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import IngredientsGroup from '../components/IngredientsGroup';
 import StepsGroup from '../components/StepsGroup';
@@ -38,8 +39,20 @@ class Recipe extends Component {
     updateRecipe.call(toSave);
   }
 
+  onAddIngredientGroup() {
+    const toSave = Object.assign({}, this.props.recipe);
+    toSave.ingredients.push({ label: null, list: [] });
+    updateRecipe.call(toSave);
+  }
+
   onStepsChange(value) {
     const toSave = Object.assign({}, this.props.recipe, { steps: value });
+    updateRecipe.call(toSave);
+  }
+
+  onAddStepGroup() {
+    const toSave = Object.assign({}, this.props.recipe);
+    toSave.steps.push({ label: null, list: [] });
     updateRecipe.call(toSave);
   }
 
@@ -121,6 +134,12 @@ class Recipe extends Component {
             uoms={this.props.uoms}
             onChange={(v) => { this.onIngredientsChange(v); }}
           />
+          <RaisedButton
+            label="+ Ingredient Group"
+            data-id="add-ingredient-group"
+            secondary
+            onClick={() => { this.onAddIngredientGroup(); }}
+          />
           <div style={styles.divider} />
           <h2 style={styles.h2}>Steps</h2>
           <StepsGroup
@@ -128,6 +147,12 @@ class Recipe extends Component {
             onChange={value =>
               this.onStepsChange(value)
             }
+          />
+          <RaisedButton
+            label="+ Step Group"
+            data-id="add-step-group"
+            secondary
+            onClick={() => { this.onAddStepGroup(); }}
           />
           <FloatingActionButton style={styles.floatingActionButton}>
             <ContentAdd />

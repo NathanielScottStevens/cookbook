@@ -100,16 +100,12 @@ class IngredientTableEditable extends Component {
                 }}
               />
             )}
-            <TableRow>
-              <TableRowColumn>
-                <RaisedButton
-                  data-id="add-ingredient"
-                  secondary
-                  label="+ ingredient"
-                  onClick={() => { this.onAddIngredient(); }}
-                />
-              </TableRowColumn>
-            </TableRow>
+            <RaisedButton
+              data-id="add-ingredient"
+              secondary
+              label="+ ingredient"
+              onClick={() => { this.onAddIngredient(); }}
+            />
           </TableBody>
         </Table>
       </div>

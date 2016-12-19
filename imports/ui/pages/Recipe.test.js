@@ -76,6 +76,16 @@ describe('Recipe', function () {
       expect(subject.prop('steps')).to.deep.equal(recipe.steps);
       expect(subject.prop('onChange')).to.exist;
     });
+
+    it('shows add steps group button', function () {
+      expect(wrapper.find('[data-id="add-step-group"]'))
+        .to.have.a.lengthOf(1);
+    });
+
+    it('shows add ingredient group button', function () {
+      expect(wrapper.find('[data-id="add-ingredient-group"]'))
+        .to.have.a.lengthOf(1);
+    });
   });
 
   context('Editing RecipeHeader', function () {
