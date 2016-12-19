@@ -71,6 +71,19 @@ describe('StepsEditable', function () {
         wrapper.find('DoneClearButton').first().simulate('clear');
         expect(onClear).to.be.called;
       });
+
+      it('shows add step button', function () {
+        expect(wrapper.find('[data-id="add-step"]'))
+          .to.have.a.lengthOf(1);
+      });
+
+      it('adds a step when clicked', function () {
+        wrapper.find('[data-id="add-step"]').first()
+          .simulate('click');
+
+        expect(wrapper.find('ListItem'))
+          .to.have.a.lengthOf(steps.list.length + 1);
+      });
     });
 
     context('With Label', function () {

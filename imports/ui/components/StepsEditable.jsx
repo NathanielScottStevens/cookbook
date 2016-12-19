@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import { ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import DoneClearButton from './DoneClearButton';
@@ -16,6 +18,12 @@ class StepsEditable extends Component {
   onChangeStep(value, index) {
     const steps = [...this.state.steps];
     steps[index] = value;
+    this.setState({ steps });
+  }
+
+  onAddStep() {
+    const steps = [...this.state.steps];
+    steps.push('');
     this.setState({ steps });
   }
 
@@ -81,6 +89,12 @@ class StepsEditable extends Component {
         <ol style={styles.ol}>
           {this.renderSteps()}
         </ol>
+        <RaisedButton
+          label="+ Step"
+          secondary
+          data-id="add-step"
+          onClick={() => { this.onAddStep(); }}
+        />
       </div>
     );
   }
