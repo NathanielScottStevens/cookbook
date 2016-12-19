@@ -66,9 +66,16 @@ describe('Recipe', function () {
         .to.exist;
     });
 
-    it('shows StepsGroup', function () {
-      const subject = wrapper.find('StepsGroup');
-      expect(subject).to.have.a.lengthOf(1);
+      it('clicking edit button enables edit mode', function () {
+        const edit = wrapper.find('[data-id="edit-button"]').first();
+        edit.simulate('click');
+        expect(wrapper.state('isEditing')).to.be.true;
+      });
+
+      it('shows floating add to menu button', function () {
+        const button = wrapper.find('FloatingActionButton');
+        expect(button).to.have.a.lengthOf(1);
+      });
     });
 
     it('passes correct props to StepsGroup', function () {
@@ -111,10 +118,35 @@ describe('Recipe', function () {
       expect(subject.prop('onChange'), 'onChange').to.exist;
     });
 
-    it('disabled editing onClear', function () {
-      wrapper.find('RecipeHeaderEditable').simulate('clear');
-      const subject = wrapper.find('RecipeHeaderEditable');
-      expect(subject).to.have.a.lengthOf(0);
+      it('sets RecipeHeader to isEditing', function () {
+        const header = wrapper.find('RecipeHeader').first();
+        expect(header.prop('isEditing')).to.be.true;
+      });
+
+      it('sets Steps to isEditing', function () {
+        const header = wrapper.find('Steps').first();
+        expect(header.prop('isEditing')).to.be.true;
+      });
+
+      it('sets IngredientTable to edit mode', function () {
+        const table = wrapper.find('IngredientTable').first();
+        expect(table.prop('isEditing')).to.be.true;
+      });
+
+      it('passes uoms to IngredientTable', function () {
+        const table = wrapper.find('IngredientTable').first();
+        expect(table.prop('uoms')).to.include.members(uoms);
+      });
+
+      it('passes recipeTypes to RecipeHeader', function () {
+        const header = wrapper.find('RecipeHeader').first();
+        expect(header.prop('recipeTypes')).to.include.members(recipeTypes);
+      });
+
+      it('does not show floating add to menu button', function () {
+        const button = wrapper.find('FloatingActionButton');
+        expect(button).to.have.a.lengthOf(0);
+      });
     });
   });
 });
