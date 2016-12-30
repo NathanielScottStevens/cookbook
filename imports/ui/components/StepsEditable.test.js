@@ -84,6 +84,20 @@ describe('StepsEditable', function () {
         expect(wrapper.find('ListItem'))
           .to.have.a.lengthOf(steps.list.length + 1);
       });
+
+      it('shows delete buttons', function () {
+        expect(wrapper.find('[data-id="delete-button"]'))
+          .to.have.a.lengthOf(steps.list.length);
+      });
+
+      it('removes step onDelete', function () {
+        const originalFirstStep = wrapper.find('[data-id="step-text"]').first();
+        wrapper.find('[data-id="delete-button"]').first()
+          .simulate('click');
+
+        expect(wrapper.find('[data-id="step-text"]').first())
+          .to.not.deep.equal(originalFirstStep);
+      });
     });
 
     context('With Label', function () {

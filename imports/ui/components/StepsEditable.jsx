@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import { ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+import Delete from 'material-ui/svg-icons/action/delete';
+
 import DoneClearButton from './DoneClearButton';
 
 class StepsEditable extends Component {
@@ -27,6 +29,12 @@ class StepsEditable extends Component {
     this.setState({ steps });
   }
 
+  onDeleteStep(index) {
+    const steps = [...this.state.steps];
+    steps.splice(index, 1);
+    this.setState({ steps });
+  }
+
   onChangeLabel(label) {
     this.setState({ label });
   }
@@ -46,14 +54,30 @@ class StepsEditable extends Component {
   }
 
   renderSteps() {
+    const styles = {
+      textField: {
+        width: '90%',
+      },
+      deleteButton: {
+        minWidth: '5%',
+      },
+    };
+
     return this.state.steps.map((item, index) =>
       <ListItem key={index}>
         <TextField
           id={`step-text-${index}`}
+          data-id="step-text"
           value={item}
           onChange={(e, value) => this.onChangeStep(value, index)}
-          fullWidth
           multiLine
+          style={styles.textField}
+        />
+        <FlatButton
+          data-id="delete-button"
+          icon={<Delete />}
+          onClick={() => { this.onDeleteStep(index); }}
+          style={styles.deleteButton}
         />
       </ListItem>);
   }
