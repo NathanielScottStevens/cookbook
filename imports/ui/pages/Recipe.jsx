@@ -66,9 +66,10 @@ class Recipe extends Component {
 
     const styles = {
       main: {
-        paddingLeft: this.props.width === LARGE ? 256 : 0,
+        paddingLeft: this.props.width === LARGE ? 300 : 0,
         paddingTop: 30,
         margin: 50,
+        maxWidth: 1000,
       },
       h1: {
         fontFamily: this.context.muiTheme.fontFamily,
