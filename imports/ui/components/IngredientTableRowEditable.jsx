@@ -3,6 +3,8 @@ import { TableRow, TableRowColumn } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
+import Delete from 'material-ui/svg-icons/action/delete';
 
 class IngredientTableRowEditable extends Component {
   onChange(values) {
@@ -12,6 +14,12 @@ class IngredientTableRowEditable extends Component {
       const newValues = Object.assign({}, ingredient, values);
       newValues.amt = Number(newValues.amt);
       onChange(newValues);
+    }
+  }
+
+  onDelete() {
+    if (this.props.onDelete) {
+      this.props.onDelete();
     }
   }
 
@@ -71,6 +79,13 @@ class IngredientTableRowEditable extends Component {
             {this.renderUomDropDownItems()}
           </SelectField>
         </TableRowColumn>
+        <TableRowColumn>
+          <FlatButton
+            data-id="delete-button"
+            icon={<Delete />}
+            onClick={() => { this.onDelete(); }}
+          />
+        </TableRowColumn>
       </TableRow>
     );
   }
@@ -81,6 +96,7 @@ IngredientTableRowEditable.propTypes = {
   striped: PropTypes.bool,
   uoms: PropTypes.array,
   onChange: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 IngredientTableRowEditable.defaultProps = {

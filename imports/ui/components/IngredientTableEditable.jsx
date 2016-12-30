@@ -1,9 +1,9 @@
 import React, { PropTypes, Component } from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRowColumn, TableRow } from 'material-ui/Table';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import IngredientTableRowEditable from './IngredientTableRowEditable';
 import DoneClearButton from './DoneClearButton';
-import RaisedButton from 'material-ui/RaisedButton';
 
 class IngredientTableEditable extends Component {
   constructor(props) {
@@ -15,6 +15,12 @@ class IngredientTableEditable extends Component {
       label: props.label,
       list: ingredients,
     };
+  }
+
+  onDelete(index) {
+    const list = this.copyIngredients(this.state.list);
+    list.splice(index, 1);
+    this.setState({ list });
   }
 
   onDone() {
@@ -98,6 +104,7 @@ class IngredientTableEditable extends Component {
                 onChange={(v) => {
                   this.onIngredientChange(v, index);
                 }}
+                onDelete={() => { this.onDelete(index); }}
               />
             )}
             <RaisedButton

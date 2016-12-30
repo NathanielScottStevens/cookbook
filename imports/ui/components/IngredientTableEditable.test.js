@@ -147,5 +147,13 @@ describe('IngredientTableEditable', function () {
       expect(wrapper.find('IngredientTableRowEditable'))
         .to.have.a.lengthOf(ingredients.list.length + 1);
     });
+
+    it('removes ingredient when deleted', function () {
+      const ingredient = wrapper.find('IngredientTableRowEditable').first();
+      ingredient.simulate('delete');
+
+      expect(wrapper.find('IngredientTableRowEditable').first())
+        .to.not.deep.equal(ingredient);
+    });
   });
 });

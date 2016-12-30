@@ -13,6 +13,7 @@ describe('IngredientTableRowEditable', function () {
   let wrapper;
   let ingredient;
   let onChange;
+  let onDelete;
   const striped = true;
 
   function render() {
@@ -22,6 +23,7 @@ describe('IngredientTableRowEditable', function () {
         striped={striped}
         uoms={uoms}
         onChange={onChange}
+        onDelete={onDelete}
       />),
       { context: { muiTheme } }
     );
@@ -32,6 +34,7 @@ describe('IngredientTableRowEditable', function () {
       ingredient = Factory.create('simpleRecipe').ingredients[0].list[0];
       ingredient.uom = 'gal';
       onChange = sinon.spy();
+      onDelete = sinon.spy();
       wrapper = render();
     });
 
@@ -49,6 +52,11 @@ describe('IngredientTableRowEditable', function () {
     it('shows text field for amount', function () {
       const amount = wrapper.find('[id="ingredient-amount"]');
       expect(amount.prop('value')).to.equal(ingredient.amt);
+    });
+
+    it('shows delete button', function () {
+      expect(wrapper.find('[data-id="delete-button"]'))
+        .to.have.a.lengthOf(1);
     });
 
     it('shows uom dropdown', function () {
@@ -100,6 +108,12 @@ describe('IngredientTableRowEditable', function () {
       uom.simulate('change', null, newValueIndex);
 
       expect(onChange).to.be.calledWith(expected);
+    });
+
+    it('calls onDelete', function () {
+      wrapper.find('[data-id="delete-button"]').first()
+        .simulate('click');
+      expect(onDelete).to.have.been.calledOnce;
     });
   });
 });
