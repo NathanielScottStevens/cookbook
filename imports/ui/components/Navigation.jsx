@@ -40,6 +40,16 @@ class Navigation extends Component {
               />
           }
         </Link>
+        <Link to="/add-recipe">
+          {
+            ({ isActive, onClick }) =>
+              <MenuItem
+                primaryText="Add Recipe"
+                onClick={onClick}
+                style={isActive ? { backgroundColor: 'rgba(0, 0, 0, 0.2)' } : undefined}
+              />
+          }
+        </Link>
         {/* <Link to="/menus">
           {
             ({ isActive, onClick }) =>

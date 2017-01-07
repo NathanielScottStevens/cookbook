@@ -135,4 +135,25 @@ describe('RecipeHeaderEditable', function () {
       expect(onClear).to.have.been.called;
     });
   });
+
+  context('when passed null values', function () {
+    beforeEach(function () {
+      recipe = {
+        label: null,
+        img: null,
+        serves: null,
+        slug: null,
+        type: { label: null },
+      };
+      onChange = sinon.spy();
+      onClear = sinon.spy();
+      wrapper = render();
+      wrapper.find('EditButton').first().simulate('edit');
+    });
+
+    it('display no selection when recipe type is null', function () {
+      const actual = wrapper.find('[id="recipe-type"]').first();
+      expect(actual.prop('value')).to.be.null;
+    });
+  });
 });

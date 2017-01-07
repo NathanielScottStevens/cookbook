@@ -38,7 +38,12 @@ class RecipeHeaderEditable extends Component {
   getSelectedType() {
     const recipeTypes = this.props.recipeTypes;
     const type = this.state.type;
-    return recipeTypes.findIndex(t => t.label === type);
+
+    if (type) {
+      return recipeTypes.findIndex(t => t.label === type);
+    }
+
+    return null;
   }
 
   typeDropdownOnChange(value) {
@@ -69,6 +74,9 @@ class RecipeHeaderEditable extends Component {
         display: 'flex',
         flexDirection: 'column',
       },
+      recipeTypeSelect: {
+        verticalAlign: 'bottom',
+      },
     };
 
     return (
@@ -78,31 +86,37 @@ class RecipeHeaderEditable extends Component {
             onClear={() => this.props.onClear()}
             onDone={() => this.onDone()}
           />
-          <TextField
-            id="recipe-label"
-            value={label}
-            onChange={(_, value) => { this.setState({ label: value }); }}
-            floatingLabelText="label"
-          />
-          <TextField
-            id="recipe-serves"
-            value={serves}
-            onChange={(_, value) => { this.setState({ serves: value }); }}
-            floatingLabelText="serves"
-          />
-          <TextField
-            id="recipe-slug"
-            value={slug}
-            onChange={(_, value) => { this.setState({ slug: value }); }}
-            floatingLabelText="slug"
-          />
-          <SelectField
-            id="recipe-type"
-            value={this.getSelectedType()}
-            onChange={(_, v) => { this.typeDropdownOnChange(v); }}
-          >
-            {this.renderTypeDropDownItems()}
-          </SelectField>
+          <div>
+            <TextField
+              id="recipe-label"
+              value={label}
+              onChange={(_, value) => { this.setState({ label: value }); }}
+              floatingLabelText="label"
+            />
+            <TextField
+              id="recipe-serves"
+              value={serves}
+              onChange={(_, value) => { this.setState({ serves: value }); }}
+              floatingLabelText="serves"
+            />
+          </div>
+          <div>
+            <TextField
+              id="recipe-slug"
+              value={slug}
+              onChange={(_, value) => { this.setState({ slug: value }); }}
+              floatingLabelText="slug"
+            />
+            <SelectField
+              id="recipe-type"
+              floatingLabelText="type"
+              style={styles.recipeTypeSelect}
+              value={this.getSelectedType()}
+              onChange={(_, v) => { this.typeDropdownOnChange(v); }}
+            >
+              {this.renderTypeDropDownItems()}
+            </SelectField>
+          </div>
         </div>
         <FramedImage
           img={`/../../images/${this.props.img}`}
