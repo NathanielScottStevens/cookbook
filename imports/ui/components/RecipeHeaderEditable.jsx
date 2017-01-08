@@ -76,6 +76,10 @@ class RecipeHeaderEditable extends Component {
       },
       recipeTypeSelect: {
         verticalAlign: 'bottom',
+        marginRight: 10,
+      },
+      fields: {
+        marginRight: 10,
       },
     };
 
@@ -90,12 +94,14 @@ class RecipeHeaderEditable extends Component {
             <TextField
               id="recipe-label"
               value={label}
+              style={styles.fields}
               onChange={(_, value) => { this.setState({ label: value }); }}
               floatingLabelText="label"
             />
             <TextField
               id="recipe-serves"
               value={serves}
+              style={styles.fields}
               onChange={(_, value) => { this.setState({ serves: value }); }}
               floatingLabelText="serves"
             />
@@ -104,6 +110,7 @@ class RecipeHeaderEditable extends Component {
             <TextField
               id="recipe-slug"
               value={slug}
+              style={styles.fields}
               onChange={(_, value) => { this.setState({ slug: value }); }}
               floatingLabelText="slug"
             />
