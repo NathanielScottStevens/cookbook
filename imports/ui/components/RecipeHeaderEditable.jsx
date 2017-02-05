@@ -2,9 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 
 import FramedImage from './FramedImage';
 import DoneClearButton from './DoneClearButton';
+import { Images } from '../../api/images/images';
+
 
 class RecipeHeaderEditable extends Component {
   constructor(props) {
@@ -17,6 +22,7 @@ class RecipeHeaderEditable extends Component {
       slug,
       type,
       img,
+      modalOpen: false,
     };
   }
 
@@ -35,6 +41,14 @@ class RecipeHeaderEditable extends Component {
     }
   }
 
+  onOpen() {
+    this.setState({ modalOpen: true });
+  }
+
+  onClose() {
+    this.setState({ modalOpen: false });
+  }
+
   getSelectedType() {
     const recipeTypes = this.props.recipeTypes;
     const type = this.state.type;
@@ -49,6 +63,35 @@ class RecipeHeaderEditable extends Component {
   typeDropdownOnChange(value) {
     const selection = this.props.recipeTypes[value];
     this.setState({ type: selection.label });
+  }
+
+  uploadImage(event, template) {
+    FS.Utility.eachFile(event, function (file) {
+      Images.insert(file, function (err, fileObj) {
+        if (err) {
+          console.log(err)
+          console.trace()
+        } else {
+          alert('File has been uploaded.')
+        }
+      });
+    });
+  }
+
+  renderImages() {
+    return this.props.images.map(image =>
+      <ListItem
+        style={{ minHeight: 128 }}
+        onTouchTap={() => {
+          this.setState({
+            modalOpen: false,
+            img: image.fileName,
+          });
+        }}
+      >
+        <img src={image.url()} />
+      </ListItem>
+    );
   }
 
   renderTypeDropDownItems() {
@@ -82,6 +125,14 @@ class RecipeHeaderEditable extends Component {
         marginRight: 10,
       },
     };
+
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary
+        onTouchTap={() => this.onClose()}
+      />,
+    ];
 
     return (
       <div style={styles.header}>
@@ -126,8 +177,32 @@ class RecipeHeaderEditable extends Component {
           </div>
         </div>
         <FramedImage
-          img={`/../../images/${this.props.img}`}
+          img={`/../../images/${this.state.img}`}
         />
+        <FlatButton
+          label="select image"
+          primary
+          onTouchTap={() => this.onOpen()}
+        />
+        <input
+          type="file"
+          name="upload-image"
+          onChange={(event, template) => { this.uploadImage(event, template); }
+          }
+        />
+        <Dialog
+          title="Select an Image"
+          actions={actions}
+          modal={false}
+          open={this.state.modalOpen}
+          onRequestClose={() => this.onClose()}
+          autoScrollBodyContent
+          autoDetectWindowHeight={false}
+        >
+          <List>
+            {this.renderImages()}
+          </List>
+        </Dialog>
       </div>
     );
   }
@@ -140,6 +215,7 @@ RecipeHeaderEditable.propTypes = {
   slug: PropTypes.string,
   type: PropTypes.string,
   recipeTypes: PropTypes.array,
+  images: PropTypes.array,
   onChange: PropTypes.func,
   onClear: PropTypes.func,
 };

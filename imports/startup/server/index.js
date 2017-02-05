@@ -12,6 +12,22 @@ import recipeTypes from '../../api/recipeTypes/fixture';
 import { Uoms } from '../../api/uoms/uoms';
 import uoms from '../../api/uoms/fixture';
 
+import { Images } from '../../api/images/images';
+
+Images.allow({
+  insert() {
+    return true;
+  },
+  update() {
+    return true;
+  },
+  remove() {
+    return true;
+  },
+  download() {
+    return true;
+  },
+});
 
 function setSampleData() {
   if (Recipes.find().count() === 0) {

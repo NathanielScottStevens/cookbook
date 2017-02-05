@@ -48,6 +48,7 @@ class AddRecipe extends Component {
             slug={slug}
             type={type}
             recipeTypes={this.props.recipeTypes}
+            images={this.props.images}
             onChange={(v) => { this.onChange(v); }}
           />
         </main>
@@ -60,6 +61,7 @@ AddRecipe.propTypes = {
   isLoading: PropTypes.bool,
   recipes: PropTypes.array,
   recipeTypes: PropTypes.array,
+  images: PropTypes.array,
   width: PropTypes.number,
 };
 

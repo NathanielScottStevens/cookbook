@@ -28,3 +28,5 @@ dburles:factory
 anti:fake
 mdg:validated-method
 aldeed:simple-schema
+cfs:standard-packages
+cfs:gridfs

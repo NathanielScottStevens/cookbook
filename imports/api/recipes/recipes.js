@@ -49,10 +49,18 @@ export const recipeSchema = new SimpleSchema([
 ]);
 
 export const updateRecipe = new ValidatedMethod({
-  name: 'recipe',
+  name: 'updateRecipe',
   validate: recipeSchema.validator(),
   run({ _id, ...recipe }) {
     Recipes.update(_id, recipe);
+  },
+});
+
+export const insertRecipe = new ValidatedMethod({
+  name: 'insertRecipe',
+  validate: recipeSchema.validator(),
+  run({ ...recipe }) {
+    return Recipes.insert(recipe);
   },
 });
 
